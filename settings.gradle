@@ -1,0 +1,5 @@
+rootProject.name = 'mojo'
+
+include 'api',
+        'rest-api',
+        'mojo'

@@ -1,0 +1,106 @@
+buildscript {
+    apply from: "gradle/dependencies.gradle"
+
+    repositories {
+      mavenCentral()
+      }
+}
+
+// --------------------------------------------------------------
+// plugins
+// --------------------------------------------------------------
+plugins {
+    id 'java'
+    id 'idea'
+    id 'application'
+
+    // this enables lombok
+    id 'io.freefair.lombok' version '5.0.0-rc4'
+
+    // Integration test plugin
+    id "com.coditory.integration-test" version "1.1.11"
+
+    // provides detailed test reports
+    // This plugin seems to hide the output of integrationTests or, at least,
+    // not make the results of integrationTests obvious.
+    // id "com.monnage.test-report" version "1.4"
+    
+    // creates a 'fat-jar' (one-jar)
+    id "com.github.johnrengelman.shadow" version "6.1.0"
+}
+
+// --------------------------------------------------------------
+// basics
+// --------------------------------------------------------------
+group 'mmm.coffee.mojo'
+version '0.0.1'
+
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+
+
+allprojects {
+  repositories {
+    mavenCentral()
+    }
+}
+
+// --------------------------------------------------------------
+// Sub-projects
+// --------------------------------------------------------------
+subprojects {
+  apply plugin: 'java'
+  // apply plugin: "com.github.johnrengelman.shadow"
+}
+
+// --------------------------------------------------------------
+// Make all tests use JUnit5
+// --------------------------------------------------------------
+tasks.withType(Test) {
+    useJUnitPlatform()
+    testLogging { events "passed", "skipped", "failed" }
+    }
+
+
+//application {
+//    mainClassName = "mmm.coffee.mojo.MojoApplication"
+//}
+
+//apply plugin: 'com.github.johnrengelman.shadow'
+//shadowJar {
+    //mainClassName = "mmm.coffee.mojo.MojoApplication"
+//}
+
+
+// --------------------------------------------------------------
+// Enable lint
+// --------------------------------------------------------------
+//tasks.withType(JavaCompile).all {
+//    options.compilerArgs << "-Xlint:unchecked" << "-Xlint:deprecation" << "-Xlint:rawtypes"
+//}
+// --------------------------------------------------------------
+// ensure JUnit5 is used
+// --------------------------------------------------------------
+test {
+    useJUnitPlatform()
+}
+
+// --------------------------------------------------------------
+// Lint options (defaulting to extreme verbosity)
+// --------------------------------------------------------------
+compileJava.options*.compilerArgs = [
+        "-Xlint:serial", "-Xlint:varargs", "-Xlint:cast", "-Xlint:classfile",
+        "-Xlint:dep-ann", "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally",
+        "-Xlint:overrides", "-Xlint:path", "-Xlint:-processing", "-Xlint:static",
+        "-Xlint:try", "-Xlint:fallthrough", "-Xlint:rawtypes", "-Xlint:deprecation",
+        "-Xlint:unchecked", "-Xlint:-options"
+]
+
+compileTestJava.options*.compilerArgs = [
+        "-Xlint:serial", "-Xlint:varargs", "-Xlint:cast", "-Xlint:classfile",
+        "-Xlint:dep-ann", "-Xlint:divzero", "-Xlint:empty", "-Xlint:finally",
+        "-Xlint:overrides", "-Xlint:path", "-Xlint:-processing", "-Xlint:static",
+        "-Xlint:try", "-Xlint:-fallthrough", "-Xlint:-rawtypes", "-Xlint:-deprecation",
+        "-Xlint:-unchecked", "-Xlint:-options"]
+
+

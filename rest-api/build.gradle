@@ -1,0 +1,23 @@
+
+def globalDep = rootProject.ext
+dependencies {
+    Map<String,String> dependencies = globalDep.commonDependencies
+
+    implementation project (':api')
+
+    annotationProcessor dependencies.lombok
+    compileOnly dependencies.lombok
+
+    implementation dependencies.commonsIo
+    implementation dependencies.commonsLang3
+    implementation dependencies.jmustache
+    implementation dependencies.picocli
+    implementation dependencies.freemarker
+    implementation dependencies.snakeYaml
+    
+    testImplementation(platform("org.junit:junit-bom:5.7.0"))
+    testImplementation(dependencies.junitJupiter)
+    testImplementation(dependencies.junitSystemRules)
+    testImplementation(dependencies.truth)
+}
+
