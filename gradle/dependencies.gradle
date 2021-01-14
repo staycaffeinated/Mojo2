@@ -1,5 +1,5 @@
 ext {
-    commonDependencies = [
+    libs = [
             assertJ                     : 'org.assertj:assertj-core:3.15.0',
             commonsIo                   : 'commons-io:commons-io:2.8.0',
             commonsLang3                : 'org.apache.commons:commons-lang3:3.11',
@@ -26,6 +26,3 @@ ext {
     ]
 }
 
-//        <groupId>com.github.stefanbirkner</groupId>
-//  <artifactId>system-rules</artifactId>
-//        <version>1.19.0</version>

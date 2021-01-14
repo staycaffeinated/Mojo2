@@ -9,16 +9,18 @@ applicationName = 'mojo'
 
 apply plugin: 'com.github.johnrengelman.shadow'
 shadowJar {
-  baseName = 'mojo' 
+
 }
+
+apply from: "../gradle/dependencies.gradle"
 
 // --------------------------------------------------------------
 // Dependencies
 // --------------------------------------------------------------
 
-def globalDep = rootProject.ext
+def lib = rootProject.ext.libs
 dependencies {
-    Map<String,String> dependencies = globalDep.commonDependencies
+    //Map<String,String> dependencies =  .commonDependencies
 
     implementation project (path: ':api' )
     implementation project (path: ':rest-api' )
@@ -29,13 +31,13 @@ dependencies {
     //implementation dependencies.commonsIo
     //implementation dependencies.commonsLang3
     // implementation dependencies.jmustache
-    implementation dependencies.picocli
+    implementation lib.picocli
     //implementation dependencies.freemarker
     //implementation dependencies.snakeYaml
     
     testImplementation(platform("org.junit:junit-bom:5.7.0"))
-    testImplementation(dependencies.junitJupiter)
-    testImplementation(dependencies.junitSystemRules)
-    testImplementation(dependencies.truth)
+    testImplementation(lib.junitJupiter)
+    testImplementation(lib.junitSystemRules)
+    testImplementation(lib.truth)
 }
 
