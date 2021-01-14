@@ -9,19 +9,15 @@ applicationName = 'mojo'
 
 apply plugin: 'com.github.johnrengelman.shadow'
 shadowJar {
-
+    // empty at the moment
 }
-
-apply from: "../gradle/dependencies.gradle"
 
 // --------------------------------------------------------------
 // Dependencies
 // --------------------------------------------------------------
-
-def lib = rootProject.ext.libs
 dependencies {
-    //Map<String,String> dependencies =  .commonDependencies
-
+    def lib = rootProject.ext.libs
+    
     implementation project (path: ':api' )
     implementation project (path: ':rest-api' )
 

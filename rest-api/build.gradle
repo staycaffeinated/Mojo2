@@ -1,6 +1,8 @@
 
-def lib = rootProject.ext.libs
+
 dependencies {
+    def lib = rootProject.ext.libs
+    
     implementation project (':api')
 
     annotationProcessor lib.lombok

@@ -2,9 +2,9 @@
 // --------------------------------------------------------------
 // dependencies
 // --------------------------------------------------------------
-def lib = rootProject.ext.libs
+
 dependencies {
-    //Map<String,String> dependencies = globalDep.commonDependencies
+    def lib = rootProject.ext.libs
 
     annotationProcessor lib.lombok
     compileOnly lib.lombok

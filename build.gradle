@@ -34,21 +34,42 @@ plugins {
 group 'mmm.coffee.mojo'
 version '0.0.1'
 
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
+
 
 
 allprojects {
   repositories {
     mavenCentral()
     }
+
+  apply plugin: 'java'
+  apply plugin: 'idea'
+  apply plugin: 'eclipse'
+
+  sourceCompatibility = JavaVersion.VERSION_11
+  targetCompatibility = JavaVersion.VERSION_11
+
+  configurations.all {
+      // See https://docs.gradle.org/current/dsl/org.gradle.api.artifacts.ResolutionStrategy.html
+      resolutionStrategy {
+          // fail fast on version conflicts (including transitive dependencies)
+          // failOnVersionConflict()
+
+          // auto-force our explicit dependencies
+          // libs.each { k, v -> force(v) }
+
+          // cache dynamic versions for 10 minutes
+          cacheDynamicVersionsFor 10*60, 'seconds'
+          // don't cache changing modules at all
+          cacheChangingModulesFor 0, 'seconds'
+      }
+  }
 }
 
 // --------------------------------------------------------------
 // Sub-projects
 // --------------------------------------------------------------
 subprojects {
-  apply plugin: 'java'
 }
 
 // --------------------------------------------------------------
