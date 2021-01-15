@@ -20,6 +20,10 @@ catalog:
       destination: "settings.gradle"
       context: "project"
   - entry:
+      template: "/build/DependenciesDotGradle.ftl"
+      destination:  "gradle/dependencies.gradle"
+      context: "project"
+  - entry:
       template: "/main/Application.ftl"
       destination: "src/main/java/{{basePackagePath}}/Application.java"
       context: "project"

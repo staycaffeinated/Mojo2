@@ -35,12 +35,27 @@ This will create a Spring controller that will accept the
 route ```localhost:8080/widget``` and return a sample Widget.
 
 # FOR MAINTAINERS (DEVELOPERS)
+                    
+## To Compile the Application
 
-To build the application, navigate into the ```mojo``` module
-and run ```./gradlew build```.  The shadowJar plugin
-gets confused when the ```build``` command is run from
-the root directory so, until the cause of that is resolved,
-please navigate into the ```mojo``` module to build the code.
+To build the application, run ```./gradlew :mojo:build```. 
+The subproject ```mojo``` must be declared as shown. Alas,
+the shadowJar task gets confused when only ```./gradlew build``` is used.
+Building the application via
+```./gradlew :mojo:build``` is an acceptable work-around. The ```mojo```
+sub-project is the main entry point of the application, so it's a suitable
+starting point. 
+
+## To Deploy the Application
+
+Navigate to the ```mojo``` sub-project, then to the ```build/distributions``` folder.
+(for example, ```cd mojo/build/distributions```). (DO NOT use the tar/zip file
+created in the project root build/distributions folder; that is not the uber jar.)
+
+Copy the ```mojo-shadow.tar``` (or ```zip```) to the desired location
+and unpack it, then add the ```mojo/bin/mojo``` executable to your PATH. 
+                      
+## To Extend the Application
 
 The general approach to extending Mojo by adding more
 sub-commands is to create a module folder for the new
