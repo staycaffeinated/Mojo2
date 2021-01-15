@@ -16,10 +16,12 @@
 package mmm.coffee.mojo.restapi.cli;
 
 import lombok.NonNull;
+import mmm.coffee.mojo.restapi.cli.validator.PackageNameValidator;
 import mmm.coffee.mojo.restapi.generator.ProjectGenerator;
 import mmm.coffee.mojo.restapi.generator.ProjectKeys;
 import mmm.coffee.mojo.restapi.generator.SyntaxRules;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
+import org.apache.commons.lang3.RegExUtils;
 import picocli.CommandLine;
 
 import java.util.*;
@@ -46,36 +48,50 @@ import java.util.concurrent.Callable;
 // TODO: add a -dryrun flag so we can test flags w/o invoking the code generator
 public class SubcommandCreateProject implements Callable<Integer> {
 
+    @CommandLine.Spec
+    CommandLine.Model.CommandSpec commandSpec;  // injected by picocli
+
     // The groupId can be defaulted to match the base package 
-    @CommandLine.Option(names = {"-g", "--group"}, description = "the project's group-id (library coordinates)")
+    @CommandLine.Option(names = {"-g", "--group"},
+            description = "The project's group-id (i.e., library coordinates)",
+            paramLabel = "GROUP_ID")
     private String groupId;
 
-    @CommandLine.Option(names = {"-p", "--package"}, description = "the base package for this project", required = true)
+    @CommandLine.Option(names = {"-p", "--package"},
+            description = "The base Java package for this project; for example: 'org.example.widget'",
+            required = true,
+            paramLabel = "PACKAGE")
     private String packageName;
 
-    @CommandLine.Option(names = {"-n", "--name"}, description = "the application name", defaultValue = "widget-service")
+    @CommandLine.Option(names = {"-n", "--name"},
+            description = "The application name",
+            defaultValue = "example",
+            paramLabel = "APPLICATION_NAME")
     private String applicationName;
 
-    @CommandLine.Option(names = {"-s", "--schema"}, description = "the database schema name", defaultValue = "widgets")
+    @CommandLine.Option(names = {"--schema"},
+            description = "The database schema to be used by the application",
+            defaultValue = "examples",
+            paramLabel = "DATABASE_SCHEMA")
     private String dbmsSchema;
 
     //
-    // The Feature option (should we rename this to 'dependency' ?)
+    // The Support option. These are the added capabilities supported by the generated application.
+    // I've been back and forth with what to name this flag.  Spring Initialzr has the notion of
+    // 'dependencies', but all Spring Initializr does is add those dependencies to the gradle/maven build file.
+    // Micronaut uses the term 'feature', but added libraries aren't exactly 'features' of the
+    // generated application. The term 'trait' seems in line: for example, a 'postgres trait' indicates
+    // the traits of a Postgres database are enabled in the application. Along that line, 'support'
+    // also seems like a good term: the generated application will 'support' postgres or liquibase or CORS
+    // or heath checks or whatever
     // First, we have to provide an Iterable<String> that provides the list of valid candidates
     //
-//    private static class FeatureCandidates implements Iterable<String> {
-//        private String[] candidates = { "postgres", "liquibase", "testcontainers" };
-//
-//        @Override
-//        public Iterator<String> iterator() {
-//            return Arrays.asList(candidates).iterator();
-//        }
-//    }
     // The declaration the additional library options
     // For example, ```--add postgres liquibase```
-    @CommandLine.Option(names={"-a", "--add"},
+    @CommandLine.Option(names={"-s", "--support"},
                         arity="0..*",
-                        description = "Additional libraries to include. Valid values: ${COMPLETION-CANDIDATES}"
+                        paramLabel = "LIBRARY",
+                        description = "Add the support of additional libraries to the project. Valid values: ${COMPLETION-CANDIDATES}"
                         )
     private SupportedFeatures[] features;
 
@@ -107,6 +123,8 @@ public class SubcommandCreateProject implements Callable<Integer> {
      */
     @Override
     public Integer call() throws Exception {
+        validate();
+
         Map<String,Object> map = new HashMap<>();
 
         // todo: declare a type, ProjectSpec to have type-safe values?
@@ -125,6 +143,13 @@ public class SubcommandCreateProject implements Callable<Integer> {
         catch (Exception e) {
             System.err.println(e.getMessage());
             return -1;
+        }
+    }
+
+    private void validate() {
+        if ( !PackageNameValidator.isValid(packageName)) {
+            throw new CommandLine.ParameterException( commandSpec.commandLine(),
+                    String.format("The package name given is not a legal Java package name"));
         }
     }
 

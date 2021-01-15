@@ -49,7 +49,7 @@ starting point.
 ## To Deploy the Application
 
 Navigate to the ```mojo``` sub-project, then to the ```build/distributions``` folder.
-(for example, ```cd mojo/build/distributions```). (DO NOT use the tar/zip file
+(that is, ```cd mojo/build/distributions```). (DO NOT use the tar/zip file
 created in the project root build/distributions folder; that is not the uber jar.)
 
 Copy the ```mojo-shadow.tar``` (or ```zip```) to the desired location
