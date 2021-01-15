@@ -26,15 +26,20 @@ import java.util.concurrent.Callable;
  * This subcommand generates the code assets for a specific resource.
  */
 @CommandLine.Command(
-        name="endpoint",
-        description="create a rest-api endpoint",
-        mixinStandardHelpOptions = true
+        name="create-endpoint",
+        mixinStandardHelpOptions = true,
+        headerHeading = "%nUsage:%n%n",
+        header = "Generate a REST endpoint implementation using Spring",
+        synopsisHeading = "%nSynopsis:%n%n",
+        descriptionHeading = "%nDescription:%n%n",
+        description="Create a REST API endpoint implementation",
+        optionListHeading = "%nOptions:%n%n"
 )
 public class SubcommandCreateEndpoint implements Callable<Integer> {
-    @CommandLine.Option(names={"-resource"}, description="The resource available at this endpoint (e.g: -resource=Beer")
+    @CommandLine.Option(names={"-resource"}, description="The resource available at this endpoint (e.g: -resource=Coffee)")
     private String resourceName;
 
-    @CommandLine.Option(names={"-route"}, description="The base path to the resource (e.g: -route=/beer)")
+    @CommandLine.Option(names={"-route"}, description="The base path to the resource (e.g: -route=/coffee)")
     private String baseRoute;
 
     @Override

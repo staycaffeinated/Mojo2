@@ -40,10 +40,15 @@ import java.util.concurrent.Callable;
  * the -db flag causes the appropriate dbms dependency to be included
  */
 @CommandLine.Command(
-        name="project",
-        description="Create a REST API project. By default, the project is created in the current directory",
-        // TODO: support -d | --directory to specify the project's root directory
-        mixinStandardHelpOptions = true
+        name="create-project",
+        sortOptions = true,
+        mixinStandardHelpOptions = true,
+        headerHeading = "%nUsage:%n%n",
+        header = "Generate a basic implementation of a Spring REST application",
+        descriptionHeading = "%nDescription:%n%n",
+        description="Create a REST API project. By default, the project is created in the current directory.",
+        synopsisHeading = "%nSynopsis:%n%n",
+        optionListHeading = "%nOptions:%n%n"
 )
 // TODO: add a -dryrun flag so we can test flags w/o invoking the code generator
 public class SubcommandCreateProject implements Callable<Integer> {
