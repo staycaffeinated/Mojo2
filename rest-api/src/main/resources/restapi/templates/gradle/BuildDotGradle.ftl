@@ -42,7 +42,7 @@ dependencies {
     implementation libs.springBootStarterDataJpa
     implementation libs.problemSpringWeb
 <#if (project.liquibase)??>
-    implementation libs.liquibase
+    implementation libs.liquibaseCore
 </#if>
 
 <#if (project.postgres)??>

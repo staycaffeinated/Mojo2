@@ -28,7 +28,7 @@ ext {
         lombok                      : "org.projectlombok:lombok:$versions.lombok",
         liquibaseCore               : "org.liquibase:liquibase-core:$versions.liquibase",
         mockito                     : "org.mockito:mockito-core:$versions.mockito",
-        postgres                    : "org.postgresql:postgresql",
+        postgresql                  : "org.postgresql:postgresql",
         problemSpringWeb            : "org.zalando:problem-spring-web-starter:$versions.problemSpringWeb",
         truth                       : "com.google.truth:truth:$versions.truth",
 

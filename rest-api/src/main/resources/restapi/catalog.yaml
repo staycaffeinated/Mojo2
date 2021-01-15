@@ -12,15 +12,15 @@
 #
 catalog:
   - entry:
-      template: "/build/BuildDotGradle.ftl"
+      template: "/gradle/BuildDotGradle.ftl"
       destination: "build.gradle"
       context: "project"
   - entry:
-      template: "/build/SettingsDotGradle.ftl"
+      template: "/gradle/SettingsDotGradle.ftl"
       destination: "settings.gradle"
       context: "project"
   - entry:
-      template: "/build/DependenciesDotGradle.ftl"
+      template: "/gradle/DependenciesDotGradle.ftl"
       destination:  "gradle/dependencies.gradle"
       context: "project"
   - entry:
