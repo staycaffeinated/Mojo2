@@ -43,11 +43,11 @@ import java.util.concurrent.Callable;
         name="create-project",
         sortOptions = true,
         mixinStandardHelpOptions = true,
-        headerHeading = "%nUsage:%n%n",
+        headerHeading = "%nSynopsis:%n%n",
         header = "Generate a basic implementation of a Spring REST application",
         descriptionHeading = "%nDescription:%n%n",
-        description="Create a REST API project. By default, the project is created in the current directory.",
-        synopsisHeading = "%nSynopsis:%n%n",
+        description="Create a working area for a REST API application.",
+        synopsisHeading = "%nUsage:%n%n",
         optionListHeading = "%nOptions:%n%n"
 )
 // TODO: add a -dryrun flag so we can test flags w/o invoking the code generator

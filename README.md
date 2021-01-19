@@ -9,17 +9,18 @@ command line arguments. The utility currently supports:
 
 ## Usage:
 
-First, it is important to know projects are, by default, created in the current
+First, it is important to know the project assets will be created in your current
 directory, so be sure to navigate to the folder in which 
-you want the code assets created before running any command.
+you want the project assets created before running any command.
 
+The command             
 
-    mojo rest-api create project --help 
+    mojo rest-api create-project --help 
 
 shows the different options for creating a project. The simplest way to
 create a project is
 
-    mojo rest-api create project -p org.example.widgets
+    mojo rest-api create-project -p org.example.widgets
 
 which creates the project assets in the current directory,
 with the default Java package name of ```org.example.widgets```.
@@ -29,7 +30,7 @@ application that boots up on port 8080.  To add controllers
 to the project, use the ```create endpoint``` sub-command.
 For example,
 
-    mojo rest-api create endpoint -resource Widget -route /widget
+    mojo rest-api create-endpoint -resource Widget -route /widget
 
 This will create a Spring controller that will accept the 
 route ```localhost:8080/widget``` and return a sample Widget.

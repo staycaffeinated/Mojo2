@@ -28,18 +28,24 @@ import java.util.concurrent.Callable;
 @CommandLine.Command(
         name="create-endpoint",
         mixinStandardHelpOptions = true,
-        headerHeading = "%nUsage:%n%n",
-        header = "Generate a REST endpoint implementation using Spring",
-        synopsisHeading = "%nSynopsis:%n%n",
+        headerHeading = "%nSynopsis:%n%n",
+        header = "Generate a REST endpoint implementation in the current project",
+        synopsisHeading = "%nUsage:%n%n",
         descriptionHeading = "%nDescription:%n%n",
         description="Create a REST API endpoint implementation",
         optionListHeading = "%nOptions:%n%n"
 )
 public class SubcommandCreateEndpoint implements Callable<Integer> {
-    @CommandLine.Option(names={"-resource"}, description="The resource available at this endpoint (e.g: -resource=Coffee)")
+    @CommandLine.Option(
+            names={"-resource"},
+            description="The resource available at this endpoint (e.g: -resource=Coffee)",
+            paramLabel = "ENTITY-NAME")
     private String resourceName;
 
-    @CommandLine.Option(names={"-route"}, description="The base path to the resource (e.g: -route=/coffee)")
+    @CommandLine.Option(
+            names={"-route"},
+            description="The base path to the resource (e.g: -route=/coffee)",
+            paramLabel = "BASE-PATH")
     private String baseRoute;
 
     @Override
