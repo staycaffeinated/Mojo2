@@ -20,7 +20,7 @@ import picocli.CommandLine;
 import java.util.concurrent.Callable;
 
 /**
- * TODO: Fill me in
+ * The rest-api command
  */
 @CommandLine.Command(
         name="rest-api",

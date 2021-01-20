@@ -18,7 +18,7 @@ package mmm.coffee.mojo.api;
 import java.io.File;
 
 /**
- * TODO: Fill me in
+ * Defines the TemplateWriter trait
  */
 public interface TemplateWriter {
 

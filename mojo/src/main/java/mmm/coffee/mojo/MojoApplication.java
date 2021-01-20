@@ -21,7 +21,7 @@ import picocli.CommandLine;
 import java.util.concurrent.Callable;
 
 /**
- * TODO: Fill me in
+ * The main application for the code generator
  */
 @CommandLine.Command(
         name="mojo",

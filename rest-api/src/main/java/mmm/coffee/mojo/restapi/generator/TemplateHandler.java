@@ -31,7 +31,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO: Fill me in
+ * Encapsulates the workflow of rendering a template
  */
 @Builder
 @RequiredArgsConstructor

@@ -29,7 +29,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * TODO: Fill me in
+ * Unit tests
  */
 public class EndpointPropertyFactoryTests {
     @Rule

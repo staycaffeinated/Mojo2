@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO: Fill me in
+ * Sets up the properties consumed by the underlying templates
  */
 public class EndpointPropertyFactory {
 

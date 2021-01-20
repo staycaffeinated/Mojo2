@@ -20,7 +20,7 @@ import lombok.NonNull;
 import java.util.Map;
 
 /**
- * TODO: Fill me in
+ * Defines the Generator stereotype
  */
 public interface Generator {
 
