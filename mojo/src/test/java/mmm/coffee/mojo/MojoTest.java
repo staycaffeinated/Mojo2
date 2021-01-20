@@ -15,15 +15,9 @@
  */
 package mmm.coffee.mojo;
 
-import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import picocli.CommandLine;
-
-import java.awt.event.MouseMotionAdapter;
-
-import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
 /**
  * TODO: Fill me in
  */
