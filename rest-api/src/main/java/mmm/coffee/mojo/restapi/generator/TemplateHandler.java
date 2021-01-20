@@ -22,6 +22,7 @@ import lombok.Builder;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import mmm.coffee.mojo.catalog.CatalogEntry;
+import mmm.coffee.mojo.exception.MojoException;
 
 import java.io.IOException;
 import java.io.StringWriter;
@@ -62,7 +63,7 @@ public class TemplateHandler {
             template.process(map, writer);
             return writer.toString();
         } catch (TemplateException | IOException e) {
-            throw new RuntimeException(e);
+            throw new MojoException(e);
         }
     }
 }

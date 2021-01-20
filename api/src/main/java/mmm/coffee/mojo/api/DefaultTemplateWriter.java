@@ -16,6 +16,7 @@
 package mmm.coffee.mojo.api;
 
 import lombok.NonNull;
+import mmm.coffee.mojo.exception.MojoException;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -47,7 +48,7 @@ public class DefaultTemplateWriter implements TemplateWriter {
             FileUtils.forceMkdirParent(file);
             FileUtils.writeStringToFile(file, content, StandardCharsets.UTF_8); }
         catch (IOException ioe) {
-            throw new RuntimeException(ioe.getMessage(), ioe);
+            throw new MojoException(ioe.getMessage(), ioe);
         }
     }
 }

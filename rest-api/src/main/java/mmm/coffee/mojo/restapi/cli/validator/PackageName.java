@@ -19,6 +19,10 @@ package mmm.coffee.mojo.restapi.cli.validator;
 
 import java.util.Arrays;
 
+/**
+ * This class provides a {@code check} method that indicates whether a given String
+ * represents a simple, qualified, or invalid Java package name.
+ */
 public enum PackageName {
 
     SIMPLE, QUALIFIED, INVALID;

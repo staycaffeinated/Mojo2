@@ -16,6 +16,7 @@
 package mmm.coffee.mojo.catalog;
 
 import lombok.NonNull;
+import mmm.coffee.mojo.exception.MojoException;
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -40,7 +41,7 @@ public class TemplateCatalog {
             entries = new CatalogReader().readCatalog(CATALOG_NAME);
         }
         catch (IOException e) {
-            throw new RuntimeException(e.getMessage(), e);
+            throw new MojoException(e.getMessage(), e);
         }
     }
 
