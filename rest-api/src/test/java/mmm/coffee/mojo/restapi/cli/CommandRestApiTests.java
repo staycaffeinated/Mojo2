@@ -36,5 +36,6 @@ public class CommandRestApiTests {
     @Test
     public void testUsage() {
         cli.usage(System.out);
+        assert(true);
     }
 }

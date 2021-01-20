@@ -20,6 +20,9 @@ import mmm.coffee.mojo.catalog.TemplateCatalog;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
@@ -36,7 +39,9 @@ public class CatalogReaderTests {
 
     @Test
     public void shouldReadTemplateCatalogSuccessfully() throws Exception {
-        reader.readCatalog(TemplateCatalog.CATALOG_NAME);
+        List<?> entries = reader.readCatalog(TemplateCatalog.CATALOG_NAME);
+        assertThat(entries).isNotNull();
+        assertThat(entries).isNotEmpty();
     }
 
     @Test

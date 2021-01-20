@@ -51,7 +51,7 @@ public interface Generator {
 
     default void run(@NonNull Spec specification) {
         initialize();
-        // and then call configure(spec);
+        // Task: need to make configuration happen...
         outputStrategy(new DefaultTemplateWriter());
         generate();
     }

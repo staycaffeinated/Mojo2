@@ -33,7 +33,6 @@ public class MojoApplication implements Callable<Integer> {
 
     @Override
     public Integer call() {
-        System.out.println("show your mojo!");
         return 0;
     }
 

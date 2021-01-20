@@ -43,10 +43,9 @@ public class ProjectGeneratorTests {
     public void setUp() {
         projectGenerator = new ProjectGenerator();
     }
-
-    // TOOD:  change to use ProjectSpec instead of hashMap
+    
     @Test
-    public void shouldWork() {
+    public void shouldGenerateProjectBasedOnSpec() {
         ProjectSpec spec = ProjectSpec.builder()
                 .applicationName("sample")
                 .basePackage("org.example.widget")

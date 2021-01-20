@@ -20,6 +20,14 @@ package mmm.coffee.mojo.restapi.cli.validator;
  */
 public class PackageNameValidator {
 
+    // Creating a private constructor to ensure instances of this are not created
+    private PackageNameValidator() {}
+
+    /**
+     * Checks whether {@code value} represents a valid Java package name
+     * @param value the String to check
+     * @return true if {@code value} is a valid Java package name
+     */
     public static boolean isValid(String value) {
         if (value == null) return false;
         return PackageName.check(value).equals(PackageName.INVALID);

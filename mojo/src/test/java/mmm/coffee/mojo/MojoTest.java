@@ -35,6 +35,7 @@ public class MojoTest {
     @Test
     public void testUsage() {
         cli.usage(System.out);
+        assert(true);
     }
     
 

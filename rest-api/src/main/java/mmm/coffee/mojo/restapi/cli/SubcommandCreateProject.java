@@ -141,16 +141,7 @@ public class SubcommandCreateProject implements Callable<Integer> {
                     String.format("The package name '%s' is not a legal Java package name", packageName));
         }
     }
-
-    /**
-     * Determine if {@code s} is either null or an empty string
-     * @param s the value to check
-     * @return true if {@code s} is either null or an empty string
-     */
-    private boolean isEmpty(String s) {
-        return s == null || s.trim().length() == 0;
-    }
-
+    
     @NonNull private String nullSafeValue(String value) {
         if (value == null) return "";
         return value;

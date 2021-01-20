@@ -25,6 +25,6 @@ public class MojoException extends RuntimeException {
     }
 
     public MojoException(Throwable cause) {
-        super(cause);;
+        super(cause);
     }
 }
