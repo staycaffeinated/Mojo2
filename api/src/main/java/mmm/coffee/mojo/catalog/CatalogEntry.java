@@ -31,8 +31,7 @@ public class CatalogEntry {
 
     public boolean hasFeature(String feature) {
         if (isEmpty(feature)) return false;
-        if (feature.equalsIgnoreCase(this.feature)) return true;
-        return false;
+        return feature.equalsIgnoreCase(this.feature);
     }
 
     private boolean isEmpty(String s) { return s == null || s.trim().length() == 0; }

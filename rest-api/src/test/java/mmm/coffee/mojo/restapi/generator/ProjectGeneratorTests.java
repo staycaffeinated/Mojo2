@@ -15,26 +15,16 @@
  */
 package mmm.coffee.mojo.restapi.generator;
 
-import freemarker.template.Configuration;
-import freemarker.template.Template;
 import mmm.coffee.mojo.api.NoOpTemplateWriter;
 import mmm.coffee.mojo.restapi.shared.ProjectSpec;
 import org.junit.Rule;
+import org.junit.contrib.java.lang.system.SystemErrRule;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
-import java.util.PropertyResourceBundle;
-import org.junit.contrib.java.lang.system.SystemErrRule;
-
-import static com.google.common.truth.Truth.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit tests of ProjectGenerator.

@@ -49,7 +49,7 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
     private String baseRoute;
 
     @Override
-    public Integer call() throws Exception {
+    public Integer call() {
         Map<String,Object> map = new HashMap<>();
         map.put("resource", resourceName);
         map.put("route", baseRoute);

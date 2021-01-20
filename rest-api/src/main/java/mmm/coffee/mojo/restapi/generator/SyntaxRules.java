@@ -18,8 +18,6 @@ package mmm.coffee.mojo.restapi.generator;
 import lombok.NonNull;
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.Locale;
-
 /**
  * The syntax rules we apply to resource names, entity names, base paths, and such
  * to provide consistent naming conventions

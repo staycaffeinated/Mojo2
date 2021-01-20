@@ -18,17 +18,16 @@ package mmm.coffee.mojo.restapi.generator;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
-import lombok.*;
+import lombok.Builder;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import mmm.coffee.mojo.catalog.CatalogEntry;
-//import org.stringtemplate.v4.ST;
-//import org.stringtemplate.v4.STGroup;
 
-
-import java.io.*;
-import java.net.URL;
+import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * TODO: Fill me in

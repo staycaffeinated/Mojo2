@@ -40,7 +40,7 @@ public class MustacheConversionTests {
     public final SystemOutRule systemOutRule = new SystemOutRule().enableLog().muteForSuccessfulTests();
 
 
-    Map<String,Object> emptyMap = new HashMap<>();
+    final Map<String,Object> emptyMap = new HashMap<>();
     Map<String,Object> valueMap;
 
     final String basePackage = "mmm.coffee.widget";

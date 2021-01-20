@@ -17,10 +17,10 @@ package mmm.coffee.mojo.restapi.generator;
 
 import freemarker.template.Configuration;
 import lombok.NonNull;
-import mmm.coffee.mojo.catalog.CatalogEntry;
-import mmm.coffee.mojo.catalog.TemplateCatalog;
 import mmm.coffee.mojo.api.Generator;
 import mmm.coffee.mojo.api.TemplateWriter;
+import mmm.coffee.mojo.catalog.CatalogEntry;
+import mmm.coffee.mojo.catalog.TemplateCatalog;
 
 import java.io.File;
 import java.util.HashMap;
@@ -37,7 +37,7 @@ public class EndpointGenerator implements Generator {
     public static final String ENDPOINT_CONTEXT = "endpoint";
 
     private List<CatalogEntry> catalogEntries;
-    private Map<String,Object> lexicalScope = new HashMap<>();
+    private final Map<String,Object> lexicalScope = new HashMap<>();
     private TemplateWriter sourceSink;
     private Configuration configuration;
 
@@ -67,7 +67,6 @@ public class EndpointGenerator implements Generator {
         String basePath = SyntaxRules.basePathSyntax((String)map.get("route"));
         String packageName = MojoUtils.getPackageNameForResource(resourceName);
         String packagePath = MojoUtils.convertPackageNameToPath(packageName);
-        String tableName = entityName;
 
         lexicalScope.put(EndpointKeys.ENTITY_NAME, entityName);
         lexicalScope.put(EndpointKeys.BASE_PATH, basePath);
@@ -75,7 +74,7 @@ public class EndpointGenerator implements Generator {
         lexicalScope.put(EndpointKeys.ENTITY_VAR_NAME, entityVarName);
         lexicalScope.put(EndpointKeys.PACKAGE_NAME, packageName);
         lexicalScope.put(EndpointKeys.PACKAGE_PATH, packagePath);
-        lexicalScope.put(EndpointKeys.TABLE_NAME, tableName);
+        lexicalScope.put(EndpointKeys.TABLE_NAME, entityName);
     }
 
     @Override
@@ -84,7 +83,7 @@ public class EndpointGenerator implements Generator {
     }
 
     public void generate() {
-        catalogEntries.stream().forEach(it ->  renderTemplate(it));
+        catalogEntries.forEach(this::renderTemplate);
     }
 
     private void renderTemplate(CatalogEntry entry) {

@@ -30,7 +30,7 @@ public class TemplateCatalog {
 
     public static final String CATALOG_NAME = "/restapi/catalog.yaml";
 
-    private List<CatalogEntry> entries;
+    private final List<CatalogEntry> entries;
 
     /**
      * Constructor

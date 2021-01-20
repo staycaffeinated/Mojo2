@@ -21,6 +21,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 /**
@@ -45,7 +46,7 @@ public class DefaultTemplateWriter implements TemplateWriter {
 
         try {
             FileUtils.forceMkdirParent(file);
-            FileUtils.writeStringToFile(file, content, Charset.forName("UTF-8")); }
+            FileUtils.writeStringToFile(file, content, StandardCharsets.UTF_8); }
         catch (IOException ioe) {
             throw new RuntimeException(ioe.getMessage(), ioe);
         }

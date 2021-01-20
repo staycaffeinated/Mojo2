@@ -20,7 +20,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
@@ -38,9 +37,7 @@ public class MojoUtils {
     static void saveContext(@NonNull Map<String,Object> properties) {
         final String mojoFileName = getMojoFileName();
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(mojoFileName))) {
-            properties.entrySet().stream().forEach( entry -> {
-                pw.printf("%s=%s%n", entry.getKey(), entry.getValue() );
-            });
+            properties.entrySet().forEach( entry -> pw.printf("%s=%s%n", entry.getKey(), entry.getValue() ));
             pw.flush();
         }
         catch (Exception e) {

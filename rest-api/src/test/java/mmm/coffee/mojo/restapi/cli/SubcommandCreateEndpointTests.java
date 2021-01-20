@@ -15,7 +15,6 @@
  */
 package mmm.coffee.mojo.restapi.cli;
 
-import mmm.coffee.mojo.restapi.cli.SubcommandCreateEndpoint;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import picocli.CommandLine;
@@ -25,8 +24,8 @@ import picocli.CommandLine;
  */
 public class SubcommandCreateEndpointTests {
 
-    SubcommandCreateEndpoint command = new SubcommandCreateEndpoint();
-    CommandLine cli = new CommandLine(command);
+    final SubcommandCreateEndpoint command = new SubcommandCreateEndpoint();
+    final CommandLine cli = new CommandLine(command);
 
     @BeforeEach
     public void setUpEachTime() {

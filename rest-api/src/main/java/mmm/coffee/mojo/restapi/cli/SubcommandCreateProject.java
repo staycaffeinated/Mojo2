@@ -21,10 +21,10 @@ import mmm.coffee.mojo.restapi.generator.ProjectGenerator;
 import mmm.coffee.mojo.restapi.generator.ProjectKeys;
 import mmm.coffee.mojo.restapi.generator.SyntaxRules;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
-import org.apache.commons.lang3.RegExUtils;
 import picocli.CommandLine;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.Callable;
 
 /**
@@ -41,7 +41,6 @@ import java.util.concurrent.Callable;
  */
 @CommandLine.Command(
         name="create-project",
-        sortOptions = true,
         mixinStandardHelpOptions = true,
         headerHeading = "%nSynopsis:%n%n",
         header = "Generate a basic implementation of a Spring REST application",
@@ -107,27 +106,14 @@ public class SubcommandCreateProject implements Callable<Integer> {
     // For example, ```-features foobar``` isn't a dependency the generator knows about.
     // TODO: Explore how to present help for this specific command to allow us to tell a user what we expect
     // e.g: supporting ```-features --help``` would be really helpful.
-//    private List<String> featureList = new ArrayList<>();
-//    @CommandLine.Command(name = "-features",
-//            description = "Additional libraries to include as dependencies. For example: postgres, liquibase"
-//    )
-//    void subCommandFeatureList(
-//            @CommandLine.Parameters(
-//                    arity = "1..*",
-//                    paramLabel = "<library>",
-//                    description = "A library to include") String[] args) {
-//        // Copy the list of features into the featureList
-//        Arrays.stream(args).sequential().forEach(it -> featureList.add(it));
-//    }
 
     /**
      * Computes a result, or throws an exception if unable to do so.
      *
      * @return computed result
-     * @throws Exception if unable to compute a result
      */
     @Override
-    public Integer call() throws Exception {
+    public Integer call() {
         validate();
 
         Map<String,Object> map = new HashMap<>();
@@ -154,7 +140,7 @@ public class SubcommandCreateProject implements Callable<Integer> {
     private void validate() {
         if ( !PackageNameValidator.isValid(packageName)) {
             throw new CommandLine.ParameterException( commandSpec.commandLine(),
-                    String.format("The package name given is not a legal Java package name"));
+                    String.format("The package name '%s' is not a legal Java package name", packageName));
         }
     }
 

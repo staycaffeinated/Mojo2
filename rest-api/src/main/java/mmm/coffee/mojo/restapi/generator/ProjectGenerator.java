@@ -17,10 +17,10 @@ package mmm.coffee.mojo.restapi.generator;
 
 import freemarker.template.Configuration;
 import lombok.NonNull;
-import mmm.coffee.mojo.catalog.CatalogEntry;
-import mmm.coffee.mojo.catalog.TemplateCatalog;
 import mmm.coffee.mojo.api.Generator;
 import mmm.coffee.mojo.api.TemplateWriter;
+import mmm.coffee.mojo.catalog.CatalogEntry;
+import mmm.coffee.mojo.catalog.TemplateCatalog;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
 
 import java.io.File;
@@ -37,10 +37,10 @@ public class ProjectGenerator implements Generator {
     private static final String FALSE = Boolean.FALSE.toString();
 
     private List<CatalogEntry> catalogEntries;
-    private Map<String,Object> lexicalScope = new HashMap<>();
+    private final Map<String,Object> lexicalScope = new HashMap<>();
     private TemplateWriter sourceSink;
     private Configuration configuration;
-    private List<String> features = new ArrayList<>();
+    private final List<String> features = new ArrayList<>();
 
     @Override
     public void initialize() {
@@ -75,8 +75,6 @@ public class ProjectGenerator implements Generator {
         copyFeatures((SupportedFeatures[]) commandLineProperties.get("features"));
         
         // DEBUG; eg., if (verbose || debug ) { .. do this ... }
-        // lexicalScope.entrySet().stream().forEach(entry -> { System.out.printf("%s = %s%n", entry.getKey(), entry.getValue());});
-        // System.out.println("configured");
     }
 
     @Override
@@ -92,12 +90,10 @@ public class ProjectGenerator implements Generator {
 
         // Generate all the assets that are needed regardless of any features selected by the end-user.
         // For example, a build.gradle file and an Application.java file are always created.
-        catalogEntries.stream().filter(CatalogEntry::isFeatureIndependent).forEach(it -> renderTemplate(it));
+        catalogEntries.stream().filter(CatalogEntry::isFeatureIndependent).forEach(this::renderTemplate);
 
         // For each feature (i.e., added dependency), generate the assets specific to that feature
-        features.stream().forEach( f ->  {
-            catalogEntries.stream().filter(e -> e.hasFeature(f)).forEach( tmplt -> renderTemplate(tmplt));
-        });
+        features.forEach( f -> catalogEntries.stream().filter(e -> e.hasFeature(f)).forEach(this::renderTemplate));
 
         MojoUtils.saveContext(lexicalScope);
     }
@@ -117,7 +113,7 @@ public class ProjectGenerator implements Generator {
      * Returns the File to which the content will be written.
      * The destination path is a mustache expression found in the catalog.yaml.
      *
-     * @param destinationAsMustacheExpression
+     * @param destinationAsMustacheExpression the destination folder, represented in a mustache expression
      * @return the handle of the file at the resolved location
      */
     private File determineOutputFile(String destinationAsMustacheExpression) {

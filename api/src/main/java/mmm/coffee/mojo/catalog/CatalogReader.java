@@ -54,8 +54,7 @@ public class CatalogReader {
             Yaml yaml = new Yaml();
             Map<String, Object> obj = yaml.load(is);
             List<Map<String, Object>> entries = (List<Map<String, Object>>) obj.get(CATALOG_KEY);
-            List<CatalogEntry> list = entries.stream().map(CatalogReader::readCatalogEntry).collect(Collectors.toList());
-            return list;
+            return entries.stream().map(CatalogReader::readCatalogEntry).collect(Collectors.toList());
         }
     }
 

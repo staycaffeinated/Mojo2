@@ -15,7 +15,6 @@
  */
 package mmm.coffee.mojo.restapi.generator;
 
-import freemarker.cache.ClassTemplateLoader;
 import freemarker.template.Configuration;
 import freemarker.template.TemplateExceptionHandler;
 import lombok.NonNull;

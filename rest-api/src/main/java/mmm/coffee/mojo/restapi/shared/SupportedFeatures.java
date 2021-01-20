@@ -30,7 +30,7 @@ public enum SupportedFeatures {
     // This is the value an end-user enters on the command line.
     private final String value;
 
-    private SupportedFeatures(String name) {
+    SupportedFeatures(String name) {
         this.value = name;
     }
 

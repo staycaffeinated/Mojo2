@@ -75,8 +75,8 @@ public class EndpointPropertyFactoryTests {
     public void shouldReturnRequiredProperties() {
         final String resource = "Coffee";
         final String entityVarName = "coffee";
-        final String route = "/coffee";;
-        
+        final String route = "/coffee";
+
         Map<String,String> props = EndpointPropertyFactory.createProperties(resource, route, projectProps);
 
         assertThat(props).isNotNull();

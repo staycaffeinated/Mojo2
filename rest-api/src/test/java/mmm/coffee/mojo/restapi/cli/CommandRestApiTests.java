@@ -15,20 +15,18 @@
  */
 package mmm.coffee.mojo.restapi.cli;
 
-//import org.junit.T
 
-import mmm.coffee.mojo.restapi.cli.CommandRestApi;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import picocli.CommandLine;
 
 /**
- * TODO: Fill me in
+ * Unit tests of the RestApi command
  */
 public class CommandRestApiTests {
 
-    CommandRestApi commandRestApi = new CommandRestApi();
-    CommandLine cli = new CommandLine(commandRestApi);
+    final CommandRestApi commandRestApi = new CommandRestApi();
+    final CommandLine cli = new CommandLine(commandRestApi);
 
     @BeforeEach
     public void setUpEachTime() {

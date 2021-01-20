@@ -20,17 +20,14 @@ import lombok.NonNull;
 import java.io.File;
 
 /**
- * A SourceSink that does not write any output. This is useful for testing
- * when a SourceSink is needed but you do not want content (e.g., generated code)
+ * A TemplateWriter that does not write any output. This is useful for testing
+ * when a Writer is needed but you do not want content (e.g., generated code)
  * written to the file system.
  */
 public class NoOpTemplateWriter implements TemplateWriter {
 
     @Override
     public void writeStringToFile(@NonNull File file, String content) {
-        // For debugging, we'll write to stdout
-        // System.out.println("NoOpSourceSink::writeStringToFile");
-        // System.out.printf("Filename: path: %s", file.getPath(), " name: %s", file.getName());
-        // System.out.printf("%n%s%n", content);
+        // Empty
     }
 }

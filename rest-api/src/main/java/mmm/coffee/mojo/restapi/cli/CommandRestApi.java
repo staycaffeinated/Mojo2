@@ -27,13 +27,12 @@ import java.util.concurrent.Callable;
         descriptionHeading = "%nDescription:%n%n",
         description="Create a REST API project and its artifacts",
         version = "v1.0", mixinStandardHelpOptions = true,
-        addMethodSubcommands = true,
         commandListHeading = "%nCommands:%n%n",
         subcommands = { SubcommandCreateProject.class, SubcommandCreateEndpoint.class }
 )
 public class CommandRestApi implements Callable<Integer> {
     @Override
-    public Integer call() throws Exception {
+    public Integer call() {
         return null;
     }
 }

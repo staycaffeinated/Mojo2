@@ -26,8 +26,6 @@ public class PackageNameValidator {
         if (value == null)
             return false;
 
-        if (value.matches(LEGAL_PACKAGE_NAME_PATTERN))
-            return true;
-        return false;
+        return value.matches(LEGAL_PACKAGE_NAME_PATTERN);
     }
 }
