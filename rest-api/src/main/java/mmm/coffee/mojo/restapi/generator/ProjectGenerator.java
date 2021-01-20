@@ -84,10 +84,6 @@ public class ProjectGenerator implements Generator {
 
     @Override
     public void generate() {
-        // TODO: Filter ones that have no feature attribute
-        // TODO: For each specified feature, filter templates that have that feature and render them
-        // catalogEntries.stream().forEach(it ->  renderTemplate(it));
-
         // Generate all the assets that are needed regardless of any features selected by the end-user.
         // For example, a build.gradle file and an Application.java file are always created.
         catalogEntries.stream().filter(CatalogEntry::isFeatureIndependent).forEach(this::renderTemplate);
@@ -118,9 +114,6 @@ public class ProjectGenerator implements Generator {
      */
     private File determineOutputFile(String destinationAsMustacheExpression) {
         String fileName = MustacheConversion.toString(destinationAsMustacheExpression, lexicalScope);
-        // TODO: Need to verify the fileName doesn't have unresolved mustache expressions.
-        // e.g., run some isValidFilename(fileName) check.
-        // TODO: Add a -d/--directory parameter to CLI so user can indicate the base directory
         String fqFileName = MojoUtils.currentDirectory() + fileName;
         return new File(fqFileName);
     }

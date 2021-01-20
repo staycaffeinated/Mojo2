@@ -39,8 +39,7 @@ public class ConfigurationFactory {
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_30);
         configuration.setClassForTemplateLoading(ConfigurationFactory.class, TEMPLATE_PATH);
         configuration.setDefaultEncoding("UTF-8");
-        // TODO: for production, use RETHROWS_HANDLER
-        configuration.setTemplateExceptionHandler(TemplateExceptionHandler.DEBUG_HANDLER);
+        configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
         configuration.setLogTemplateExceptions(false);
         configuration.setWrapUncheckedExceptions(true);
         configuration.setFallbackOnNullLoopVariable(false);

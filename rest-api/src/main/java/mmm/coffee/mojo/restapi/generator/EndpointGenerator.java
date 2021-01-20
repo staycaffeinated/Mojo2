@@ -107,7 +107,7 @@ public class EndpointGenerator implements Generator {
      */
     private File determineOutputFile(String destinationAsMustacheExpression) {
         String fileName = MustacheConversion.toString(destinationAsMustacheExpression, lexicalScope);
-        // TODO: Need to verify the fileName doesn't have unresolved mustache expressions.
+        // future bug: Need to verify the fileName doesn't have unresolved mustache expressions.
         // e.g., run some isValidFilename(fileName) check.
         return new File(fileName);
     }

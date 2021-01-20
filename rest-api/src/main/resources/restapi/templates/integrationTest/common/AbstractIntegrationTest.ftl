@@ -33,7 +33,7 @@ public abstract class AbstractIntegrationTest {
     protected ObjectMapper objectMapper;
 
 <#if (project.testcontainers)??>
-    // TODO: initialize from boostrap properties
+    // if possible, initialize these from bootstrap-test.properties
     static private final String databaseName = "testdb";
     static private final String username = "postgres";
     static private final String password = "root";

@@ -72,8 +72,6 @@ public class MojoUtils {
     }
 
     @NonNull static String getPackageNameForResource(@NonNull String resourceName) {
-        // TODO: Can we eliminate this disk read?
-        // TODO: should we make packageName a mustache expression?
         String basePackage = loadContext().get("basePackage");
         String packageName = basePackage + ".endpoint." + StringUtils.toRootLowerCase(resourceName);
         return StringUtils.toRootLowerCase(packageName);

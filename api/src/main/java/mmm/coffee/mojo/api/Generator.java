@@ -49,10 +49,9 @@ public interface Generator {
         generate();
     }
 
-    // TODO: Fully implement this.
     default void run(@NonNull Spec specification) {
         initialize();
-        // configure(specification);  // TODO: handle this
+        // and then call configure(spec);
         outputStrategy(new DefaultTemplateWriter());
         generate();
     }

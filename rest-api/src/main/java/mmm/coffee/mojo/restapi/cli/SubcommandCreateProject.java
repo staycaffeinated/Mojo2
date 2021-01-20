@@ -49,7 +49,7 @@ import java.util.concurrent.Callable;
         synopsisHeading = "%nUsage:%n%n",
         optionListHeading = "%nOptions:%n%n"
 )
-// TODO: add a -dryrun flag so we can test flags w/o invoking the code generator
+
 public class SubcommandCreateProject implements Callable<Integer> {
 
     @CommandLine.Spec
@@ -104,8 +104,6 @@ public class SubcommandCreateProject implements Callable<Integer> {
     // the end-user specifies something like:  ```-features postgres liquibase testcontainers```
     // The downside is, we don't have an obvious way to tell the user what's accepted as a feature.
     // For example, ```-features foobar``` isn't a dependency the generator knows about.
-    // TODO: Explore how to present help for this specific command to allow us to tell a user what we expect
-    // e.g: supporting ```-features --help``` would be really helpful.
 
     /**
      * Computes a result, or throws an exception if unable to do so.

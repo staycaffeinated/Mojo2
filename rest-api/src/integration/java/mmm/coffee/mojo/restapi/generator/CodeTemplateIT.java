@@ -72,10 +72,10 @@ public class CodeTemplateIT {
 
         projectProperties.put("basePackage", BASE_PACKAGE);
         projectProperties.put("basePackagePath", BASE_PACKAGE_PATH);
-        projectProperties.put("springBootVersion", "2.2.4.RELEASE");    // TODO: what's real value?
-        projectProperties.put("springDependencyManagementVersion", "1.0.4");    // TODO: real value??
-        projectProperties.put("springCloudVersion", "2.2.4.RELEASE");   // TODO: real value
-        projectProperties.put("problemSpringWebVersion", "1.2.3");      // TODO: real value??
+        projectProperties.put("springBootVersion", "2.2.4.RELEASE");
+        projectProperties.put("springDependencyManagementVersion", "1.0.4");
+        projectProperties.put("springCloudVersion", "2.2.4.RELEASE");
+        projectProperties.put("problemSpringWebVersion", "1.2.3");
         projectProperties.put("applicationName", "example");
         projectProperties.put("javaVersion", "11");
         projectProperties.put(ProjectKeys.SCHEMA, "widgets");
