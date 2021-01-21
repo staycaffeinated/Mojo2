@@ -16,8 +16,11 @@
 package mmm.coffee.mojo.restapi.cli;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import picocli.CommandLine;
+
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * Unit tests
@@ -32,9 +35,13 @@ class SubcommandCreateProjectTests {
         cli.clearExecutionResults();
     }
 
-    @Test
+    @Disabled("for debugging, not for validation")
     void testUsage() {
         cli.usage(System.out);
-        assert(true);
+    }
+
+    @Test
+    void shouldEnableHelpOption() {
+        assertThat (cli.execute("--help")).isEqualTo(0);
     }
 }

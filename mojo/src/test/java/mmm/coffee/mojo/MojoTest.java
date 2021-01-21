@@ -16,8 +16,14 @@
 package mmm.coffee.mojo;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import picocli.CommandLine;
+
+import java.util.Map;
+
+import static com.google.common.truth.Truth.assertThat;
+
 /**
  * Unit tests
  */
@@ -32,10 +38,37 @@ class MojoTest {
     }
 
 
-    @Test
+    /**
+     * This is useful for verifying the picocli Command, Option, etc.
+     * annotations are configured correctly. Calling usage() causes
+     * the annotations to be evaluated, so any misconfigurations are detected.
+     */
+    @Disabled("For debugging, not for validation")
     void testUsage() {
         cli.usage(System.out);
-        assert(true);
+    }
+
+    /**
+     * confirm the mojo application contains the rest-api subcommand
+     */
+    @Test
+    void shouldRecognizeRestApiSubCommand() {
+        // The Mojo application has at least the rest-api subcommand
+        Map<String,CommandLine> subcommands = cli.getSubcommands();
+        assertThat(subcommands).isNotEmpty();
+        CommandLine restApi = subcommands.get("rest-api");
+        assertThat(restApi).isNotNull();
+
+        // The rest-api subcommand contains 2 subcommands itself,
+        // create-project and create-endpoint
+        Map<String,CommandLine> restApiSubCommands = restApi.getSubcommands();
+        assertThat(restApiSubCommands).isNotEmpty();
+    }
+
+    @Test
+    void shouldHaveHelpOption() {
+        int rc = cli.execute(toArgV("--help"));
+        assertThat(rc).isEqualTo(0);
     }
     
 

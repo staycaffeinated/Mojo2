@@ -113,6 +113,9 @@ compileTestJava.options*.compilerArgs = [
         "-Xlint:-unchecked", "-Xlint:-options"
         ]
 
+// --------------------------------------------------------------
+// Jacoco configuration
+// --------------------------------------------------------------
 test {
     finalizedBy jacocoTestReport
     jacoco {
@@ -122,8 +125,19 @@ test {
 
 jacocoTestReport {
     dependsOn test
+    dependsOn integrationTest
     reports {
-        xml.enabled(true)
+        xml.enabled(true)   // for export to sonarqube
         html.enabled(true)
     }
 }
+// --------------------------------------------------------------
+// Sonarqube configuration
+// --------------------------------------------------------------
+sonarqube {
+//    properties {
+//        property "sonar.host.url" "http://localhost:9000"
+//    }
+}
+tasks['sonarqube'].dependsOn test
+tasks['sonarqube'].dependsOn integrationTest

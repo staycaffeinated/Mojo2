@@ -17,24 +17,13 @@ shadowJar {
 // Dependencies
 // --------------------------------------------------------------
 dependencies {
-    def lib = rootProject.ext.libs
-    
     implementation project (path: ':api' )
     implementation project (path: ':rest-api' )
+    implementation libs.picocli
 
-    //annotationProcessor dependencies.lombok
-    //compileOnly dependencies.lombok
-
-    //implementation dependencies.commonsIo
-    //implementation dependencies.commonsLang3
-    // implementation dependencies.jmustache
-    implementation lib.picocli
-    //implementation dependencies.freemarker
-    //implementation dependencies.snakeYaml
-    
-    testImplementation(platform("org.junit:junit-bom:5.7.0"))
-    testImplementation(lib.junitJupiter)
-    testImplementation(lib.junitSystemRules)
-    testImplementation(lib.truth)
+    testImplementation(platform(libs.junitBillOfMaterial))
+    testImplementation(libs.junitJupiter)
+    testImplementation(libs.junitSystemRules)
+    testImplementation(libs.truth)
 }
 

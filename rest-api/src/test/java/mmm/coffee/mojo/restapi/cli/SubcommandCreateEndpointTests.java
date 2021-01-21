@@ -16,8 +16,13 @@
 package mmm.coffee.mojo.restapi.cli;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import picocli.CommandLine;
+
+import java.util.Map;
+
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * Unit tests
@@ -32,9 +37,22 @@ class SubcommandCreateEndpointTests {
         cli.clearExecutionResults();
     }
 
-    @Test
+    @Disabled("For debugging, not for validation")
     void testUsage() {
         cli.usage(System.out);
-        assert(true);
+    }
+
+    /**
+     * There are no subcommands nested within the 'create-endpoint' command
+     */
+    @Test
+    void shouldHaveNoSubcommands() {
+        Map<String,CommandLine> subcommands = cli.getSubcommands();
+        assertThat(subcommands).isEmpty();
+    }
+
+    @Test
+    void shouldEnableHelpOption() {
+        assertThat(cli.execute("--help")).isEqualTo(0);
     }
 }

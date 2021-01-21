@@ -15,9 +15,7 @@
  */
 package mmm.coffee.mojo.restapi.cli.validator;
 
-import org.apache.commons.lang3.StringUtils;
 
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 import static java.util.Arrays.*;
@@ -47,6 +45,13 @@ public class PackageNameValidator {
         return check(value);
     }
 
+    /**
+     * Checks whether the given candidate is a valid Java package name.
+     * We don't guarantee that pathological cases will be detected.
+     * 
+     * @param candidate  the candidate value
+     * @return if it can be used as a package name
+     */
     private static boolean check (String candidate) {
         StringTokenizer tokenizer = new StringTokenizer(candidate, ".");
 
@@ -54,7 +59,28 @@ public class PackageNameValidator {
             String token = tokenizer.nextToken();
             if (binarySearch(reserved, token) >= 0)
                 return false;
-            if (!StringUtils.isAllLowerCase(token)) return false;
+            if (!isLegalIdentifier((token))) return false;
+        }
+        return true;
+    }
+
+    /**
+     * Not exactly the rules of a Java identifier, but sufficient for package names
+     * @param token the token to check
+     * @return true if the token is a legal part of a package name
+     */
+    private static boolean isLegalIdentifier(String token) {
+        // first character must be a-z or underscore
+        if (! ((token.charAt(0) >= 'a' && token.charAt(0) <= 'z')
+                || token.charAt(0) == '_'))
+            return false;
+
+        // subsequent letters can be a-z, 0-9, or underscore
+        for (int i = 1; i < token.length(); i++) {
+            if (! ((token.charAt(i) >= 'a' && token.charAt(i) <= 'z')
+                || (token.charAt(i) >= '0' && token.charAt(i) <= '9')
+                || token.charAt(i) == '_'))
+                return false;
         }
         return true;
     }

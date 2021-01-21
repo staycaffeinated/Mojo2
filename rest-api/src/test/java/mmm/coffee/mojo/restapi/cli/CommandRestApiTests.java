@@ -18,8 +18,13 @@ package mmm.coffee.mojo.restapi.cli;
 
 import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import picocli.CommandLine;
+
+import java.util.Map;
+
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * Unit tests of the RestApi command
@@ -36,9 +41,37 @@ class CommandRestApiTests {
 
     // This test is handy for debugging the command set-up.
     // If any picocli annotations are badly configured, this test will expose those.
-    @Test
+    @Disabled("For debugging, not for validation")
     void testUsage() {
         cli.usage(System.out);
-        assert(true);
+    }
+
+    @Test
+    void shouldHaveNoOpCallMethod() {
+        assertThat(commandRestApi.call()).isNull();
+    }
+
+    @Test
+    void shouldHaveHelpOption() {
+        assertThat( cli.execute(toArgV("--help"))).isEqualTo(0);
+    }
+
+    @Test
+    void shouldHaveSubcommands() {
+        Map<String, CommandLine> subcommands = cli.getSubcommands();
+        assertThat(subcommands).isNotEmpty();
+        // These are the subcommands of rest-api
+        assertThat(subcommands.get("create-project")).isNotNull();
+        assertThat(subcommands.get("create-endpoint")).isNotNull();
+    }
+
+
+    /**
+     * The cli.execute() command expects a varargs {@code String...} value,
+     * so its our responsibility to separate the command-line args
+     * into the appropriate String array.
+     */
+    private String[] toArgV(String s) {
+        return s.split("\\s");
     }
 }

@@ -16,6 +16,7 @@
 package mmm.coffee.mojo.restapi.generator;
 
 import mmm.coffee.mojo.api.NoOpTemplateWriter;
+import mmm.coffee.mojo.api.TemplateWriter;
 import mmm.coffee.mojo.restapi.shared.ProjectSpec;
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.SystemErrRule;
@@ -25,6 +26,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.google.common.truth.Truth.assertThat;
 
 /**
  * Unit tests of ProjectGenerator.
@@ -45,18 +48,15 @@ class ProjectGeneratorTests {
     }
     
     @Test
-    void shouldGenerateProjectBasedOnSpec() {
-        ProjectSpec spec = ProjectSpec.builder()
-                .applicationName("sample")
-                .basePackage("org.example.widget")
-                .features( new String[] { "liquibase", "postgres" })
-                .dbmsSchema("myapp")
-                .build();
-        
+    void shouldGenerateProjectBasedOnrProperties() {
+
         Map<String,Object> projectSpec = new HashMap<>();
         projectSpec.put(ProjectKeys.BASE_PACKAGE, "com.example.app");
         projectSpec.put(ProjectKeys.APPLICATION_NAME, "mini-service");
 
-        projectGenerator.run(projectSpec, new NoOpTemplateWriter());
-    }
+        TemplateWriter writer = new NoOpTemplateWriter();
+        // The run method has a void return-type, so there's nothing to check
+        // without scanning the file system for generated assets
+        projectGenerator.run(projectSpec, writer);
+        assertThat(writer).isNotNull(); }
 }
