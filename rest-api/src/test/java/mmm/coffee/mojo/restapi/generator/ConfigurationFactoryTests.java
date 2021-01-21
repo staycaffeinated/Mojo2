@@ -65,7 +65,7 @@ class ConfigurationFactoryTests {
     @ParameterizedTest
     @CsvSource(value = {
             "common/Copyright.ftl",
-            "build/BuildDotGradle.ftl",
+            "gradle/BuildDotGradle.ftl",
             "main/endpoint/RestController.ftl"
     })
     void shouldFindTemplates(String templatePath) throws IOException {

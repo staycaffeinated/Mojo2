@@ -11,7 +11,6 @@ buildscript {
 plugins {
     id 'java'
     id 'idea'
-    id 'application'
     id 'jacoco'
 
     // this enables lombok
@@ -48,6 +47,7 @@ allprojects {
   apply plugin: 'java'
   apply plugin: 'idea'
   apply plugin: 'eclipse'
+  apply plugin: 'jacoco'
 
   sourceCompatibility = JavaVersion.VERSION_11
   targetCompatibility = JavaVersion.VERSION_11
@@ -62,9 +62,9 @@ allprojects {
           // libs.each { k, v -> force(v) }
 
           // cache dynamic versions for 10 minutes
-          cacheDynamicVersionsFor 10*60, 'seconds'
+          // cacheDynamicVersionsFor 10*60, 'seconds'
           // don't cache changing modules at all
-          cacheChangingModulesFor 0, 'seconds'
+          // cacheChangingModulesFor 0, 'seconds'
       }
   }
 }
@@ -73,6 +73,10 @@ allprojects {
 // Sub-projects
 // --------------------------------------------------------------
 subprojects {
+    tasks.withType(Test) {
+        useJUnitPlatform()
+        testLogging { events "passed", "skipped", "failed" }
+    }
 }
 
 // --------------------------------------------------------------
@@ -109,4 +113,17 @@ compileTestJava.options*.compilerArgs = [
         "-Xlint:-unchecked", "-Xlint:-options"
         ]
 
+test {
+    finalizedBy jacocoTestReport
+    jacoco {
+        includes = [ "src/main/java" ]
+    }
+}
 
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.enabled(true)
+        html.enabled(true)
+    }
+}

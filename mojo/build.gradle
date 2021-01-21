@@ -2,7 +2,8 @@
 apply plugin: 'application'
 
 application {
-    mainClass.set("mmm.coffee.mojo.MojoApplication")
+    //mainClass.set("mmm.coffee.mojo.MojoApplication")
+    mainClassName = "mmm.coffee.mojo.MojoApplication" // shadowJar needs this syntax
     applicationName = 'mojo'
 }
 applicationName = 'mojo'

@@ -1,14 +1,18 @@
 ext {
+    versions = [
+            assertJ:    '3.15.0',
+            junit:      '5.7.0'
+    ]
     libs = [
-            assertJ                     : 'org.assertj:assertj-core:3.15.0',
-            commonsIo                   : 'commons-io:commons-io:2.8.0',
+            assertJ                     : "org.assertj:assertj-core:$versions.assertJ",
+            commonsIo                   : "commons-io:commons-io:2.8.0",
             commonsLang3                : 'org.apache.commons:commons-lang3:3.11',
             commonsText                 : 'org.apache.commons:commons-text:1.9',
             freemarker                  : 'org.freemarker:freemarker:2.3.30',
             guava                       : 'com.google.guava:guava:30.0-jre',
             jmustache                   : 'com.samskivert:jmustache:1.15',
-            junitJupiterBom             : "org.junit.jupiter:jupiter-bom:5.7.0:pom",
-            junitJupiter                : "org.junit.jupiter:junit-jupiter:5.7.0",
+            junitBillOfMaterial         : "org.junit:junit-bom:$versions.junit",
+            junitJupiter                : "org.junit.jupiter:junit-jupiter:$versions.junit",
             junitPlatformRunner         : "org.junit.platform:junit-platform-runner",
             
             // See https://stefanbirkner.github.io/system-rules/
