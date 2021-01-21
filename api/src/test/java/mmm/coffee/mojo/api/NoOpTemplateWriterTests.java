@@ -27,40 +27,30 @@ import java.nio.charset.StandardCharsets;
 import static com.google.common.truth.Truth.assertThat;
 
 /**
- * Unit tests of DefaultTemplateWriter
+ * Unit tests
  */
-class DefaultTemplateWriterTests {
+class NoOpTemplateWriterTests {
 
+    NoOpTemplateWriter writer;
     File scratchFile;
-    DefaultTemplateWriter writer;
 
     @BeforeEach
     public void setUp() throws IOException {
-        scratchFile = File.createTempFile("scratch", "java");
-        scratchFile.createNewFile();
-        writer = new DefaultTemplateWriter();
+        writer = new NoOpTemplateWriter();
+        scratchFile = File.createTempFile("delete-me", "java");
     }
 
     @Test
-    void shouldWriteToFile() throws IOException {
-        final String expectedContent = "hello, world";
-        writer.writeStringToFile(scratchFile, expectedContent);
-        String content = FileUtils.readFileToString(scratchFile, StandardCharsets.UTF_8);
-        assertThat(content).isEqualTo(expectedContent);
+    void shouldDisallowNullFileArgument() {
+        assertThrows(NullPointerException.class, () -> writer.writeStringToFile(null, "nothing"));
     }
 
     @Test
-    void shouldDisallowNullFile() {
-        assertThrows(NullPointerException.class, () -> writer.writeStringToFile(null, "foo"));
-    }
-
-    /**
-     * If the content given to write to the file is null,
-     * the target file should be empty.
-     */
-    @Test
-    void shouldDoNothingWithNullContent() {
-        writer.writeStringToFile(scratchFile, null);
+    void shouldNotGenerateOutput() {
+        final String content = "hello world";
+        writer.writeStringToFile(scratchFile, content);
+        // The NoOpWriter intentionally does not write to the file system.
+        // The NoOpWriter is designed to supporting testing
         assertThat(scratchFile.length()).isEqualTo(0);
     }
 }

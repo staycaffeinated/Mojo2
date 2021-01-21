@@ -3,6 +3,21 @@ test {
     useJUnitPlatform()
 }
 
+// See https://stackoverflow.com/questions/29887805/filter-jacoco-coverage-reports-with-gradl
+// https://stackoverflow.com/questions/60289727/jacoco-gradle-exclude-classes-override-includes
+
+jacocoTestReport {
+    afterEvaluate {
+        def excludedFiles = files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    exclude: ['**/api/Generator.*',
+                              '**/exception/**' ])
+        })
+        classDirectories.setFrom(excludedFiles)
+    }
+}
+
+
 // --------------------------------------------------------------
 // dependencies
 // --------------------------------------------------------------

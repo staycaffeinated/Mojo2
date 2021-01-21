@@ -31,14 +31,14 @@ public class TemplateCatalog {
 
     public static final String CATALOG_NAME = "/restapi/catalog.yaml";
 
-    private final List<CatalogEntry> entries;
+    private final List<CatalogEntry> entries;   // catalogReader.readCatalog guarantees a non-null list
 
     /**
      * Constructor
      */
-    public TemplateCatalog() {
+    public TemplateCatalog(@NonNull String catalogName) {
         try {
-            entries = new CatalogReader().readCatalog(CATALOG_NAME);
+            entries = new CatalogReader().readCatalog(catalogName);
         }
         catch (IOException e) {
             throw new MojoException(e.getMessage(), e);
@@ -47,13 +47,19 @@ public class TemplateCatalog {
 
     /**
      * Returns the catalog entries having the given {@code context}. May return an empty list.
-     * @param context
-     * @return
+     * @param context fetch entries having this context
+     * @return the matching items
      */
-    public List<CatalogEntry> filterByContext(@NonNull String context) {
-        if (entries == null) {
-            return new LinkedList<>();
-        }
+    public @NonNull List<CatalogEntry> filterByContext(@NonNull String context) {
         return entries.stream().filter(it -> it.getContext().equals(context)).collect(Collectors.toList());
+    }
+
+    /**
+     * Returns entries where the template name contains {@code templateName}
+     * @param templateName the name of the template (can be a partial name)
+     * @return the entries having templates named like {@code templateName}
+     */
+    public @NonNull List<CatalogEntry> filterByNameLike(@NonNull String templateName) {
+        return entries.stream().filter(it -> it.getTemplate().contains(templateName)).collect(Collectors.toList());
     }
 }

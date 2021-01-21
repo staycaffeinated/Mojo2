@@ -65,7 +65,7 @@ class CodeTemplateIT {
 
     @BeforeEach
     public void setUpEachTime() {
-        catalog = new TemplateCatalog();
+        catalog = new TemplateCatalog(TemplateCatalog.CATALOG_NAME);
 
         projectProperties.clear();
         endpointProperties.clear();
@@ -79,7 +79,6 @@ class CodeTemplateIT {
         projectProperties.put("applicationName", "example");
         projectProperties.put("javaVersion", "11");
         projectProperties.put(ProjectKeys.SCHEMA, "widgets");
-        projectProperties.put(ProjectKeys.ENABLE_JPA, "true");
 
         endpointProperties.putAll(projectProperties);
         endpointProperties.put("entityName", "Widget");
@@ -139,7 +138,7 @@ class CodeTemplateIT {
             // if the output has something that looks like an implementation/runtime
             // dependency on liquibase, its sufficient for a unit test.
             // e2e tests will verify if the build.gradle is truly correct
-            assertThat(content).contains("org.liquibase:liquibase-core");
+            assertThat(content).contains("libs.liquibaseCore");
         }
 
         @Test
@@ -165,7 +164,7 @@ class CodeTemplateIT {
             // if the output has something that looks like an implementation/runtime
             // dependency on liquibase, its sufficient for a unit test.
             // e2e tests will verify if the build.gradle is truly correct
-            assertThat(content).contains("org.postgresql:postgresql");
+            assertThat(content).contains("libs.postgresql");
         }
     }
 

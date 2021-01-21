@@ -16,10 +16,10 @@
 package mmm.coffee.mojo.restapi.generator;
 
 import org.junit.Rule;
-import org.junit.Test;
 import org.junit.contrib.java.lang.system.SystemErrRule;
 import org.junit.contrib.java.lang.system.SystemOutRule;
 import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -94,20 +94,42 @@ public class SyntaxRulesTests {
 
         @ParameterizedTest
         @CsvSource({
+                // testValue,   expectedResult
                 "FooBar,        /foobar",
                 "FOOBAR,        /foobar",
                 "WineGlass,     /wineglass",
                 "Wineglass,     /wineglass",
                 "/beer,         /beer",
-                "/WineGlass,    /wineglass"
+                "/WineGlass,    /wineglass",
+                "Wine-Glass,    /wine-glass"
         })
         void shouldReturnBasePathWithStartingSlashAndLowerCase(String sample, String expected) {
+            assertThat(SyntaxRules.basePathSyntax(sample)).isNotNull();
             assertThat(SyntaxRules.basePathSyntax(sample)).isEqualTo(expected);
         }
 
         @Test
         void shouldThrowNullPointerExceptionWhenArgIsNull() {
             assertThrows(NullPointerException.class, () -> SyntaxRules.basePathSyntax(null));
+        }
+    }
+
+    @Nested
+    class SchemaSyntaxTests {
+        @Test
+        void shouldDisallowNullArgument() {
+            assertThrows(NullPointerException.class, () -> SyntaxRules.schemaSyntax(null));
+        }
+
+        /**
+         * Our current convention is to make schema names lower-case
+         */
+        @Test
+        void shouldReturnSchemaName() {
+            assertThat(SyntaxRules.schemaSyntax("camelCase")).isEqualTo("camelcase");
+            assertThat(SyntaxRules.schemaSyntax("UPPER_CASE")).isEqualTo("upper_case");
+            assertThat(SyntaxRules.schemaSyntax("")).isEqualTo("");
+            assertThat(SyntaxRules.schemaSyntax("lower-case")).isEqualTo("lower-case");
         }
     }
 }

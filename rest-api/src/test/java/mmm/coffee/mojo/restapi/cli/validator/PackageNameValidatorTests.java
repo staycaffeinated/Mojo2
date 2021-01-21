@@ -34,7 +34,10 @@ class PackageNameValidatorTests {
     @CsvSource( value = {
             "org.example,widget",
             "org.example.warehouse",
-            "com.example.bookstore"
+            "com.example.bookstore",
+            "_abc_.example.com",
+            "abc._example_.com",
+            "abc.lesson01.com"
         })
     void shouldAcceptValidPackageNames(String packageName) {
         assertThat( PackageNameValidator.isValid(packageName) ).isTrue();
@@ -44,7 +47,10 @@ class PackageNameValidatorTests {
     @CsvSource( value = {
             "static.org.example,widget",
             "abstract.org.example.widget",
-            "org.example.widget.synchronized"
+            "org.example.widget.synchronized",
+            "01lesson.example.org",
+            "org.camelCase.foobar",
+            "org-kebob-case"
     })
     void shouldDetectInvalidPackageNames(String packageName) {
         assertThat( PackageNameValidator.isValid(packageName)).isFalse();

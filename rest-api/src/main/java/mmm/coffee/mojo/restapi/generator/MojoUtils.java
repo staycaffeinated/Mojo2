@@ -74,9 +74,20 @@ public class MojoUtils {
         return currentDirectory() + ".mojo";
     }
 
-    @NonNull static String getPackageNameForResource(@NonNull String resourceName) {
+    /**
+     * Conjures the package name to which the code for the given RESTful resource (aka Entity) will be written.
+     * The convention followed is: {basePackage}.endpoint.{lowercaseVersionOfResourceName}.
+     * For example, if the basePackage is ```org.example.greeting_service``` and the resource is ```Greeting```,
+     * the package name returned will be ```
+     * ```org.example.greeting_service.endpoint.greeting```.
+     * (where ```org.example.greeting_service``` is the assumed base package, and ```Greeting``` is the resource/entity.
+     *
+     * @param resourceOrEntityName the name of the RESTful resource/entity, for example ```Student``` or ```Account```
+     * @return the package name into which the assets of this resource will be placed
+     */
+    @NonNull static String getPackageNameForResource(@NonNull String resourceOrEntityName) {
         String basePackage = loadContext().get("basePackage");
-        String packageName = basePackage + ".endpoint." + StringUtils.toRootLowerCase(resourceName);
+        String packageName = basePackage + ".endpoint." + StringUtils.toRootLowerCase(resourceOrEntityName);
         return StringUtils.toRootLowerCase(packageName);
     }
 

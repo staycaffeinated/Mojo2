@@ -48,12 +48,4 @@ public interface Generator {
         outputStrategy(sourceSink);
         generate();
     }
-
-    default void run(@NonNull Spec specification) {
-        initialize();
-        // Task: need to make configuration happen...
-        outputStrategy(new DefaultTemplateWriter());
-        generate();
-    }
-
 }

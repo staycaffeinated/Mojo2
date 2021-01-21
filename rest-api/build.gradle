@@ -19,3 +19,17 @@ dependencies {
     testImplementation(libs.truth)
 }
 
+jacocoTestReport {
+    afterEvaluate {
+        def excludedFiles = files(classDirectories.files.collect {
+            fileTree(dir: it,
+                    exclude: ['**/cli/**',   // CLI classes need to be invoked from the command-line
+                               '**/EndpointGenerator.class',
+                               '**/ProjectGenerator.class'
+                              ])
+        })
+        classDirectories.setFrom(excludedFiles)
+    }
+}
+
+

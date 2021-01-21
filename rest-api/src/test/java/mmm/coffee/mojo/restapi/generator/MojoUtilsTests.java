@@ -23,6 +23,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
@@ -75,6 +78,42 @@ class MojoUtilsTests {
         @Test
         void shouldNotReturnNull() {
             assertThat(MojoUtils.currentDirectory()).isNotNull();
+        }
+    }
+
+    @Nested
+    class Test_getPackageNameForResource {
+        @Test
+        void shouldTranslatePackageNameToItsEquivalentFilePath() {
+            // happy path
+            assertThat(MojoUtils.convertPackageNameToPath("mmm.coffee.example")).isEqualTo("mmm/coffee/example");
+
+            // with only one package
+            assertThat(MojoUtils.convertPackageNameToPath("org")).isEqualTo("org");
+
+            // with empty package name
+            assertThat(MojoUtils.convertPackageNameToPath("")).isEqualTo("");
+        }
+
+        @Test
+        void shouldDisallowNullArgument() {
+            assertThrows(NullPointerException.class, () -> MojoUtils.convertPackageNameToPath(null));
+        }
+    }
+
+    @Nested
+    class Test_loadContext {
+        @Test
+        void shouldSaveAndLoadMojoFile() {
+            final String key = "springBoot.version";
+            final String value = "2.2.4.RELEASE";
+
+            Map<String, Object> properties = new HashMap<>();
+            properties.put(key, value);
+            MojoUtils.saveContext(properties);
+            Map<String, String> results = MojoUtils.loadContext();
+            assertThat(results).isNotEmpty();
+            assertThat(results.get(key)).isEqualTo(value);
         }
     }
 }

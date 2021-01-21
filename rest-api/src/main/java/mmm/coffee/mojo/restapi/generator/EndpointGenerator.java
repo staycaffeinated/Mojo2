@@ -45,8 +45,15 @@ public class EndpointGenerator implements Generator {
      * Initialization phase
      */
     public void initialize()  {
-        catalogEntries = new TemplateCatalog().filterByContext(ENDPOINT_CONTEXT);
+        catalogEntries = new TemplateCatalog(TemplateCatalog.CATALOG_NAME).filterByContext(ENDPOINT_CONTEXT);
         configuration = ConfigurationFactory.defaultConfiguration();
+    }
+
+    /**
+     * for internal use (testing)
+     */
+    boolean isInitialized() {
+        return catalogEntries != null && configuration != null;
     }
 
     /**

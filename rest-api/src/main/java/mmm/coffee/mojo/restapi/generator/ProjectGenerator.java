@@ -41,7 +41,7 @@ public class ProjectGenerator implements Generator {
 
     @Override
     public void initialize() {
-        catalogEntries = new TemplateCatalog().filterByContext(PROJECT_CONTEXT);
+        catalogEntries = new TemplateCatalog(TemplateCatalog.CATALOG_NAME).filterByContext(PROJECT_CONTEXT);
         configuration = ConfigurationFactory.defaultConfiguration();
     }
 
