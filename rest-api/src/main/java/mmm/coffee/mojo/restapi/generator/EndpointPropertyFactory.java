@@ -24,6 +24,8 @@ import java.util.Map;
  * Sets up the properties consumed by the underlying templates
  */
 public class EndpointPropertyFactory {
+    
+    private EndpointPropertyFactory() {}
 
     public static Map<String,String> createProperties (@NonNull String resource,
                                                        @NonNull String route,

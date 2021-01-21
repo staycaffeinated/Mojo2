@@ -12,6 +12,7 @@ plugins {
     id 'java'
     id 'idea'
     id 'application'
+    id 'jacoco'
 
     // this enables lombok
     id 'io.freefair.lombok' version '5.0.0-rc4'

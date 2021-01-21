@@ -29,7 +29,7 @@ import java.util.Map;
 /**
  * Unit tests of ProjectGenerator.
  */
-public class ProjectGeneratorTests {
+class ProjectGeneratorTests {
 
     @Rule
     public final SystemErrRule systemErrRule = new SystemErrRule().enableLog().muteForSuccessfulTests();
@@ -45,7 +45,7 @@ public class ProjectGeneratorTests {
     }
     
     @Test
-    public void shouldGenerateProjectBasedOnSpec() {
+    void shouldGenerateProjectBasedOnSpec() {
         ProjectSpec spec = ProjectSpec.builder()
                 .applicationName("sample")
                 .basePackage("org.example.widget")

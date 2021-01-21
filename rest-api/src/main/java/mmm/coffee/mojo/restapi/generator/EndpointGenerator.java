@@ -57,7 +57,6 @@ public class EndpointGenerator implements Generator {
     public void configure(@NonNull Map<String, Object> map) {
 
         Map<String,String> projectProps = MojoUtils.loadContext();
-        //projectProps.forEach((key, value) -> lexicalScope.put((String) key, (String) value));
         lexicalScope.putAll(projectProps);
         lexicalScope.putAll(map);
 
@@ -94,7 +93,6 @@ public class EndpointGenerator implements Generator {
                                     .build();
         String content = template.render();
         File outputFile = determineOutputFile(entry.getDestination());
-        // System.out.printf("renderTemplate: rendering %s%n", outputFile.getName());
         sourceSink.writeStringToFile(outputFile, content);
     }
 
@@ -107,22 +105,6 @@ public class EndpointGenerator implements Generator {
      */
     private File determineOutputFile(String destinationAsMustacheExpression) {
         String fileName = MustacheConversion.toString(destinationAsMustacheExpression, lexicalScope);
-        // future bug: Need to verify the fileName doesn't have unresolved mustache expressions.
-        // e.g., run some isValidFilename(fileName) check.
         return new File(fileName);
     }
-
-    // generator -> initialize(sourceSink) -> configure(props) -> generate();
-    // Anticipated command line usage:
-    // cd ChessEngine
-    // mojo restapi create project --name="ChessEngine" --springboot.version=2.4.5.RELEASE
-    // mojo restapi create endpoint --name=Board --basePath=/board
-    // mojo restapi create endpoint --name=ContestedSquare --basePath=/contested-squares
-    // mojo restapi create endpoint --name=TacticalAnalysis --basePath=/tactical-analysis
-    //
-    // mojo restapi create project --name="TestEngine"
-    // mojo restapi create endpoint --name="Test" --basePath=/test
-    // mojo restapi create endpoint --name="Playbook" --basePath=/playbook
-    // test/stage, test/start, test/stop, test/status, test/results
-
 }

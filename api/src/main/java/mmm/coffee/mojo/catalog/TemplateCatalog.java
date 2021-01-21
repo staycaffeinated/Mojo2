@@ -56,17 +56,4 @@ public class TemplateCatalog {
         }
         return entries.stream().filter(it -> it.getContext().equals(context)).collect(Collectors.toList());
     }
-
-    /**
-     * Returns the catalog entries having the given {@code context}. May return an empty list.
-     * @param name look for templates with names like this
-     * @return any templates with the template name like {@code name}
-     */
-    public List<CatalogEntry> filterByNameLike(@NonNull String name) {
-        if (entries == null) {
-            return new LinkedList<>();
-        }
-        return entries.stream().filter(it -> it.getTemplate().contains(name)).collect(Collectors.toList());
-    }
-
 }

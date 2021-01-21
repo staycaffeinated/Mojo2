@@ -24,6 +24,8 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class SyntaxRules {
 
+    private SyntaxRules() {}
+
     /**
      * Returns the syntax convention for the given resource value
      * @param resource the name of some resource or entity

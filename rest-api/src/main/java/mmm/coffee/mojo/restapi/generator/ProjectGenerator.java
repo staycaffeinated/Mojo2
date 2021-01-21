@@ -32,10 +32,7 @@ import java.util.*;
 public class ProjectGenerator implements Generator {
 
     public static final String PROJECT_CONTEXT = "project";
-
-    private static final String TRUE = Boolean.TRUE.toString();
-    private static final String FALSE = Boolean.FALSE.toString();
-
+    
     private List<CatalogEntry> catalogEntries;
     private final Map<String,Object> lexicalScope = new HashMap<>();
     private TemplateWriter sourceSink;
@@ -73,8 +70,6 @@ public class ProjectGenerator implements Generator {
         lexicalScope.put(ProjectKeys.BASE_PACKAGE_PATH, basePackagePath);
 
         copyFeatures((SupportedFeatures[]) commandLineProperties.get("features"));
-        
-        // DEBUG; eg., if (verbose || debug ) { .. do this ... }
     }
 
     @Override

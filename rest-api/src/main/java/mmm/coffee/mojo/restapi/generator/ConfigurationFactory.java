@@ -30,6 +30,8 @@ public class ConfigurationFactory {
 
     public static final String TEMPLATE_PATH = "/restapi/templates/";
 
+    // private constructor since there is no need to create instances of this class
+    private ConfigurationFactory() {}
 
     /**
      * Creates a Configuration instance with some default settings.

@@ -22,7 +22,7 @@ import picocli.CommandLine;
 /**
  * Unit tests
  */
-public class SubcommandCreateProjectTests {
+class SubcommandCreateProjectTests {
 
     final SubcommandCreateProject command = new SubcommandCreateProject();
     final CommandLine cli = new CommandLine(command);
@@ -33,7 +33,7 @@ public class SubcommandCreateProjectTests {
     }
 
     @Test
-    public void testUsage() {
+    void testUsage() {
         cli.usage(System.out);
         assert(true);
     }

@@ -21,7 +21,7 @@ import picocli.CommandLine;
 /**
  * Unit tests
  */
-public class MojoTest {
+class MojoTest {
 
     MojoApplication application = new MojoApplication();
     CommandLine cli = new CommandLine(application);
@@ -33,7 +33,7 @@ public class MojoTest {
 
 
     @Test
-    public void testUsage() {
+    void testUsage() {
         cli.usage(System.out);
         assert(true);
     }

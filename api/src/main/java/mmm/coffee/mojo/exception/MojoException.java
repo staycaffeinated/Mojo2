@@ -15,16 +15,22 @@
  */
 package mmm.coffee.mojo.exception;
 
+import lombok.NonNull;
+
 /**
  * Our own runtime exception
  */
 public class MojoException extends RuntimeException {
 
-    public MojoException(String msg, Throwable cause) {
-        super (msg, cause);
+    public MojoException(@NonNull String message, Throwable cause) {
+        super (message, cause);
     }
 
     public MojoException(Throwable cause) {
         super(cause);
+    }
+
+    public MojoException(@NonNull String message)  {
+        super(message);
     }
 }

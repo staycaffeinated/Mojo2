@@ -23,7 +23,7 @@ import static com.google.common.truth.Truth.assertThat;
 /**
  * Test PackageNameValidator
  */
-public class PackageNameValidatorTests {
+class PackageNameValidatorTests {
 
     /**
      * Check whether the PackageNameValidator detects legal and illegal
@@ -36,7 +36,7 @@ public class PackageNameValidatorTests {
             "org.example.warehouse",
             "com.example.bookstore"
         })
-    public void shouldAcceptValidPackageNames(String packageName) {
+    void shouldAcceptValidPackageNames(String packageName) {
         assertThat( PackageNameValidator.isValid(packageName) ).isTrue();
     }
 
@@ -46,7 +46,7 @@ public class PackageNameValidatorTests {
             "abstract.org.example.widget",
             "org.example.widget.synchronized"
     })
-    public void shouldDetectInvalidPackageNames(String packageName) {
+    void shouldDetectInvalidPackageNames(String packageName) {
         assertThat( PackageNameValidator.isValid(packageName)).isFalse();
     }
 }

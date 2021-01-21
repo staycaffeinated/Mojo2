@@ -32,7 +32,7 @@ import static com.google.common.truth.Truth.assertThat;
 /**
  * Unit tests for CodeTemplate class
  */
-public class TemplateHandlerTests {
+class TemplateHandlerTests {
     @Rule
     public final SystemErrRule systemErrRule = new SystemErrRule().enableLog().muteForSuccessfulTests();
 
@@ -72,7 +72,7 @@ public class TemplateHandlerTests {
          * the library throws an NPE. This includes badly-formatted templates.
          */
         @Test
-        public void shouldLoadTemplate() {
+        void shouldLoadTemplate() {
             TemplateHandler template = TemplateHandler.builder()
                     .catalogEntry(createFakeControllerEntry())
                     .properties(properties)
@@ -91,7 +91,7 @@ public class TemplateHandlerTests {
          * the library throws an NPE. This includes badly-formatted templates.
          */
         @Test
-        public void shouldParseTemplate() {
+        void shouldParseTemplate() {
             TemplateHandler template = TemplateHandler.builder()
                     .catalogEntry(createFakeControllerEntry())
                     .properties(properties)

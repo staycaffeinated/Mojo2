@@ -38,7 +38,7 @@ public class SyntaxRulesTests {
 
 
     @Nested
-    public class EntityNameSyntaxTests {
+    class EntityNameSyntaxTests {
         /**
          * Contract: the first character of the entityName must be capitalized.
          * All other characters are left as-is.
@@ -53,18 +53,18 @@ public class SyntaxRulesTests {
                 "Foo,       Foo",
                 "fooBar,    FooBar"
         } )
-        public void shouldReturnEntityNameStartingWithUpperCaseLetter(String sample, String expected) {
+        void shouldReturnEntityNameStartingWithUpperCaseLetter(String sample, String expected) {
             assertThat(SyntaxRules.entityNameSyntax(sample)).isEqualTo(expected);
         }
 
         @Test
-        public void shouldThrowNullPointerExceptionWhenArgIsNull() {
+        void shouldThrowNullPointerExceptionWhenArgIsNull() {
             assertThrows(NullPointerException.class, () -> SyntaxRules.entityNameSyntax(null));
         }
     }
 
     @Nested
-    public class EntityVarNameSyntaxTests {
+    class EntityVarNameSyntaxTests {
         /**
          * Contract: the first character of the {@code resource} is converted to lower-case
          * (i.e., uncapitalized). All other characters remain as-is.
@@ -79,18 +79,18 @@ public class SyntaxRulesTests {
                 "WineGlass, wineGlass",
                 "Wineglass, wineglass"
         })
-        public void shouldReturnCamelCaseStartingWithLowerCaseLetter(String sample, String expected) {
+        void shouldReturnCamelCaseStartingWithLowerCaseLetter(String sample, String expected) {
             assertThat(SyntaxRules.entityVarNameSyntax(sample)).isEqualTo(expected);
         }
 
         @Test
-        public void shouldThrowNullPointerExceptionWhenArgIsNull() {
+        void shouldThrowNullPointerExceptionWhenArgIsNull() {
             assertThrows(NullPointerException.class, () ->  SyntaxRules.entityVarNameSyntax(null));
         }
     }
 
     @Nested
-    public class BasePathSyntaxTests {
+    class BasePathSyntaxTests {
 
         @ParameterizedTest
         @CsvSource({
@@ -101,12 +101,12 @@ public class SyntaxRulesTests {
                 "/beer,         /beer",
                 "/WineGlass,    /wineglass"
         })
-        public void shouldReturnBasePathWithStartingSlashAndLowerCase(String sample, String expected) {
+        void shouldReturnBasePathWithStartingSlashAndLowerCase(String sample, String expected) {
             assertThat(SyntaxRules.basePathSyntax(sample)).isEqualTo(expected);
         }
 
         @Test
-        public void shouldThrowNullPointerExceptionWhenArgIsNull() {
+        void shouldThrowNullPointerExceptionWhenArgIsNull() {
             assertThrows(NullPointerException.class, () -> SyntaxRules.basePathSyntax(null));
         }
     }

@@ -16,6 +16,7 @@
 package mmm.coffee.mojo.restapi.cli;
 
 
+import org.junit.Ignore;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import picocli.CommandLine;
@@ -23,7 +24,7 @@ import picocli.CommandLine;
 /**
  * Unit tests of the RestApi command
  */
-public class CommandRestApiTests {
+class CommandRestApiTests {
 
     final CommandRestApi commandRestApi = new CommandRestApi();
     final CommandLine cli = new CommandLine(commandRestApi);
@@ -33,8 +34,10 @@ public class CommandRestApiTests {
         cli.clearExecutionResults();
     }
 
+    // This test is handy for debugging the command set-up.
+    // If any picocli annotations are badly configured, this test will expose those.
     @Test
-    public void testUsage() {
+    void testUsage() {
         cli.usage(System.out);
         assert(true);
     }

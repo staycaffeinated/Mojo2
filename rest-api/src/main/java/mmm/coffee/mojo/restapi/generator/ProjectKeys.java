@@ -19,7 +19,9 @@ package mmm.coffee.mojo.restapi.generator;
  * These are the properties used by project-level templates
  */
 public class ProjectKeys {
-    public static final String ROOT_KEY = "project";
+
+    private ProjectKeys() {}
+    
     public static final String APPLICATION_NAME = "applicationName";
     public static final String BASE_PACKAGE = "basePackage";
     public static final String BASE_PACKAGE_PATH = "basePackagePath";
@@ -29,9 +31,5 @@ public class ProjectKeys {
     public static final String SPRING_CLOUD_VERSION = "springCloudVersion";
     public static final String SPRING_DEPENDENCY_MGMT_VERSION = "springDependencyManagementVersion";
     public static final String PROBLEM_SPRING_VERSION = "problemSpringWebVersion";
-    public static final String ENABLE_JPA = "enableJpa";
-    public static final String ENABLE_MARIADB = "enableMariaDB";
-    public static final String ENABLE_POSTGRES = "enablePostgres";
-    public static final String ENABLE_LIQUIBASE = "enableLiquibase";
     public static final String GROUP_ID = "groupId";
 }

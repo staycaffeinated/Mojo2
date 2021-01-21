@@ -33,7 +33,7 @@ import static com.google.common.truth.Truth.assertThat;
 /**
  * Unit tests
  */
-public class ConfigurationFactoryTests {
+class ConfigurationFactoryTests {
 
     @Rule
     public final SystemErrRule systemErrRule = new SystemErrRule().enableLog().muteForSuccessfulTests();
@@ -49,7 +49,7 @@ public class ConfigurationFactoryTests {
 
 
     @Test
-    public void shouldHaveTemplateLoaderAsPartOfTheConfiguration() {
+    void shouldHaveTemplateLoaderAsPartOfTheConfiguration() {
         assertThat(configuration).isNotNull();
         assertThat(configuration.getTemplateLoader()).isNotNull();
     }
@@ -68,7 +68,7 @@ public class ConfigurationFactoryTests {
             "build/BuildDotGradle.ftl",
             "main/endpoint/RestController.ftl"
     })
-    public void shouldFindTemplates(String templatePath) throws IOException {
+    void shouldFindTemplates(String templatePath) throws IOException {
         Template template = configuration.getTemplate(templatePath);
         assertThat(template).isNotNull();
     }

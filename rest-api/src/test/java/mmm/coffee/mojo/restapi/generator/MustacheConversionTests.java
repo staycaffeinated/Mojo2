@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Unit tests of the MustacheConversion class
  */
-public class MustacheConversionTests {
+class MustacheConversionTests {
     @Rule
     public final SystemErrRule systemErrRule = new SystemErrRule().enableLog().muteForSuccessfulTests();
 
@@ -62,12 +62,12 @@ public class MustacheConversionTests {
     }
 
     @Test
-    public void shouldThrowNullPointerExceptionWhenExpressionIsNull() {
+    void shouldThrowNullPointerExceptionWhenExpressionIsNull() {
         assertThrows (NullPointerException.class, () ->  MustacheConversion.toString(null, emptyMap));
     }
 
     @Test
-    public void shouldThrowNullPointerExceptionWhenMapIsNull() {
+    void shouldThrowNullPointerExceptionWhenMapIsNull() {
         assertThrows (NullPointerException.class, () -> MustacheConversion.toString("{{something}}", null));
     }
 
@@ -76,7 +76,7 @@ public class MustacheConversionTests {
             "{{basePackagePath}}/route/{{lowerCaseEntityName}},                 mmm/coffee/widget/route/widget",
             "src/main/java/{{basePackagePath}}/{{entityName}}Controller.java,   src/main/java/mmm/coffee/widget/WidgetController.java"
     })
-    public void shouldConvertExpressionToString(String expression, String expectedResult) {
+    void shouldConvertExpressionToString(String expression, String expectedResult) {
         String actual = MustacheConversion.toString(expression, valueMap);
         assertThat(actual).isEqualTo(expectedResult);
     }

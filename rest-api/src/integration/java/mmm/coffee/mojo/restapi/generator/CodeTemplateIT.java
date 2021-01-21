@@ -51,7 +51,7 @@ import static com.google.common.truth.Truth.assertThat;
  *    template.
  *
  */
-public class CodeTemplateIT {
+class CodeTemplateIT {
 
     private static final String BASE_PACKAGE = "mmm.coffee.example";
     private static final String BASE_PACKAGE_PATH = "mmm/coffee/example";
@@ -94,7 +94,7 @@ public class CodeTemplateIT {
     @Nested
     class TestProjectTemplates {
         @Test
-        public void shouldParseTemplatesSuccessfully() {
+        void shouldParseTemplatesSuccessfully() {
             List<CatalogEntry> templates = catalog.filterByContext("project");
             for (CatalogEntry entry : templates) {
                 // System.out.printf("DEBUG: Loading template %s%n", entry.getTemplate());
@@ -117,7 +117,7 @@ public class CodeTemplateIT {
     @Nested
     class TestBuildDotGradleTemplate {
         @Test
-        public void shouldAddLiquibaseDependencyWhenLiquibaseFeatureIsSpecified() {
+        void shouldAddLiquibaseDependencyWhenLiquibaseFeatureIsSpecified() {
             Optional<CatalogEntry> optional = getBuildDotGradleTemplate();
             assertThat(optional.isPresent());
 
@@ -143,7 +143,7 @@ public class CodeTemplateIT {
         }
 
         @Test
-        public void shouldAddPostgresDependencyWhenPostgresFeatureIsSpecified() {
+        void shouldAddPostgresDependencyWhenPostgresFeatureIsSpecified() {
             Optional<CatalogEntry> optional = getBuildDotGradleTemplate();
             assertThat(optional.isPresent());
 
@@ -172,7 +172,7 @@ public class CodeTemplateIT {
     @Nested
     class TestEndpointTemplates {
         @Test
-        public void shouldParseTemplatesSuccessfully() {
+        void shouldParseTemplatesSuccessfully() {
             List<CatalogEntry> templates = catalog.filterByContext("endpoint");
             for (CatalogEntry entry : templates) {
                 // System.out.printf("DEBUG: Loading template %s%n", entry.getTemplate());

@@ -22,6 +22,8 @@ import lombok.NonNull;
  */
 public class PackageNameConversion {
 
+    private PackageNameConversion() {}
+
     /**
      * Converts the given {@code packageName} to its file-system path equivalent
      * @param packageName some non-null package name, such as {@code "mmm.coffee.widget" }

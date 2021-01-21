@@ -16,6 +16,7 @@
 package mmm.coffee.mojo.restapi.generator;
 
 import lombok.NonNull;
+import mmm.coffee.mojo.exception.MojoException;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.*;
@@ -27,6 +28,8 @@ import java.util.Properties;
  * A collection of helper methods
  */
 public class MojoUtils {
+
+    private MojoUtils() {}
 
     /**
      * Saves project-level properties to a hidden file to enable
@@ -41,7 +44,7 @@ public class MojoUtils {
             pw.flush();
         }
         catch (Exception e) {
-            System.err.printf("ERROR: Tried to save '.mojo' file but encounted this: %s%n", e.getMessage());
+            throw new MojoException(String.format("ERROR: Tried to save '.mojo' file but encounted this: %s%n", e.getMessage()), e);
         }
     }
 
@@ -53,7 +56,7 @@ public class MojoUtils {
             properties.forEach((key, value) -> resultMap.put((String) key, (String) value));
         }
         catch (IOException e) {
-            System.err.printf("ERROR: %s%n", e.getMessage());
+            throw new MojoException(String.format("ERROR: %s%n", e.getMessage()), e);
         }
         return resultMap;
     }

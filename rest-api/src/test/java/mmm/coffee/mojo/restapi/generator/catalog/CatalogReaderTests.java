@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Unit tests of CatalogReader
  */
-public class CatalogReaderTests {
+class CatalogReaderTests {
 
     CatalogReader reader;
 
@@ -38,14 +38,14 @@ public class CatalogReaderTests {
     }
 
     @Test
-    public void shouldReadTemplateCatalogSuccessfully() throws Exception {
+    void shouldReadTemplateCatalogSuccessfully() throws Exception {
         List<?> entries = reader.readCatalog(TemplateCatalog.CATALOG_NAME);
         assertThat(entries).isNotNull();
         assertThat(entries).isNotEmpty();
     }
 
     @Test
-    public void shouldThrowNullPointerExceptionWhenArgIsNull() {
+    void shouldThrowNullPointerExceptionWhenArgIsNull() {
         assertThrows(NullPointerException.class, () -> reader.readCatalog(null));
     }
 }

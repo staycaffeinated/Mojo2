@@ -2,7 +2,7 @@
 apply plugin: 'application'
 
 application {
-    mainClassName = "mmm.coffee.mojo.MojoApplication"
+    mainClass.set("mmm.coffee.mojo.MojoApplication")
     applicationName = 'mojo'
 }
 applicationName = 'mojo'

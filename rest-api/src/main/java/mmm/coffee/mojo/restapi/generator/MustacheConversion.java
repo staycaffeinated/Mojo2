@@ -26,6 +26,8 @@ import java.util.Map;
  */
 public class MustacheConversion {
 
+    private MustacheConversion() {}
+
     public static @NonNull String toString(@NonNull String mustacheExpression, Map<String,Object> values) {
         Template template = Mustache.compiler().compile(mustacheExpression);
         return template.execute(values);

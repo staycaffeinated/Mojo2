@@ -19,6 +19,10 @@ package mmm.coffee.mojo.restapi.generator;
  * These are properties used by endpoint-level templates
  */
 public class EndpointKeys {
+
+    // prevent creating instances of this
+    private EndpointKeys() {}
+
     public static final String ROOT_KEY = "endpoint";
     public static final String ENTITY_NAME = "entityName";
     public static final String ENTITY_VAR_NAME = "entityVarName";

@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Unit tests of PackageName class
  */
-public class PackageNameTests {
+class PackageNameTests {
     @Rule
     public final SystemErrRule systemErrRule = new SystemErrRule().enableLog().muteForSuccessfulTests();
 
@@ -35,18 +35,18 @@ public class PackageNameTests {
 
 
     @Test
-    public void shouldThrowNullPointerExceptionWhenArgIsNull() {
+    void shouldThrowNullPointerExceptionWhenArgIsNull() {
         assertThrows (NullPointerException.class, ()-> PackageNameConversion.toPath(null));
     }
 
     @Test
-    public void shouldReturnEmptyStringWhenArgIsEmpty() {
+    void shouldReturnEmptyStringWhenArgIsEmpty() {
         String actual = PackageNameConversion.toPath("");
         assertThat (actual).isEqualTo("");
     }
 
     @Test
-    public void shouldConvertWellFormedPackageNameToPath() {
+    void shouldConvertWellFormedPackageNameToPath() {
         String actual = PackageNameConversion.toPath("mmm.coffee.widget");
         assertThat(actual).isEqualTo("mmm/coffee/widget");
     }

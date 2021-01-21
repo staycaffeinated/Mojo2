@@ -16,6 +16,7 @@
 package mmm.coffee.mojo.restapi.cli;
 
 import lombok.NonNull;
+import mmm.coffee.mojo.exception.MojoException;
 import mmm.coffee.mojo.restapi.cli.validator.PackageNameValidator;
 import mmm.coffee.mojo.restapi.generator.ProjectGenerator;
 import mmm.coffee.mojo.restapi.generator.ProjectKeys;
@@ -112,12 +113,10 @@ public class SubcommandCreateProject implements Callable<Integer> {
      */
     @Override
     public Integer call() {
-        validate();
+        validate();     // verify command-line argument values
 
+        // Set-up the ProjectInfo to send to the generator
         Map<String,Object> map = new HashMap<>();
-
-        // todo: declare a type, ProjectSpec to have type-safe values?
-
         map.put(ProjectKeys.BASE_PACKAGE, nullSafeValue(packageName));
         map.put(ProjectKeys.GROUP_ID, nullSafeValue(groupId));
         map.put(ProjectKeys.APPLICATION_NAME, nullSafeValue(applicationName));
@@ -130,8 +129,7 @@ public class SubcommandCreateProject implements Callable<Integer> {
             return 0;
         }
         catch (Exception e) {
-            System.err.println(e.getMessage());
-            return -1;
+            throw new MojoException(e.getMessage());
         }
     }
 

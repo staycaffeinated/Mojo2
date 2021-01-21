@@ -22,7 +22,7 @@ import picocli.CommandLine;
 /**
  * Unit tests
  */
-public class SubcommandCreateEndpointTests {
+class SubcommandCreateEndpointTests {
 
     final SubcommandCreateEndpoint command = new SubcommandCreateEndpoint();
     final CommandLine cli = new CommandLine(command);
@@ -33,7 +33,7 @@ public class SubcommandCreateEndpointTests {
     }
 
     @Test
-    public void testUsage() {
+    void testUsage() {
         cli.usage(System.out);
         assert(true);
     }

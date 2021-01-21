@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Unit tests of MojoUtils
  */
-public class MojoUtilsTests {
+class MojoUtilsTests {
 
     @Rule
     public final SystemErrRule systemErrRule = new SystemErrRule().enableLog().muteForSuccessfulTests();
@@ -38,9 +38,9 @@ public class MojoUtilsTests {
 
 
     @Nested
-    public class Test_convertPackageNameToPath {
+    class Test_convertPackageNameToPath {
         @Test
-        public void shouldThrowNullPointerExceptionWhenArgIsNull() {
+        void shouldThrowNullPointerExceptionWhenArgIsNull() {
             assertThrows(NullPointerException.class, () -> {
                 MojoUtils.convertPackageNameToPath(null);
             });
@@ -52,28 +52,28 @@ public class MojoUtilsTests {
                 "org.example,           org/example",
                 "org,                   org"
         })
-        public void shouldConvertPackageNameToEquivalentPath(String testValue, String expectedValue) {
+        void shouldConvertPackageNameToEquivalentPath(String testValue, String expectedValue) {
             assertThat(MojoUtils.convertPackageNameToPath(testValue)).isEqualTo(expectedValue);
         }
 
         @Test
-        public void shouldConvertEmptyStringToEmptyString() {
+        void shouldConvertEmptyStringToEmptyString() {
             assertThat(MojoUtils.convertPackageNameToPath("")).isEqualTo("");
         }
     }
 
     @Nested
-    public class Test_getMojoFileName {
+    class Test_getMojoFileName {
         @Test
-        public void shouldNotReturnNull() {
+        void shouldNotReturnNull() {
             assertThat(MojoUtils.getMojoFileName()).isNotNull();
         }
     }
 
     @Nested
-    public class Test_getCurrentDirectory {
+    class Test_getCurrentDirectory {
         @Test
-        public void shouldNotReturnNull() {
+        void shouldNotReturnNull() {
             assertThat(MojoUtils.currentDirectory()).isNotNull();
         }
     }

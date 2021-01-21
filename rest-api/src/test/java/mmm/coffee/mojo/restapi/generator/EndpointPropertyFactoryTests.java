@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Unit tests
  */
-public class EndpointPropertyFactoryTests {
+class EndpointPropertyFactoryTests {
     @Rule
     public final SystemErrRule systemErrRule = new SystemErrRule().enableLog().muteForSuccessfulTests();
 
@@ -52,17 +52,17 @@ public class EndpointPropertyFactoryTests {
     }
 
     @Test
-    public void shouldThrowNullPointerExceptionWhenResourceArgIsNull() {
+    void shouldThrowNullPointerExceptionWhenResourceArgIsNull() {
         assertThrows(NullPointerException.class, () -> EndpointPropertyFactory.createProperties(null, "/", projectProps));
     }
 
     @Test
-    public void shouldThrowNullPointerExceptionWhenRouteArgIsNull() {
+    void shouldThrowNullPointerExceptionWhenRouteArgIsNull() {
         assertThrows(NullPointerException.class, () -> EndpointPropertyFactory.createProperties("Entity", null, projectProps));
     }
 
     @Test
-    public void shouldThrowNullPointerExceptionWhenMapArgIsNull() {
+    void shouldThrowNullPointerExceptionWhenMapArgIsNull() {
         assertThrows(NullPointerException.class, () -> EndpointPropertyFactory.createProperties("Entity", "/entity", null));
     }
 
@@ -72,7 +72,7 @@ public class EndpointPropertyFactoryTests {
      * on the content of the properties map.
      */
     @Test
-    public void shouldReturnRequiredProperties() {
+    void shouldReturnRequiredProperties() {
         final String resource = "Coffee";
         final String entityVarName = "coffee";
         final String route = "/coffee";
