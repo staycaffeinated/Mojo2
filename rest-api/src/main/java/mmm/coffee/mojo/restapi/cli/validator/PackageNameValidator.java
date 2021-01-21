@@ -18,7 +18,7 @@ package mmm.coffee.mojo.restapi.cli.validator;
 
 import java.util.StringTokenizer;
 
-import static java.util.Arrays.*;
+import static java.util.Arrays.binarySearch;
 
 /**
  * Validation of packageName to ensure its a legal Java package name

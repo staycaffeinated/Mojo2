@@ -17,7 +17,6 @@ package mmm.coffee.mojo.restapi.generator;
 
 import mmm.coffee.mojo.api.NoOpTemplateWriter;
 import mmm.coffee.mojo.api.TemplateWriter;
-import mmm.coffee.mojo.restapi.shared.ProjectSpec;
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.SystemErrRule;
 import org.junit.contrib.java.lang.system.SystemOutRule;

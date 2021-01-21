@@ -15,13 +15,7 @@
  */
 package mmm.coffee.mojo.restapi.shared;
 
-import org.junit.Rule;
-import org.junit.contrib.java.lang.system.SystemErrRule;
-import org.junit.contrib.java.lang.system.SystemOutRule;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 
 import static com.google.common.truth.Truth.assertThat;
 

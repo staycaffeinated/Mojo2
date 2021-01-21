@@ -15,22 +15,19 @@
  */
 package mmm.coffee.mojo.catalog;
 
-import org.apache.commons.io.FileUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
-import java.io.File;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit tests
  */
-public class TemplateCatalogTests {
+class TemplateCatalogTests {
 
     TemplateCatalog templateCatalog;
 

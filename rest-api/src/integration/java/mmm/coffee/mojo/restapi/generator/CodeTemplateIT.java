@@ -16,7 +16,6 @@
 package mmm.coffee.mojo.restapi.generator;
 
 import freemarker.template.Configuration;
-import freemarker.template.Template;
 import mmm.coffee.mojo.catalog.CatalogEntry;
 import mmm.coffee.mojo.catalog.TemplateCatalog;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
@@ -28,7 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.google.common.truth.Truth.assertThat;
 
