@@ -5,9 +5,9 @@ buildscript {
       mavenCentral()
       }
 }
-// --------------------------------------------------------------
+// ----------------------------------------------------------------------------
 // plugins
-// --------------------------------------------------------------
+// ----------------------------------------------------------------------------
 plugins {
     id 'java'
     id 'idea'
@@ -30,14 +30,11 @@ plugins {
     id "org.sonarqube" version "3.0"
 }
 
-// --------------------------------------------------------------
+// ----------------------------------------------------------------------------
 // basics
-// --------------------------------------------------------------
+// ----------------------------------------------------------------------------
 group 'mmm.coffee.mojo'
 version '0.0.1'
-
-
-
 
 allprojects {
   repositories {
@@ -59,20 +56,17 @@ allprojects {
           // fail fast on version conflicts (including transitive dependencies)
           // failOnVersionConflict()
 
-          // auto-force our explicit dependencies
-          // libs.each { k, v -> force(v) }
-
           // cache dynamic versions for 10 minutes
-          // cacheDynamicVersionsFor 10*60, 'seconds'
+          cacheDynamicVersionsFor 10*60, 'seconds'
           // don't cache changing modules at all
-          // cacheChangingModulesFor 0, 'seconds'
+          cacheChangingModulesFor 0, 'seconds'
       }
   }
 }
 
-// --------------------------------------------------------------
+// ----------------------------------------------------------------------------
 // Sub-projects
-// --------------------------------------------------------------
+// ----------------------------------------------------------------------------
 subprojects {
     tasks.withType(Test) {
         useJUnitPlatform()
@@ -80,24 +74,24 @@ subprojects {
     }
 }
 
-// --------------------------------------------------------------
+// ----------------------------------------------------------------------------
 // Make all tests use JUnit5
-// --------------------------------------------------------------
+// ----------------------------------------------------------------------------
 tasks.withType(Test) {
     useJUnitPlatform()
     testLogging { events "passed", "skipped", "failed" }
 }
 
-// --------------------------------------------------------------
+// ----------------------------------------------------------------------------
 // ensure JUnit5 is used
-// --------------------------------------------------------------
+// ----------------------------------------------------------------------------
 test {
     useJUnitPlatform()
 }
 
-// --------------------------------------------------------------
+// ----------------------------------------------------------------------------
 // Lint options (defaulting to extreme verbosity)
-// --------------------------------------------------------------
+// ----------------------------------------------------------------------------
 compileJava.options*.compilerArgs = [
         "-Xlint:serial",    "-Xlint:varargs",     "-Xlint:cast",        "-Xlint:classfile",
         "-Xlint:dep-ann",   "-Xlint:divzero",     "-Xlint:empty",       "-Xlint:finally",
@@ -114,11 +108,12 @@ compileTestJava.options*.compilerArgs = [
         "-Xlint:-unchecked", "-Xlint:-options"
         ]
 
-// --------------------------------------------------------------
+
+// ----------------------------------------------------------------------------
 // Jacoco configuration
-// --------------------------------------------------------------
+// ----------------------------------------------------------------------------
 test {
-    finalizedBy jacocoTestReport
+    finalizedBy jacocoTestReport 
     jacoco {
         includes = [ "src/main/java" ]
     }
@@ -136,9 +131,50 @@ jacocoTestReport {
 // Sonarqube configuration
 // --------------------------------------------------------------
 sonarqube {
-//    properties {
-//        property "sonar.host.url" "http://localhost:9000"
-//    }
+    properties {
+        property "sonar.coverage.exclusions", "**/*Exception.java,**/*Test.java,**/*IT.java"
+
+        // The following file is created when the codeCoverageReport task is run
+        property "sonar.coverage.jacoco.xmlReportPaths", "${project.rootDir}/build/reports/jacoco/codeCoverageReport/codeCoverageReport.xml"
+    }
 }
 tasks['sonarqube'].dependsOn test
 tasks['sonarqube'].dependsOn integrationTest
+
+// From: https://docs.gradle.org/6.4-rc-1/samples/sample_jvm_multi_project_with_code_coverage.html
+// A task to gather code coverage from multiple subprojects
+// NOTE: the `JacocoReport` tasks do *not* depend on the `test` task by default. Meaning you have to ensure
+// that `test` (or other tasks generating code coverage) run before generating the report.
+// You can achieve this by calling the `test` lifecycle task manually
+// $ ./gradlew test codeCoverageReport
+tasks.register("codeCoverageReport", JacocoReport) {
+    // If a subproject applies the 'jacoco' plugin, add the result it to the report
+    subprojects { subproject ->
+        subproject.plugins.withType(JacocoPlugin).configureEach {
+            subproject.tasks.matching({ t -> t.extensions.findByType(JacocoTaskExtension) }).configureEach { testTask ->
+                sourceSets subproject.sourceSets.main
+                executionData(testTask)
+            }
+
+            // To automatically run `test` every time `./gradlew codeCoverageReport` is called,
+            // you may want to set up a task dependency between them as shown below.
+            // Note that this requires the `test` tasks to be resolved eagerly (see `forEach`) which
+            // may have a negative effect on the configuration time of your build.
+            subproject.tasks.matching({ t -> t.extensions.findByType(JacocoTaskExtension) }).forEach {
+                rootProject.tasks.codeCoverageReport.dependsOn(it)
+            }
+        }
+    }
+
+    // enable the different report types (html, xml, csv)
+    reports {
+        // xml is usually used to integrate code coverage with
+        // other tools like SonarQube, Coveralls or Codecov
+        xml.enabled true
+
+        // HTML reports can be used to see code coverage
+        // without any external tools
+        html.enabled true
+    }
+}
+
