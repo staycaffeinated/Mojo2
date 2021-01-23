@@ -5,13 +5,16 @@ command line arguments. The utility currently supports:
 
 * RESTful web services based on Spring
    
-# FOR USER'S OF THE CODE GENERATOR
+## FOR USER'S OF THE CODE GENERATOR
 
-## Usage:
+### Usage:
 
 First, it is important to know the project assets will be created in your current
 directory, so be sure to navigate to the folder in which 
 you want the project assets created before running any command.
+
+POSIX-style syntax is supported, allowing options to be specified as 
+```-option value``` or as ```-option=value```.
 
 The command             
 
@@ -35,19 +38,17 @@ For example,
 This will create a Spring controller that will accept the 
 route ```localhost:8080/widget``` and return a sample Widget.
 
-# FOR MAINTAINERS (DEVELOPERS)
+## FOR MAINTAINERS (DEVELOPERS)
                     
-## To Compile the Application
+### To Compile the Application
 
-To build the application, run ```./gradlew :mojo:build```. 
-The subproject ```mojo``` must be declared as shown. Alas,
-the shadowJar task gets confused when only ```./gradlew build``` is used.
-Building the application via
-```./gradlew :mojo:build``` is an acceptable work-around. The ```mojo```
-sub-project is the main entry point of the application, so it's a suitable
-starting point. 
+To build the application, run ```./gradlew build```. 
 
-## To Deploy the Application
+To build, test, report test coverage, and export the test coverage to Sonarqube, run
+
+```./gradlew clean build codeCoverageReport sonarqube```
+
+### To Deploy the Application
 
 Navigate to the ```mojo``` sub-project, then to the ```build/distributions``` folder.
 (that is, ```cd mojo/build/distributions```). (DO NOT use the tar/zip file
@@ -56,7 +57,7 @@ created in the project root build/distributions folder; that is not the uber jar
 Copy the ```mojo-shadow.tar``` (or ```zip```) to the desired location
 and unpack it, then add the ```mojo/bin/mojo``` executable to your PATH. 
                       
-## To Extend the Application
+### To Extend the Application
 
 The general approach to extending Mojo by adding more
 sub-commands is to create a module folder for the new
