@@ -70,6 +70,11 @@ class MojoTest {
         int rc = cli.execute(toArgV("--help"));
         assertThat(rc).isEqualTo(0);
     }
+
+    @Test
+    void shouldReturnSuccess() {
+        assertThat(application.call()).isEqualTo(0);
+    }
     
     /**
      * The cli.execute() command expects a varargs {@code String...} value,

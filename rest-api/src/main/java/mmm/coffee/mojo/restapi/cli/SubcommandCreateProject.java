@@ -152,8 +152,4 @@ public class SubcommandCreateProject implements Callable<Integer> {
         if (value == null) return "";
         return value;
     }
-    @NonNull private String nullSafeBoolean(Boolean value) {
-        if (value == null) return "false";
-        return value.toString();
-    }
 }

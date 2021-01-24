@@ -50,13 +50,6 @@ public class EndpointGenerator implements Generator {
     }
 
     /**
-     * for internal use (testing)
-     */
-    boolean isInitialized() {
-        return catalogEntries != null && configuration != null;
-    }
-
-    /**
      * Configuration phase
      * @param map properties to be consumed by the template
      */

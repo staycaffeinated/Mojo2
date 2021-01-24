@@ -64,6 +64,12 @@ public class RestApiIntegrationTests {
         assertThat(rc).isEqualTo(0);
     }
 
+    @Test
+    void shouldReturnNonZeroIfPackageNameIsInvalid() {
+        int rc = cli.execute(toArgV("rest-api create-project --dry-run --package=ABC.def.123foo"));
+        assertThat(rc).isNotEqualTo(0);
+    }
+
     /**
      * The cli.execute() command expects a varargs {@code String...} value,
      * so its our responsibility to separate the command-line args
