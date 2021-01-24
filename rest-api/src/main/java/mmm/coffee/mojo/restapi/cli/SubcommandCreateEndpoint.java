@@ -15,6 +15,7 @@
  */
 package mmm.coffee.mojo.restapi.cli;
 
+import mmm.coffee.mojo.mixin.DryRunOption;
 import mmm.coffee.mojo.restapi.generator.EndpointGenerator;
 import picocli.CommandLine;
 
@@ -36,6 +37,11 @@ import java.util.concurrent.Callable;
         optionListHeading = "%nOptions:%n%n"
 )
 public class SubcommandCreateEndpoint implements Callable<Integer> {
+
+    // adds support for the --dry-run option
+    @CommandLine.Mixin
+    private DryRunOption dryRunOption;
+
     @CommandLine.Option(
             names={"-resource"},
             description="The resource available at this endpoint (e.g: -resource=Coffee)",
@@ -54,8 +60,11 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
         map.put("resource", resourceName);
         map.put("route", baseRoute);
 
+        if (dryRunOption.isDryRun())
+            map.put(DryRunOption.DRY_RUN_KEY, Boolean.TRUE);
+
         EndpointGenerator generator = new EndpointGenerator();
         generator.run(map);
-        return 1;
+        return 0;
     }
 }

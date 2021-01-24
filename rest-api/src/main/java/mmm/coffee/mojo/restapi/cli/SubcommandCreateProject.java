@@ -17,6 +17,7 @@ package mmm.coffee.mojo.restapi.cli;
 
 import lombok.NonNull;
 import mmm.coffee.mojo.exception.MojoException;
+import mmm.coffee.mojo.mixin.DryRunOption;
 import mmm.coffee.mojo.restapi.cli.validator.PackageNameValidator;
 import mmm.coffee.mojo.restapi.generator.ProjectGenerator;
 import mmm.coffee.mojo.restapi.generator.ProjectKeys;
@@ -55,6 +56,9 @@ public class SubcommandCreateProject implements Callable<Integer> {
 
     @CommandLine.Spec
     CommandLine.Model.CommandSpec commandSpec;  // injected by picocli
+
+    @CommandLine.Mixin
+    private DryRunOption dryRunOption;
 
     // The groupId can be defaulted to match the base package 
     @CommandLine.Option(names = {"-g", "--group"},
@@ -115,6 +119,8 @@ public class SubcommandCreateProject implements Callable<Integer> {
     public Integer call() {
         validate();     // verify command-line argument values
 
+        boolean dryRun = dryRunOption.isDryRun();
+
         // Set-up the ProjectInfo to send to the generator
         Map<String,Object> map = new HashMap<>();
         map.put(ProjectKeys.BASE_PACKAGE, nullSafeValue(packageName));
@@ -122,6 +128,8 @@ public class SubcommandCreateProject implements Callable<Integer> {
         map.put(ProjectKeys.APPLICATION_NAME, nullSafeValue(applicationName));
         map.put(ProjectKeys.SCHEMA, nullSafeValue(SyntaxRules.schemaSyntax(dbmsSchema)));
         map.put("features", features);
+        if (dryRun)
+            map.put(DryRunOption.DRY_RUN_KEY, Boolean.TRUE);
 
         try {
             ProjectGenerator projectGenerator = new ProjectGenerator();

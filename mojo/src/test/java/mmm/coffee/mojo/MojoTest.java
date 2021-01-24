@@ -71,7 +71,6 @@ class MojoTest {
         assertThat(rc).isEqualTo(0);
     }
     
-
     /**
      * The cli.execute() command expects a varargs {@code String...} value,
      * so its our responsibility to separate the command-line args

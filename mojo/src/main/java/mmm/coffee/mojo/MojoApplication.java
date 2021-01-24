@@ -25,11 +25,13 @@ import java.util.concurrent.Callable;
  */
 @CommandLine.Command(
         name="mojo",
-        description="mojo for developers",
-        version = "git 1.0", mixinStandardHelpOptions = true,
+        description="Code generation mojo for programmers",
+        version = "1.0",
+        mixinStandardHelpOptions = true,
         subcommands = { CommandRestApi.class }
 )
 public class MojoApplication implements Callable<Integer> {
+
 
     @Override
     public Integer call() {

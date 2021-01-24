@@ -31,8 +31,7 @@ import java.util.concurrent.Callable;
         subcommands = { SubcommandCreateProject.class, SubcommandCreateEndpoint.class }
 )
 public class CommandRestApi implements Callable<Integer> {
+
     @Override
-    public Integer call() {
-        return null;
-    }
+    public Integer call() { return 0; }
 }

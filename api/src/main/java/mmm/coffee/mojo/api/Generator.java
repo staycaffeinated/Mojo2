@@ -16,6 +16,7 @@
 package mmm.coffee.mojo.api;
 
 import lombok.NonNull;
+import mmm.coffee.mojo.mixin.DryRunOption;
 
 import java.util.Map;
 
@@ -39,7 +40,11 @@ public interface Generator {
      *                   and other variables
      */
     default void run(@NonNull Map<String,Object> properties) {
-        run(properties, new DefaultTemplateWriter());
+        if ( ((Boolean)properties.getOrDefault(DryRunOption.DRY_RUN_KEY, Boolean.FALSE)).booleanValue()) {
+            run(properties, new NoOpTemplateWriter());
+        } else {
+            run(properties, new DefaultTemplateWriter());
+        }
     }
 
     default void run(@NonNull Map<String,Object> properties, @NonNull TemplateWriter sourceSink) {

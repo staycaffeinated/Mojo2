@@ -47,7 +47,7 @@ class CommandRestApiTests {
 
     @Test
     void shouldHaveNoOpCallMethod() {
-        assertThat(commandRestApi.call()).isNull();
+        assertThat(commandRestApi.call()).isEqualTo(0);
     }
 
     @Test
