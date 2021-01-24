@@ -26,6 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Unit test Generator class
  */
+@SuppressWarnings("squid:S5786")
 class GeneratorTests {
 
     private Generator generatorUnderTest = new FakeGenerator();

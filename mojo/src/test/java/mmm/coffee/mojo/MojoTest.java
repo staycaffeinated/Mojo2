@@ -27,6 +27,7 @@ import static com.google.common.truth.Truth.assertThat;
 /**
  * Unit tests
  */
+@SuppressWarnings("squid:S1607")
 class MojoTest {
 
     MojoApplication application = new MojoApplication();
