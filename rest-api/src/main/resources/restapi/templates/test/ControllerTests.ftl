@@ -64,7 +64,7 @@ class ${endpoint.entityName}ControllerTest {
     }
 
     @Nested
-    public class FindAllTests {
+    class FindAllTests {
         /*
          * shouldFetchAll${endpoint.entityName}s
          */
@@ -79,7 +79,7 @@ class ${endpoint.entityName}ControllerTest {
     }
 
     @Nested
-    public class FindByIdTests {
+    class FindByIdTests {
         /*
          *  shouldFind${endpoint.entityName}ById
          */
@@ -117,7 +117,7 @@ class ${endpoint.entityName}ControllerTest {
     }
 
     @Nested
-    public class Create${endpoint.entityName}Tests {
+    class Create${endpoint.entityName}Tests {
         @Test
         void shouldCreateNew${endpoint.entityName}() throws Exception {
             // given
@@ -138,7 +138,7 @@ class ${endpoint.entityName}ControllerTest {
     }
 
     @Nested
-    public class Update${endpoint.entityName}Tests {
+    class Update${endpoint.entityName}Tests {
         @Test
         void shouldUpdate${endpoint.entityName}() throws Exception {
             // given
@@ -175,7 +175,7 @@ class ${endpoint.entityName}ControllerTest {
     }
 
     @Nested
-    public class Delete${endpoint.entityName}Tests {
+    class Delete${endpoint.entityName}Tests {
         @Test
         void shouldDelete${endpoint.entityName}() throws Exception {
             // given
@@ -203,9 +203,9 @@ class ${endpoint.entityName}ControllerTest {
     }
 
     @Nested
-    public class SearchByTextTests {
+    class SearchByTextTests {
         @Test
-        public void shouldReturnListWhenMatchesAreFound() throws Exception {
+        void shouldReturnListWhenMatchesAreFound() throws Exception {
             given (${endpoint.entityVarName}Service.findByText(anyString(), anyInt(), anyInt())).willReturn(${endpoint.entityVarName}List);
 
             // when/then

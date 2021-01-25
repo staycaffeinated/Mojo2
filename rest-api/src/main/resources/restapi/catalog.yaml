@@ -24,6 +24,10 @@ catalog:
       destination:  "gradle/dependencies.gradle"
       context: "project"
   - entry:
+      template: "/gradle/GradleDotProperties.ftl"
+      destination: "gradle.properties"
+      context: "project"
+  - entry:
       template: "/main/Application.ftl"
       destination: "src/main/java/{{basePackagePath}}/Application.java"
       context: "project"
@@ -106,6 +110,10 @@ catalog:
       destination: "src/main/resources/db.changelog/db.changelog-001-create-schema.yaml"
       context: "project"
       feature: "liquibase"
+  - entry:
+      template: "/test/math/SecureRandomSeriesTests.ftl"
+      destination: "src/test/java/{{basePackagePath}}/math/SecureRandomSeriesTests.java"
+      context: "project"
   - entry:
       template: "/main/endpoint/Entity.ftl"
       destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}.java"

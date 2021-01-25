@@ -34,6 +34,7 @@ import static org.mockito.Mockito.verify;
  * Unit tests of {@link ${endpoint.entityName}Service }
  */
 @ExtendWith(MockitoExtension.class)
+@SuppressWarnings({"unused"})
 class ${endpoint.entityName}ServiceTests {
 
     @InjectMocks
@@ -101,8 +102,8 @@ class ${endpoint.entityName}ServiceTests {
         void shouldReturnRowsWhenRowsWithTextExists() {
             // given
             Pageable pageable = PageRequest.of(1,20);
-            int start = pageable.getOffset();
-            int end = ((start +  pageable.getPageSize()) > ${endpoint.entityVarName}List.size() ? ${endpoint.entityVarName}List.size() : (start + pageable.getPageSize()));
+            int start = (int) pageable.getOffset();
+            int end = (Math.min((start + pageable.getPageSize()), ${endpoint.entityVarName}List.size()));
             Page<${endpoint.entityName}> page = new PageImpl<>(${endpoint.entityVarName}List, pageable, ${endpoint.entityVarName}List.size());
 
             // we're not validating what text gets passed to the repo, only that a result set comes back
@@ -138,13 +139,12 @@ class ${endpoint.entityName}ServiceTests {
             // given
             Long expectedId = 100L;
             Optional<${endpoint.entityName}> expected = Optional.of(new ${endpoint.entityName}(1L, expectedId, "sample"));
-            given(${endpoint.entityVarName}Repository.findByResourceId(any())).willReturn(expected);;
+            given(${endpoint.entityVarName}Repository.findByResourceId(any())).willReturn(expected);
 
             // when/then
             Optional<${endpoint.entityName}Resource> actual = ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(expectedId);
 
-            assertThat(actual).isNotNull();
-            assertThat(actual.isPresent());
+            assertThat(actual).isNotNull().isPresent();
             assertThat(actual.get().getResourceId()).isEqualTo(expectedId);
         }
 
@@ -158,8 +158,7 @@ class ${endpoint.entityName}ServiceTests {
             // when/then
             Optional<${endpoint.entityName}Resource> actual = ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(100L);
 
-            assertThat(actual).isNotNull();
-            assertThat(actual.isNotPresent());
+            assertThat(actual).isNotNull().isNotPresent();
         }
     }
 
