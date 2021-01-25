@@ -12,6 +12,10 @@
 #
 catalog:
   - entry:
+      template: "/common/README.ftl"
+      destination: "README.md"
+      context: "project"
+  - entry:
       template: "/gradle/BuildDotGradle.ftl"
       destination: "build.gradle"
       context: "project"
@@ -21,7 +25,7 @@ catalog:
       context: "project"
   - entry:
       template: "/gradle/DependenciesDotGradle.ftl"
-      destination:  "gradle/dependencies.gradle"
+      destination: "gradle/dependencies.gradle"
       context: "project"
   - entry:
       template: "/gradle/GradleDotProperties.ftl"
@@ -106,7 +110,7 @@ catalog:
       context: "project"
       feature: "liquibase"
   - entry:
-      template:  "/main/resources/db/liquibase/db.changelog-001-create-schema.ftl"
+      template: "/main/resources/db/liquibase/db.changelog-001-create-schema.ftl"
       destination: "src/main/resources/db.changelog/db.changelog-001-create-schema.yaml"
       context: "project"
       feature: "liquibase"
