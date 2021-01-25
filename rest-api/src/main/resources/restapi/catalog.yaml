@@ -115,6 +115,10 @@ catalog:
       destination: "src/test/java/{{basePackagePath}}/math/SecureRandomSeriesTests.java"
       context: "project"
   - entry:
+      template: "/test/validation/AlphabeticValidationTests.ftl"
+      destination: "src/test/java/{{basePackagePath}}/validation/AlphabeticValidationTests.java"
+      context: "project"
+  - entry:
       template: "/main/endpoint/Entity.ftl"
       destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}.java"
       context: "endpoint"
