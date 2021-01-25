@@ -20,16 +20,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Verify exception handling
  */
 @ExtendWith(SpringExtension.class)
-public class ${endpoint.entityName}ExceptionHandlingIT extends AbstractIntegrationTest {
+class ${endpoint.entityName}ExceptionHandlingIT extends AbstractIntegrationTest {
 
     @MockBean
     private ${endpoint.entityName}Service ${endpoint.entityVarName}Service;
 
     @Nested
-    public class ExceptionTests {
+    class ExceptionTests {
 
         @Test
-        public void shouldNotReturnStackTrace() throws Exception {
+        void shouldNotReturnStackTrace() throws Exception {
             // given
             given( ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(any(Long.class))).willThrow(new RuntimeException("Boom!"));
             given( ${endpoint.entityVarName}Service.update${endpoint.entityName}(any(${endpoint.entityName}Resource.class))).willThrow(new RuntimeException("Bad data"));

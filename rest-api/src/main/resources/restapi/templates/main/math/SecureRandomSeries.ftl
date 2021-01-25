@@ -25,6 +25,9 @@ public class SecureRandomSeries {
         }
     }
 
+    // A private constructor to prevent instantiation
+    private SecureRandomSeries() {}
+
     /**
      * Returns a secure random value with at least 160 bits of entropy.
      * The returned value is Base64 encoded to make it suitable for URLs.

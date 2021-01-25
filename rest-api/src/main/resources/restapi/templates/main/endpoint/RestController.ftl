@@ -56,7 +56,7 @@ public class ${endpoint.entityName}Controller {
      */
     @PostMapping (value="", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> create${endpoint.entityName}(@RequestBody @Validated(OnCreate.class) ${endpoint.entityName}Resource resource ) {
+    public ResponseEntity<${endpoint.entityName}Resource> create${endpoint.entityName}(@RequestBody @Validated(OnCreate.class) ${endpoint.entityName}Resource resource ) {
         ${endpoint.entityName}Resource savedResource = ${endpoint.entityVarName}Service.create${endpoint.entityName} ( resource );
         URI uri = ServletUriComponentsBuilder
                         .fromCurrentRequest()

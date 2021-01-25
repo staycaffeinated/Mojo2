@@ -17,10 +17,11 @@ import org.zalando.problem.violations.ConstraintViolationProblemModule;
  */
 @Configuration
 @Slf4j
+@SuppressWarnings({"squid:S125"})
 public class ProblemConfiguration implements WebMvcConfigurer {
 
     /*
-     * DO NOT rename this method to {@code objectMapper()}. If you do, these Jackson modules
+     * DO NOT rename this method to {@code objectMapper}. If you do, these Jackson modules
      * will not be applied when Problem's are serialized by Jackson. This
      * is a known issue, and not using the method name {@code objectMapper}
      * is one suggested work-around.

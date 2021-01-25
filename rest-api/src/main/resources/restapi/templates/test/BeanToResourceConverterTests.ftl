@@ -9,19 +9,19 @@ import java.util.List;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class ${endpoint.entityName}BeanToResourceConverterTests {
+class ${endpoint.entityName}BeanToResourceConverterTests {
 
     ${endpoint.entityName}BeanToResourceConverter converter = new ${endpoint.entityName}BeanToResourceConverter();
 
     @Test
-    public void shouldReturnNullWhenResourceIsNull() {
+    void shouldReturnNullWhenResourceIsNull() {
         assertThrows (NullPointerException.class, () ->  {
             converter.convert((${endpoint.entityName}) null);
         });
     }
 
     @Test
-    public void shouldReturnNullWhenListIsNull() {
+    void shouldReturnNullWhenListIsNull() {
         assertThrows (NullPointerException.class, () -> {
             converter.convert((List<${endpoint.entityName}>)null);
         });
@@ -36,7 +36,7 @@ public class ${endpoint.entityName}BeanToResourceConverterTests {
      * copied into a RESTful resource.
      */
     @Test
-    public void shouldCopyOnlyExposedProperties() {
+    void shouldCopyOnlyExposedProperties() {
         ${endpoint.entityName} bean = new ${endpoint.entityName}();
         bean.setResourceId(12345L);
         bean.setText("hello, world");

@@ -34,7 +34,7 @@ import static org.mockito.Mockito.verify;
  * Unit tests of {@link ${endpoint.entityName}Service }
  */
 @ExtendWith(MockitoExtension.class)
-public class ${endpoint.entityName}ServiceTests {
+class ${endpoint.entityName}ServiceTests {
 
     @InjectMocks
     private ${endpoint.entityName}Service ${endpoint.entityVarName}Service;
@@ -54,7 +54,7 @@ public class ${endpoint.entityName}ServiceTests {
     private List<${endpoint.entityName}> ${endpoint.entityVarName}List;
 
     @BeforeEach
-    public void setUpEachTime() {
+    void setUpEachTime() {
         ${endpoint.entityName} item1 = new ${endpoint.entityName}(1L, 100L, "text 1");
         ${endpoint.entityName} item2 = new ${endpoint.entityName}(2L, 200L, "text 2");
         ${endpoint.entityName} item3 = new ${endpoint.entityName}(3L, 300L, "text 3");
@@ -69,10 +69,10 @@ public class ${endpoint.entityName}ServiceTests {
      * Unit tests of the findAll method
      */
     @Nested
-    public class FindAllTests {
+    class FindAllTests {
 
         @Test
-        public void shouldReturnAllRowsWhenRepositoryIsNotEmpty() {
+        void shouldReturnAllRowsWhenRepositoryIsNotEmpty() {
             given(${endpoint.entityVarName}Repository.findAll() ).willReturn( ${endpoint.entityVarName}List );
 
             List<${endpoint.entityName}Resource> result = ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s();
@@ -82,7 +82,7 @@ public class ${endpoint.entityName}ServiceTests {
         }
 
         @Test
-        public void shouldReturnEmptyListWhenRepositoryIsEmpty() {
+        void shouldReturnEmptyListWhenRepositoryIsEmpty() {
             given( ${endpoint.entityVarName}Repository.findAll() ).willReturn( new ArrayList<>() );
 
             List<${endpoint.entityName}Resource> result = ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s();
@@ -93,16 +93,16 @@ public class ${endpoint.entityName}ServiceTests {
     }
 
     @Nested
-    public class FindByTextTests {
+    class FindByTextTests {
         /*
          * Happy path - some rows match the given text
          */
         @Test
-        public void shouldReturnRowsWhenRowsWithTextExists() {
+        void shouldReturnRowsWhenRowsWithTextExists() {
             // given
             Pageable pageable = PageRequest.of(1,20);
-            int start = (int) pageable.getOffset();
-            int end = (int)((start +  pageable.getPageSize()) > ${endpoint.entityVarName}List.size() ? ${endpoint.entityVarName}List.size() : (start + pageable.getPageSize()));
+            int start = pageable.getOffset();
+            int end = ((start +  pageable.getPageSize()) > ${endpoint.entityVarName}List.size() ? ${endpoint.entityVarName}List.size() : (start + pageable.getPageSize()));
             Page<${endpoint.entityName}> page = new PageImpl<>(${endpoint.entityVarName}List, pageable, ${endpoint.entityVarName}List.size());
 
             // we're not validating what text gets passed to the repo, only that a result set comes back
@@ -118,7 +118,7 @@ public class ${endpoint.entityName}ServiceTests {
         }
 
         @Test
-        public void shouldReturnEmptyListWhenNoDataFound() {
+        void shouldReturnEmptyListWhenNoDataFound() {
             given( ${endpoint.entityVarName}Repository.findByText(any(), any(Pageable.class))).willReturn( Page.empty() );
 
             List<${endpoint.entityName}Resource> result = ${endpoint.entityVarName}Service.findByText("foo", 1, 100);
@@ -129,12 +129,12 @@ public class ${endpoint.entityName}ServiceTests {
     }
 
     @Nested
-    public class Find${endpoint.entityName}ByResourceIdTests {
+    class Find${endpoint.entityName}ByResourceIdTests {
         /*
          * Happy path - finds the entity in the database
          */
         @Test
-        public void shouldReturnOneWhenRepositoryContainsMatch() {
+        void shouldReturnOneWhenRepositoryContainsMatch() {
             // given
             Long expectedId = 100L;
             Optional<${endpoint.entityName}> expected = Optional.of(new ${endpoint.entityName}(1L, expectedId, "sample"));
@@ -144,7 +144,7 @@ public class ${endpoint.entityName}ServiceTests {
             Optional<${endpoint.entityName}Resource> actual = ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(expectedId);
 
             assertThat(actual).isNotNull();
-            assertThat(actual.isPresent()).isTrue();
+            assertThat(actual.isPresent());
             assertThat(actual.get().getResourceId()).isEqualTo(expectedId);
         }
 
@@ -152,25 +152,25 @@ public class ${endpoint.entityName}ServiceTests {
          * Test path when no such entity exists in the database
          */
         @Test
-        public void shouldReturnEmptyWhenRepositoryDoesNotContainMatch() {
+        void shouldReturnEmptyWhenRepositoryDoesNotContainMatch() {
             given(${endpoint.entityVarName}Repository.findByResourceId(any())).willReturn(Optional.empty());
 
             // when/then
             Optional<${endpoint.entityName}Resource> actual = ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(100L);
 
             assertThat(actual).isNotNull();
-            assertThat(actual.isPresent()).isFalse();
+            assertThat(actual.isNotPresent());
         }
     }
 
     @Nested
-    public class Create${endpoint.entityName}Tests {
+    class Create${endpoint.entityName}Tests {
 
         /*
          * happy path should create a new entity
          */
         @Test
-        public void shouldCreateOneWhen${endpoint.entityName}ResourceIsWellFormed() {
+        void shouldCreateOneWhen${endpoint.entityName}ResourceIsWellFormed() {
             // given
             final String sampleText = "sample text";
             final ${endpoint.entityName} expectedEJB = new ${endpoint.entityName}(1L, 100L, sampleText);
@@ -186,19 +186,19 @@ public class ${endpoint.entityName}ServiceTests {
         }
 
         @Test
-        public void shouldThrowNullPointerExceptionWhen${endpoint.entityName}IsNull() {
+        void shouldThrowNullPointerExceptionWhen${endpoint.entityName}IsNull() {
             Exception exception = assertThrows (NullPointerException.class,
                     () ->  ${endpoint.entityVarName}Service.create${endpoint.entityName}(null));
         }
     }
 
     @Nested
-    public class Update${endpoint.entityName}Tests {
+    class Update${endpoint.entityName}Tests {
         /*
          * Happy path - updates an existing entity
          */
         @Test
-        public void shouldUpdateWhenEntityIsFound() {
+        void shouldUpdateWhenEntityIsFound() {
             // given
             Long resourceId = 100L;
             ${endpoint.entityName}Resource changedVersion = ${endpoint.entityName}Resource.builder().resourceId(resourceId).text("new text").build();
@@ -221,7 +221,7 @@ public class ${endpoint.entityName}ServiceTests {
          * When no database record is found, the update should return an empty result
          */
         @Test
-        public void shouldReturnEmptyOptionWhenEntityIsNotFound() {
+        void shouldReturnEmptyOptionWhenEntityIsNotFound() {
             // given no such entity exists in the database...
             given(${endpoint.entityVarName}Repository.findByResourceId(any())).willReturn(Optional.empty());
 
@@ -233,12 +233,12 @@ public class ${endpoint.entityName}ServiceTests {
     }
 
     @Nested
-    public class Delete${endpoint.entityName}Tests {
+    class Delete${endpoint.entityName}Tests {
         /*
          * Happy path - deletes an entity
          */
         @Test
-        public void shouldDeleteWhenEntityExists()  {
+        void shouldDeleteWhenEntityExists()  {
             // given one matching one is found
             given(${endpoint.entityVarName}Repository.deleteByResourceId(any())).willReturn(1L);
 
@@ -252,7 +252,7 @@ public class ${endpoint.entityName}ServiceTests {
          * When deleting a non-existing EJB, silently return
          */
         @Test
-        public void shouldSilentlyReturnWhenEntityDoesNotExist() {
+        void shouldSilentlyReturnWhenEntityDoesNotExist() {
             // given no matching record is found
             given(${endpoint.entityVarName}Repository.deleteByResourceId(any())).willReturn(0L);
 
