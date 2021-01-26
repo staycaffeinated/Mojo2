@@ -186,18 +186,32 @@ class CodeTemplateIT {
         }
     }
 
+    /**
+     * These tests verify behavior when the ```--support postgres```
+     * option is given on the command line.
+     */
     @Nested
-    class TestApplicationPropertiesTemplate {
+    class TestApplicationPropertiesTemplateWithPostgresOption {
         /**
-         * If PostreSQL support was selected per the CLI's --suppport option,
-         * the application.properties file should contain the JDBC settings for postgres
+         * Verify the use case of the user entering something like:
+         *
+         * rest-api create-project --schema=passengers \
+         *                         --name=taxi-service \
+         *                         --package=org.example \
+         *                         --support postgres
+         *
+         * Expected behavior: the postgresql driver is added
+         * to application.properties, and the jdbc.url will honor the schema
          */
         @Test
-        void shouldIncludePostgresPropertiesWhenPostgresSupportIsEnabled() {
+        void shouldHonorSchemaOptionWhenSpecified() {
             Optional<CatalogEntry> optional = getApplicationDotPropertiesTemplate();
             assertThat(optional).isNotNull();
             assertThat(optional.isPresent()).isTrue();
 
+            final String schema = "passengers";
+            projectProperties.put(ProjectKeys.SCHEMA, schema);
+            projectProperties.put(ProjectKeys.APPLICATION_NAME, "taxi-service");
             projectProperties.put(SupportedFeatures.POSTGRES.toString(), SupportedFeatures.POSTGRES.toString() );
 
             TemplateHandler handler = TemplateHandler.builder()
@@ -209,22 +223,21 @@ class CodeTemplateIT {
             String content = handler.render();
             assertThat(content).isNotNull();
             assertThat(content).contains("spring.datasource.driver-class-name=org.postgresql.Driver");
-            assertThat(content).contains("spring.datasource.url=jdbc:postgresql://localhost:5432/");
+            assertThat(content).contains("spring.datasource.url=jdbc:postgresql://localhost:5432/"+schema);
         }
 
         /**
-         * When conjuring the database URL, 3 rules are followed:
-         * - if the CLI --schema option was used, that's the schema applied
-         * - if no --schema was specified, but an application name was, use the application name
-         * - if neither of those was set, use 'appdb' as the schema name
+         * Verify the use case of the user entering something like:
          *
-         * For this test case, we're covering the use case of the user typing
-         * something like:
+         * rest-api create-project --name=taxi-service \
+         *                         --package=org.example \
+         *                         --support postgres
          *
-         *  rest-api create-project --schema=taxi-db --name=taxi-service --package=com.example.taxi
+         * Expected behavior:  the postgresql driver is added
+         * to application.properties, and the jdbc.url sets schema to match application name.
          */
         @Test
-        void shouldUseSchemaNameInJdbcUrlWhenSchemaIsDefined() {
+        void shouldUseAppNameAsSchemaNameIfSchemaIsUndefined() {
             Optional<CatalogEntry> optional = getApplicationDotPropertiesTemplate();
             assertThat(optional).isNotNull();
             assertThat(optional.isPresent()).isTrue();
@@ -246,47 +259,21 @@ class CodeTemplateIT {
         }
 
         /**
-         * This test handles the use case of the user typing something like:
+         * Verify the use case of the user entering something like:
          *
-         *  rest-api create-project -n=taxi-service -p=com.itaxi
+         * rest-api create-project --package=org.example --support postgres
          *
-         *  In particular, no '--schema' option was set
+         * Expected behavior: the postgresql driver is added to
+         * application.properties, and the jdbc.url applies the default schema
          */
         @Test
-        void shouldUseApplicationNameInJdbcUrlWhenNoSchemaIsDefinedButApplicationNameIsDefined() {
+        void shouldUseDefaultSchemaWhenOtherChoicesAreUndefined() {
             Optional<CatalogEntry> optional = getApplicationDotPropertiesTemplate();
             assertThat(optional).isNotNull();
             assertThat(optional.isPresent()).isTrue();
 
-            projectProperties.remove(ProjectKeys.SCHEMA);
-            projectProperties.put(ProjectKeys.APPLICATION_NAME, "taxi-service");
-            projectProperties.put(SupportedFeatures.POSTGRES.toString(), SupportedFeatures.POSTGRES.toString() );
-
-            TemplateHandler handler = TemplateHandler.builder()
-                    .catalogEntry(optional.get())
-                    .properties(projectProperties)
-                    .configuration(freemarkerConfiguration)
-                    .build();
-
-            String content = handler.render();
-            assertThat(content).isNotNull();
-            assertThat(content).contains("spring.datasource.driver-class-name=org.postgresql.Driver");
-            assertThat(content).contains("spring.datasource.url=jdbc:postgresql://localhost:5432/taxi-service");
-        }
-
-        /**
-         * This test handles the use case of the user typing something like:
-         *
-         *  rest-api create-project -p=org.example.taxi
-         */
-        @Test
-        void shouldUseDefaultApplicationNameInJdbcUrlWhenNothingElseToGoOn() {
-            Optional<CatalogEntry> optional = getApplicationDotPropertiesTemplate();
-            assertThat(optional).isNotNull();
-            assertThat(optional.isPresent()).isTrue();
-
-            projectProperties.remove(ProjectKeys.SCHEMA);
             projectProperties.remove(ProjectKeys.APPLICATION_NAME);
+            projectProperties.remove(ProjectKeys.SCHEMA);
             projectProperties.put(SupportedFeatures.POSTGRES.toString(), SupportedFeatures.POSTGRES.toString() );
 
             TemplateHandler handler = TemplateHandler.builder()
@@ -300,17 +287,33 @@ class CodeTemplateIT {
             assertThat(content).contains("spring.datasource.driver-class-name=org.postgresql.Driver");
             assertThat(content).contains("spring.datasource.url=jdbc:postgresql://localhost:5432/testdb");
         }
+        
+    }
+
+    /**
+     * These tests verify behavior when no specific database was picked
+     * (the generator defaults to using the H2 database).
+     */
+    @Nested
+    class TestApplicationPropertiesTemplateWithoutPostgresOption {
 
         /**
-         * If no database is specified per the CLI's --support option, then
-         * application.properties should contain jdbc settings for the H2 database
+         * Verify the use case of the user typing something like
+         *
+         *  rest-api create-project --schema=passengers --package=org.example --name=taxi-service
+         *
+         *  Expected behavior: when the schema name is given,
+         *  the code generator uses that schema name in the JDBC URL.
          */
-        @Test
-        void shouldIncludeH2PropertiesWhenNoDatabaseIsSelected()  {
+        @Test void shouldHonorSchemaOptionWhenSpecified() {
             Optional<CatalogEntry> optional = getApplicationDotPropertiesTemplate();
             assertThat(optional).isNotNull();
             assertThat(optional.isPresent()).isTrue();
-            
+
+            projectProperties.put(ProjectKeys.SCHEMA, "passengers");
+            projectProperties.put(ProjectKeys.APPLICATION_NAME, "taxi-serivce");
+            projectProperties.remove("features");
+
             TemplateHandler handler = TemplateHandler.builder()
                     .catalogEntry(optional.get())
                     .properties(projectProperties)
@@ -320,7 +323,67 @@ class CodeTemplateIT {
             String content = handler.render();
             assertThat(content).isNotNull();
             assertThat(content).contains("spring.datasource.driver-class-name=org.h2.Driver");
-            assertThat(content).contains("spring.datasource.url=jdbc:h2:~/widgets");
+            assertThat(content).contains("spring.datasource.url=jdbc:h2:~/passengers");
+        }
+
+        /**
+         * Verify the use case when user enters something like:
+         *
+         *  rest-api create-project --name=taxi-service --package=org.example
+         *
+         *  Expected behavior: when no schema name is given,
+         *  use the application name as the database schema name.
+         */
+        @Test void shouldUseApplicationNameWhenSchemaIsUndefined() {
+            Optional<CatalogEntry> optional = getApplicationDotPropertiesTemplate();
+            assertThat(optional).isNotNull();
+            assertThat(optional.isPresent()).isTrue();
+
+            final String appName = "taxi-service";
+
+            projectProperties.remove(ProjectKeys.SCHEMA);   // schema is undefined
+            projectProperties.put(ProjectKeys.APPLICATION_NAME, appName);    // app Name is given
+            projectProperties.remove("features");   // no specific database picked
+
+            TemplateHandler handler = TemplateHandler.builder()
+                    .catalogEntry(optional.get())
+                    .properties(projectProperties)
+                    .configuration(freemarkerConfiguration)
+                    .build();
+
+            String content = handler.render();
+            assertThat(content).isNotNull();
+            assertThat(content).contains("spring.datasource.driver-class-name=org.h2.Driver");
+            assertThat(content).contains("spring.datasource.url=jdbc:h2:~/"+appName);
+        }
+
+        /**
+         * Verify the use case when the user enters something like:
+         *
+         *  rest-api create-project --package org.example
+         *
+         *  Expected behavior: when no schema name nor application name is given,
+         *  the code generator uses a default schema name
+         */
+        @Test void shouldUseDefaultNameWhenNothingElseToPick() {
+            Optional<CatalogEntry> optional = getApplicationDotPropertiesTemplate();
+            assertThat(optional).isNotNull();
+            assertThat(optional.isPresent()).isTrue();
+
+            projectProperties.remove(ProjectKeys.SCHEMA);   // schema is undefined
+            projectProperties.remove(ProjectKeys.APPLICATION_NAME);    // appName is undefined
+            projectProperties.remove("features");   // no specific database picked
+
+            TemplateHandler handler = TemplateHandler.builder()
+                    .catalogEntry(optional.get())
+                    .properties(projectProperties)
+                    .configuration(freemarkerConfiguration)
+                    .build();
+
+            String content = handler.render();
+            assertThat(content).isNotNull();
+            assertThat(content).contains("spring.datasource.driver-class-name=org.h2.Driver");
+            assertThat(content).contains("spring.datasource.url=jdbc:h2:~/testdb");
         }
     }
 
@@ -333,6 +396,9 @@ class CodeTemplateIT {
         return entries.stream().findFirst();
     }
 
+    /**
+     * Fetches the template for application.properties
+     */
     private Optional<CatalogEntry> getApplicationDotPropertiesTemplate() {
         List<CatalogEntry> entries = catalog.filterByNameLike("ApplicationDotProperties");
         return entries.stream().findFirst();

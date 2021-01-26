@@ -31,7 +31,7 @@ spring.datasource.url=jdbc:postgresql://localhost:5432/testdb
     <#if (project.schema)??>
 spring.datasource.url=jdbc:h2:~/${project.schema}
     <#elseif (project.applicationName)??>
-spring.datasource.url=jdbc:h2://~/${project.applicationName}
+spring.datasource.url=jdbc:h2:~/${project.applicationName}
     <#else>
 spring.datasource.url=jdbc:h2:~/testdb
     </#if>
