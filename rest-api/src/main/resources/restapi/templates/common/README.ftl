@@ -28,3 +28,13 @@ with that password.  When that's done, code metrics from this project can be exp
 To build, test, report test coverage, and export the test coverage to Sonarqube, run
 
 ```./gradlew clean build jacocoTestReport sonarqube```
+
+### To Check for Latest Library Versions
+
+The build includes the _gradle-versions_ plugin, which will report on any outdated libraries.
+To run this report, run this gradle task:
+
+```./gradlew dependencyUpdates```
+
+which prints its report to the console.  See the [plugin documentation](https://github.com/ben-manes/gradle-versions-plugin)
+for a deep dive.

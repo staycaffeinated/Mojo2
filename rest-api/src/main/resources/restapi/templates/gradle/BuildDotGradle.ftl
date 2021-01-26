@@ -5,7 +5,8 @@ plugins {
     id 'java'
     id 'idea'
     id 'jacoco'
-    id 'org.sonarqube' version '3.0'
+    id 'org.sonarqube' version '3.1.1'
+    id 'com.github.ben-manes.versions' version '0.36.0'
 }
 
 apply from: "gradle/dependencies.gradle"
