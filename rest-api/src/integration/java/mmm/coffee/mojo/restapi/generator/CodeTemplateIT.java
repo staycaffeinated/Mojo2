@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -59,7 +60,7 @@ class CodeTemplateIT {
     private Map<String,Object> projectProperties = new HashMap<>();
     private Map<String,Object> endpointProperties = new HashMap<>();
 
-    private Configuration configuration= ConfigurationFactory.defaultConfiguration();
+    private Configuration freemarkerConfiguration = ConfigurationFactory.defaultConfiguration();
 
     @BeforeEach
     public void setUpEachTime() {
@@ -98,7 +99,7 @@ class CodeTemplateIT {
                 TemplateHandler template = TemplateHandler.builder()
                         .catalogEntry(entry)
                         .properties(projectProperties)
-                        .configuration(configuration)
+                        .configuration(freemarkerConfiguration)
                         .build();
 
                 String content = template.render();
@@ -126,7 +127,7 @@ class CodeTemplateIT {
             TemplateHandler template = TemplateHandler.builder()
                     .catalogEntry(optional.get())
                     .properties(projectProperties)
-                    .configuration(configuration)
+                    .configuration(freemarkerConfiguration)
                     .build();
 
             String content = template.render();
@@ -152,7 +153,7 @@ class CodeTemplateIT {
             TemplateHandler template = TemplateHandler.builder()
                     .catalogEntry(optional.get())
                     .properties(projectProperties)
-                    .configuration(configuration)
+                    .configuration(freemarkerConfiguration)
                     .build();
 
             String content = template.render();
@@ -176,7 +177,7 @@ class CodeTemplateIT {
                 TemplateHandler template = TemplateHandler.builder()
                         .catalogEntry(entry)
                         .properties(endpointProperties)
-                        .configuration(configuration)
+                        .configuration(freemarkerConfiguration)
                         .build();
 
                 String content = template.render();
@@ -185,11 +186,155 @@ class CodeTemplateIT {
         }
     }
 
+    @Nested
+    class TestApplicationPropertiesTemplate {
+        /**
+         * If PostreSQL support was selected per the CLI's --suppport option,
+         * the application.properties file should contain the JDBC settings for postgres
+         */
+        @Test
+        void shouldIncludePostgresPropertiesWhenPostgresSupportIsEnabled() {
+            Optional<CatalogEntry> optional = getApplicationDotPropertiesTemplate();
+            assertThat(optional).isNotNull();
+            assertThat(optional.isPresent()).isTrue();
+
+            projectProperties.put(SupportedFeatures.POSTGRES.toString(), SupportedFeatures.POSTGRES.toString() );
+
+            TemplateHandler handler = TemplateHandler.builder()
+                    .catalogEntry(optional.get())
+                    .properties(projectProperties)
+                    .configuration(freemarkerConfiguration)
+                    .build();
+
+            String content = handler.render();
+            assertThat(content).isNotNull();
+            assertThat(content).contains("spring.datasource.driver-class-name=org.postgresql.Driver");
+            assertThat(content).contains("spring.datasource.url=jdbc:postgresql://localhost:5432/");
+        }
+
+        /**
+         * When conjuring the database URL, 3 rules are followed:
+         * - if the CLI --schema option was used, that's the schema applied
+         * - if no --schema was specified, but an application name was, use the application name
+         * - if neither of those was set, use 'appdb' as the schema name
+         *
+         * For this test case, we're covering the use case of the user typing
+         * something like:
+         *
+         *  rest-api create-project --schema=taxi-db --name=taxi-service --package=com.example.taxi
+         */
+        @Test
+        void shouldUseSchemaNameInJdbcUrlWhenSchemaIsDefined() {
+            Optional<CatalogEntry> optional = getApplicationDotPropertiesTemplate();
+            assertThat(optional).isNotNull();
+            assertThat(optional.isPresent()).isTrue();
+
+            projectProperties.put(ProjectKeys.SCHEMA, "taxi-db");
+            projectProperties.put(ProjectKeys.APPLICATION_NAME, "taxi-service");
+            projectProperties.put(SupportedFeatures.POSTGRES.toString(), SupportedFeatures.POSTGRES.toString() );
+
+            TemplateHandler handler = TemplateHandler.builder()
+                    .catalogEntry(optional.get())
+                    .properties(projectProperties)
+                    .configuration(freemarkerConfiguration)
+                    .build();
+
+            String content = handler.render();
+            assertThat(content).isNotNull();
+            assertThat(content).contains("spring.datasource.driver-class-name=org.postgresql.Driver");
+            assertThat(content).contains("spring.datasource.url=jdbc:postgresql://localhost:5432/taxi-db");
+        }
+
+        /**
+         * This test handles the use case of the user typing something like:
+         *
+         *  rest-api create-project -n=taxi-service -p=com.itaxi
+         *
+         *  In particular, no '--schema' option was set
+         */
+        @Test
+        void shouldUseApplicationNameInJdbcUrlWhenNoSchemaIsDefinedButApplicationNameIsDefined() {
+            Optional<CatalogEntry> optional = getApplicationDotPropertiesTemplate();
+            assertThat(optional).isNotNull();
+            assertThat(optional.isPresent()).isTrue();
+
+            projectProperties.remove(ProjectKeys.SCHEMA);
+            projectProperties.put(ProjectKeys.APPLICATION_NAME, "taxi-service");
+            projectProperties.put(SupportedFeatures.POSTGRES.toString(), SupportedFeatures.POSTGRES.toString() );
+
+            TemplateHandler handler = TemplateHandler.builder()
+                    .catalogEntry(optional.get())
+                    .properties(projectProperties)
+                    .configuration(freemarkerConfiguration)
+                    .build();
+
+            String content = handler.render();
+            assertThat(content).isNotNull();
+            assertThat(content).contains("spring.datasource.driver-class-name=org.postgresql.Driver");
+            assertThat(content).contains("spring.datasource.url=jdbc:postgresql://localhost:5432/taxi-service");
+        }
+
+        /**
+         * This test handles the use case of the user typing something like:
+         *
+         *  rest-api create-project -p=org.example.taxi
+         */
+        @Test
+        void shouldUseDefaultApplicationNameInJdbcUrlWhenNothingElseToGoOn() {
+            Optional<CatalogEntry> optional = getApplicationDotPropertiesTemplate();
+            assertThat(optional).isNotNull();
+            assertThat(optional.isPresent()).isTrue();
+
+            projectProperties.remove(ProjectKeys.SCHEMA);
+            projectProperties.remove(ProjectKeys.APPLICATION_NAME);
+            projectProperties.put(SupportedFeatures.POSTGRES.toString(), SupportedFeatures.POSTGRES.toString() );
+
+            TemplateHandler handler = TemplateHandler.builder()
+                    .catalogEntry(optional.get())
+                    .properties(projectProperties)
+                    .configuration(freemarkerConfiguration)
+                    .build();
+
+            String content = handler.render();
+            assertThat(content).isNotNull();
+            assertThat(content).contains("spring.datasource.driver-class-name=org.postgresql.Driver");
+            assertThat(content).contains("spring.datasource.url=jdbc:postgresql://localhost:5432/testdb");
+        }
+
+        /**
+         * If no database is specified per the CLI's --support option, then
+         * application.properties should contain jdbc settings for the H2 database
+         */
+        @Test
+        void shouldIncludeH2PropertiesWhenNoDatabaseIsSelected()  {
+            Optional<CatalogEntry> optional = getApplicationDotPropertiesTemplate();
+            assertThat(optional).isNotNull();
+            assertThat(optional.isPresent()).isTrue();
+            
+            TemplateHandler handler = TemplateHandler.builder()
+                    .catalogEntry(optional.get())
+                    .properties(projectProperties)
+                    .configuration(freemarkerConfiguration)
+                    .build();
+
+            String content = handler.render();
+            assertThat(content).isNotNull();
+            assertThat(content).contains("spring.datasource.driver-class-name=org.h2.Driver");
+            assertThat(content).contains("spring.datasource.url=jdbc:h2:~/widgets");
+        }
+    }
+
+
     /**
      * Fetches the template that produces the build.gradle file
      */
     private Optional<CatalogEntry> getBuildDotGradleTemplate() {
         List<CatalogEntry> entries = catalog.filterByNameLike("BuildDotGradle");
+        return entries.stream().findFirst();
+    }
+
+    private Optional<CatalogEntry> getApplicationDotPropertiesTemplate() {
+        List<CatalogEntry> entries = catalog.filterByNameLike("ApplicationDotProperties");
         return entries.stream().findFirst();
     }
 }
