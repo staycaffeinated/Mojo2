@@ -83,3 +83,24 @@ these steps:
    application and do the appropriate testing of
 the new ```reactive-api``` sub-command to ensure
    the generated code works as you expect. 
+   
+
+### To Maintain the Application
+
+#### Keeping library versions up-to-date
+
+The ```build.gradle``` imports the gradle-versions-plugin (See https://github.com/ben-manes/gradle-versions-plugin)
+which adds tasks for library version management. 
+
+##### Task: dependencyUpdates
+
+This displays a report of the project dependencies that are up-to-date, exceed the latest
+version found, have upgrades, or failed to resolve. 
+
+To refresh the cache, use the flag ```--refresh-dependencies```.
+
+Examples:
+
+```./gradlew dependencyUpdates -Drevision=release -DoutputFormatter=json -DreportfileName=version-report```
+
+The report is written to the ```[projectRoot]/build/dependencyUpdates``` directory. 
