@@ -47,10 +47,10 @@ public class ProjectGenerator implements Generator {
 
     /**
      * Configure phase of the life cycle
-     * @param commandLineProperties values captured from the command-line, passed to us via a Map
+     * @param commandLineOptions values captured from the command-line, passed to us via a Map
      */
     @Override
-    public void configure(@NonNull Map<String, Object> commandLineProperties) {
+    public void configure(@NonNull Map<String, Object> commandLineOptions) {
         // Populate the lexicalScope with all properties expected by
         // the templates (a runtime error occurs if a template cannot resolve a property).
         lexicalScope.put(ProjectKeys.SPRING_BOOT_VERSION, "2.3.4.RELEASE");
@@ -58,19 +58,19 @@ public class ProjectGenerator implements Generator {
         lexicalScope.put(ProjectKeys.SPRING_CLOUD_VERSION, "2.2.5.RELEASE");
         lexicalScope.put(ProjectKeys.PROBLEM_SPRING_VERSION, "0.26.2");
         lexicalScope.put(ProjectKeys.JAVA_VERSION, "11");
-        if (commandLineProperties.get(ProjectKeys.SCHEMA) == null) {
-            lexicalScope.put(ProjectKeys.SCHEMA, "my_schema");
-        }
 
         // The caller provides the basePackage, applicationName, and groupId.
         // The caller is usually the SubcommandCreateProject.
-        lexicalScope.putAll(commandLineProperties);
+        lexicalScope.putAll(commandLineOptions);
 
-        String basePackagePath = MojoUtils.convertPackageNameToPath((String)commandLineProperties.get(ProjectKeys.BASE_PACKAGE));
+        String basePackagePath = MojoUtils.convertPackageNameToPath((String)commandLineOptions.get(ProjectKeys.BASE_PACKAGE));
         lexicalScope.put(ProjectKeys.BASE_PACKAGE_PATH, basePackagePath);
 
-        copyFeatures((SupportedFeatures[]) commandLineProperties.get("features"));
+        copyFeatures((SupportedFeatures[]) commandLineOptions.get("features"));
     }
+
+    // Visible for testing
+    Map<String,Object> getConfiguration() { return lexicalScope; }
 
     @Override
     public void outputStrategy(@NonNull TemplateWriter sourceSink) {
@@ -86,7 +86,9 @@ public class ProjectGenerator implements Generator {
         // For each feature (i.e., added dependency), generate the assets specific to that feature
         features.forEach( f -> catalogEntries.stream().filter(e -> e.hasFeature(f)).forEach(this::renderTemplate));
 
-        MojoUtils.saveContext(lexicalScope);
+        // Don't save this file for dry runs
+        if ( !((Boolean)lexicalScope.getOrDefault("dryRun", Boolean.FALSE)).booleanValue() )
+            MojoUtils.saveContext(lexicalScope);
     }
 
     private void renderTemplate(CatalogEntry entry) {

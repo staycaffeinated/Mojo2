@@ -17,6 +17,8 @@ package mmm.coffee.mojo.restapi.generator;
 
 import mmm.coffee.mojo.api.NoOpTemplateWriter;
 import mmm.coffee.mojo.api.TemplateWriter;
+import mmm.coffee.mojo.restapi.cli.SubcommandCreateProject;
+import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.SystemErrRule;
 import org.junit.contrib.java.lang.system.SystemOutRule;
@@ -58,4 +60,26 @@ class ProjectGeneratorTests {
         // without scanning the file system for generated assets
         projectGenerator.run(projectSpec, writer);
         assertThat(writer).isNotNull(); }
+
+    /****
+     * Verify the use case of the user not using the '--support' flag, which
+     * adds supported dependencies to the generated code.
+     *
+     * Expected behavior: the configuration map does not contain the 'features' key.
+     */
+    @Test
+    void shouldContainNoFeaturesWhenNoneSelected()  {
+        Map<String,Object> given = new HashMap<>();
+        given.put(ProjectKeys.SCHEMA, "schema");
+        given.put(ProjectKeys.APPLICATION_NAME, "taxi-service");
+        given.put(ProjectKeys.BASE_PACKAGE, "org.example");
+
+        projectGenerator.configure(given);
+        Map<String,Object> actual = projectGenerator.getConfiguration();
+
+        for (SupportedFeatures it : SupportedFeatures.values())
+            assertThat(actual).doesNotContainKey(it.toString());
+        assertThat(actual).containsEntry(ProjectKeys.SCHEMA, "schema");
+        assertThat(actual).containsEntry(ProjectKeys.APPLICATION_NAME, "taxi-service");
+    }
 }

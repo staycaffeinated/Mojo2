@@ -46,19 +46,19 @@ public class RestApiIntegrationTests {
     @Test
     @DisplayName("Generate a project without extra features")
     void shouldCreateProjectWithPostgresql() {
-        int rc = cli.execute(toArgV("rest-api create-project --dry-run -p=oops.delete_me.ima_mistake --support postgres"));
+        int rc = cli.execute(toArgV("rest-api create-project --dry-run -p=oops.delete_me.ima_mistake"));
         assertThat(rc).isEqualTo(0);
     }
 
     @Test
-    @DisplayName("Generate a project with postgres, liquibase, and testcontainer support")
+    @DisplayName("Generate a project with postgres, liquibase, and test container support")
     void shouldCreateProjectWithPostgresqlLiquibaseTestContainers() {
         int rc = cli.execute(toArgV("rest-api create-project --dry-run -p=oops.delete_me.ima_mistake --support postgres liquibase testcontainers"));
         assertThat(rc).isEqualTo(0);
     }
 
     @Test
-    @DisplayName("Generate a project with postgres, liquibase, and testcontainer support")
+    @DisplayName("Generate a project with postgres, liquibase, and test container support")
     void shouldCreateEndpoint() {
         int rc = cli.execute(toArgV("rest-api create-endpoint --dry-run -resource=DeleteMe -route=/delete-me"));
         assertThat(rc).isEqualTo(0);
