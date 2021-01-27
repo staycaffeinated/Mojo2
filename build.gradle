@@ -134,7 +134,7 @@ jacocoTestReport {
 // --------------------------------------------------------------
 sonarqube {
     properties {
-        property "sonar.coverage.exclusions", "**/*Exception.java,**/*Test.java,**/*IT.java"
+        property "sonar.coverage.exclusions", "**/*Exception.java,**/*Test.java,**/*IT.java,**/MojoApplication.java"
 
         // The following file is created when the codeCoverageReport task is run
         property "sonar.coverage.jacoco.xmlReportPaths", "${project.rootDir}/build/reports/jacoco/codeCoverageReport/codeCoverageReport.xml"

@@ -104,3 +104,20 @@ Examples:
 ```./gradlew dependencyUpdates -Drevision=release -DoutputFormatter=json -DreportfileName=version-report```
 
 The report is written to the ```[projectRoot]/build/dependencyUpdates``` directory. 
+
+### Code Coverage and SonarQube
+
+A ```codeCoverageReport``` task is available in the build.gradle. To get code coverage, run the command:
+
+```./gradlew test integrationTest codeCoverageReport sonarqube```
+
+#### Setting up SonarQube
+
+Step 1:  Run this command:
+
+```docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:latest```
+
+Step 2: Login to the SonarQube console at localhost:9000. You'll be prompted to change
+the default password (admin/admin). Pick something and update this repo's gradle.properties
+file with the new password. See [Getting Started](#### Setting up SonarQube) to get up to
+speed with SonarQube.

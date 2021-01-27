@@ -323,7 +323,7 @@ class CodeTemplateIT {
             String content = handler.render();
             assertThat(content).isNotNull();
             assertThat(content).contains("spring.datasource.driver-class-name=org.h2.Driver");
-            assertThat(content).contains("spring.datasource.url=jdbc:h2:~/passengers");
+            assertThat(content).contains("spring.datasource.url=jdbc:h2:mem:passengers");
         }
 
         /**
@@ -354,7 +354,7 @@ class CodeTemplateIT {
             String content = handler.render();
             assertThat(content).isNotNull();
             assertThat(content).contains("spring.datasource.driver-class-name=org.h2.Driver");
-            assertThat(content).contains("spring.datasource.url=jdbc:h2:~/"+appName);
+            assertThat(content).contains("spring.datasource.url=jdbc:h2:mem:"+appName);
         }
 
         /**
@@ -383,7 +383,7 @@ class CodeTemplateIT {
             String content = handler.render();
             assertThat(content).isNotNull();
             assertThat(content).contains("spring.datasource.driver-class-name=org.h2.Driver");
-            assertThat(content).contains("spring.datasource.url=jdbc:h2:~/testdb");
+            assertThat(content).contains("spring.datasource.url=jdbc:h2:mem:testdb");
         }
     }
 
