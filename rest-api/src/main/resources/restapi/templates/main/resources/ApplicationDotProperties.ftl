@@ -13,7 +13,7 @@ server.servlet.context-path=/
 
 
 # Obfuscate the /actuator endpoint
-# management.endpoints.web.base-path=/_internal
+management.endpoints.web.base-path=/_internal
 
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.id.new_generator_mappings=false
