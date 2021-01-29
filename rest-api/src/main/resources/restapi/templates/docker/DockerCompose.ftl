@@ -8,7 +8,7 @@ services:
             - "8080:8080"
         healthcheck:
 <#if (project.basePath)??>
-            test: ["CMD", "curl", "localhost:8080/${project.basePath}/_internal/health" ]
+            test: ["CMD", "curl", "localhost:8080${project.basePath}/_internal/health" ]
 <#else>
             test: ["CMD", "curl", "localhost:8080/_internal/health" ]
 </#if>
@@ -17,7 +17,7 @@ services:
             retries: 3
 <#if (project.postgres)??>
         depends_on:
-            - dbms:
+            - dbms
         environment:
             - SPRING_DATASOURCE_URL=jdbc:postgresql://dbms:5432/
             - SPRING_DATASOURCE_USERNAME=postgres
