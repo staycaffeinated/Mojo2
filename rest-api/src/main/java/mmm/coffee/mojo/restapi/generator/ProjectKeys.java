@@ -25,6 +25,7 @@ public class ProjectKeys {
     public static final String APPLICATION_NAME = "applicationName";
     public static final String BASE_PACKAGE = "basePackage";
     public static final String BASE_PACKAGE_PATH = "basePackagePath";
+    public static final String BASE_PATH = "basePath";
     public static final String JAVA_VERSION = "javaVersion";
     public static final String SCHEMA = "schema";
     public static final String SPRING_BOOT_VERSION = "springBootVersion";

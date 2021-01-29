@@ -5,7 +5,15 @@ spring.application.name=${project.applicationName}
 spring.application.name=example-service
 </#if>
 server.port=8080
-# server.servlet.context-path=/my-base-route
+<#if (project.basePath)??>
+server.servlet.context-path=${project.basePath}
+<#else>
+server.servlet.context-path=/
+</#if>
+
+
+# Obfuscate the /actuator endpoint
+# management.endpoints.web.base-path=/_internal
 
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.id.new_generator_mappings=false

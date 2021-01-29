@@ -78,6 +78,7 @@ class CodeTemplateIT {
         projectProperties.put("applicationName", "example");
         projectProperties.put("javaVersion", "11");
         projectProperties.put(ProjectKeys.SCHEMA, "widgets");
+        projectProperties.put(ProjectKeys.BASE_PATH, "/widgets");
 
         endpointProperties.putAll(projectProperties);
         endpointProperties.put("entityName", "Widget");
@@ -385,6 +386,65 @@ class CodeTemplateIT {
             assertThat(content).contains("spring.datasource.driver-class-name=org.h2.Driver");
             assertThat(content).contains("spring.datasource.url=jdbc:h2:mem:testdb");
         }
+    }
+
+    @Nested
+    class TestBasePathOption {
+        /**
+         * If the basePath is defined, the context-path = basePath
+         */
+        @Test
+        void shouldMatchServerServletContextPath() {
+            // preliminary
+            Optional<CatalogEntry> optional = getApplicationDotPropertiesTemplate();
+            assertThat(optional).isNotNull();
+            assertThat(optional.isPresent()).isTrue();
+
+            final String basePath = "/my-application";
+            // when
+            projectProperties.put(ProjectKeys.BASE_PATH, basePath);
+
+            TemplateHandler handler = TemplateHandler.builder()
+                    .catalogEntry(optional.get())
+                    .properties(projectProperties)
+                    .configuration(freemarkerConfiguration)
+                    .build();
+
+            // then
+            String content = handler.render();
+            assertThat(content).isNotNull();
+            assertThat(content).contains("server.servlet.context-path="+basePath);
+        }
+
+        /**
+         * If the basePath is undefined, the context-path should be '/'
+         */
+        @Test
+        void shouldDefaultToSlashRoute() {
+            // preliminary
+            Optional<CatalogEntry> optional = getApplicationDotPropertiesTemplate();
+            assertThat(optional).isNotNull();
+            assertThat(optional.isPresent()).isTrue();
+
+            // when
+            projectProperties.remove(ProjectKeys.BASE_PATH);
+
+            TemplateHandler handler = TemplateHandler.builder()
+                    .catalogEntry(optional.get())
+                    .properties(projectProperties)
+                    .configuration(freemarkerConfiguration)
+                    .build();
+
+            // then
+            String content = handler.render();
+            assertThat(content).isNotNull();
+            // If the user does not specify a base-path, the default is '/'.
+            // This is the default path used by Spring, so we don't have to
+            // define this property, but having the property present enables
+            // users to easily change this by having the entry already available.
+            assertThat(content).contains("server.servlet.context-path=/");
+        }
+
     }
 
 

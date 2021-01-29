@@ -46,7 +46,9 @@ public class ProjectGenerator implements Generator {
     }
 
     /**
-     * Configure phase of the life cycle
+     * Configure the lexical scope of the ProjectGenerator. This method defines the
+     * variables that will be shared with the templates when the templates are rendered.
+     * 
      * @param commandLineOptions values captured from the command-line, passed to us via a Map
      */
     @Override
@@ -59,7 +61,7 @@ public class ProjectGenerator implements Generator {
         lexicalScope.put(ProjectKeys.PROBLEM_SPRING_VERSION, "0.26.2");
         lexicalScope.put(ProjectKeys.JAVA_VERSION, "11");
 
-        // The caller provides the basePackage, applicationName, and groupId.
+        // The caller provides the basePackage, applicationName, groupId, basePath, etc.
         // The caller is usually the SubcommandCreateProject.
         lexicalScope.putAll(commandLineOptions);
 

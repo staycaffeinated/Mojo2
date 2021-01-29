@@ -78,11 +78,18 @@ public class SubcommandCreateProject implements Callable<Integer> {
             paramLabel = "APPLICATION_NAME")
     private String applicationName;
 
-    @CommandLine.Option(names = {"--schema"},
+    @CommandLine.Option(names = {"-schema", "--schema"},
             description = "The database schema to be used by the application",
             defaultValue = "examples",
             paramLabel = "DATABASE_SCHEMA")
     private String dbmsSchema;
+
+    @CommandLine.Option(names = {"-route", "--base-path",},
+            description = "The base path (URL) of this application; for example: '/my-service.",
+            defaultValue = "/",
+            paramLabel = "BASE_PATH")
+    private String basePath;
+
 
     //
     // The Support option. These are the added capabilities supported by the generated application.
@@ -127,6 +134,7 @@ public class SubcommandCreateProject implements Callable<Integer> {
         map.put(ProjectKeys.GROUP_ID, nullSafeValue(groupId));
         map.put(ProjectKeys.APPLICATION_NAME, nullSafeValue(applicationName));
         map.put(ProjectKeys.SCHEMA, nullSafeValue(SyntaxRules.schemaSyntax(dbmsSchema)));
+        map.put(ProjectKeys.BASE_PATH, nullSafeValue(basePath));
         map.put("features", features);
         if (dryRun)
             map.put(DryRunOption.DRY_RUN_KEY, Boolean.TRUE);
