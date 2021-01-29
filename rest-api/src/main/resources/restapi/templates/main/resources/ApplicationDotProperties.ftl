@@ -5,6 +5,7 @@ spring.application.name=${project.applicationName}
 spring.application.name=example-service
 </#if>
 server.port=8080
+# server.servlet.context-path=/my-base-route
 
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.id.new_generator_mappings=false
@@ -14,7 +15,7 @@ spring.datasource.password=secret
 <#-- define the jdbc driver -->
 <#if (project.postgres)??>
 # POSTGRES
-# spring.datasource.driver-class-name=org.postgresql.Driver
+spring.datasource.driver-class-name=org.postgresql.Driver
 <#else>
 # H2
 spring.datasource.driver-class-name=org.h2.Driver

@@ -16,6 +16,8 @@ apply plugin: 'io.spring.dependency-management'
 sourceCompatibility = '${project.javaVersion}'
 targetCompatibility = '${project.javaVersion}'
 
+version='0.0.1'
+
 configurations {
     developmentOnly
     runtimeClasspath {
@@ -31,8 +33,6 @@ repositories {
 }
 
 dependencies {
-    // Note: libs = rootProject.ext.libs
-
     annotationProcessor libs.springBootConfigProcessor
     annotationProcessor libs.lombok
 
@@ -124,7 +124,7 @@ jacocoTestReport {
 
 sonarqube {
     properties {
-        // Exclude: exception classes, EJB bean classes, test classes
+        // Exclude: exceptions, tests, EJB beans, and the main application class
         property 'sonar.coverage.exclusions', '**/*Exception.java,**/*Test*.java,**/*IT.java,**/*Resource.java,**/*Application.java,**/ServletInitializer.java'
     }
 }

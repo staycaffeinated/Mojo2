@@ -73,8 +73,8 @@ public class SubcommandCreateProject implements Callable<Integer> {
     private String packageName;
 
     @CommandLine.Option(names = {"-n", "--name"},
-            description = "The application name",
-            defaultValue = "example",
+            description = "The application name (defaults to 'example-service')",
+            defaultValue = "example-service",
             paramLabel = "APPLICATION_NAME")
     private String applicationName;
 
