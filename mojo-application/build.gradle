@@ -18,7 +18,7 @@ shadowJar {
 // --------------------------------------------------------------
 dependencies {
     implementation project (path: ':api' )
-    implementation project (path: ':rest-api' )
+    implementation project (path: ':rest-api-command' )
     implementation libs.picocli
 
     testImplementation(platform(libs.junitBillOfMaterial))
