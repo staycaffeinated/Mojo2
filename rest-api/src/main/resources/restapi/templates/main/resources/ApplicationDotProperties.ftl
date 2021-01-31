@@ -15,6 +15,21 @@ server.servlet.context-path=/
 # Obfuscate the /actuator endpoint
 management.endpoints.web.base-path=/_internal
 
+# Health probes enable a liveness check and a readiness check.
+# Docker containers are commonly deployed via Kubernetes.
+# These health probes enable K8S to monitor the health of this service.
+# If this service is deployed via K8S, the K8S deployment.yaml should
+# include:
+#   livenessProbe:
+#     httpGet:
+#       path: /_internal/health/liveness
+#       port: 8080
+#   readinessProbe:
+#     httpGet:
+#       path: /_internal/health/readiness
+#       port: 8080
+management.health.probes.enabled=true
+
 spring.jpa.show-sql=true
 spring.jpa.properties.hibernate.id.new_generator_mappings=false
 

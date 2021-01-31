@@ -6,15 +6,6 @@ services:
         image: ${project.applicationName}:0.0.1
         ports:
             - "8080:8080"
-        healthcheck:
-<#if (project.basePath)??>
-            test: ["CMD", "curl", "localhost:8080${project.basePath}/_internal/health" ]
-<#else>
-            test: ["CMD", "curl", "localhost:8080/_internal/health" ]
-</#if>
-            interval: 2m
-            timeout: 10s
-            retries: 3
 <#if (project.postgres)??>
         depends_on:
             - dbms
