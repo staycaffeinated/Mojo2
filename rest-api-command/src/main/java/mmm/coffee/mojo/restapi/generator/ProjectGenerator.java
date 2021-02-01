@@ -75,8 +75,8 @@ public class ProjectGenerator implements Generator {
     Map<String,Object> getConfiguration() { return lexicalScope; }
 
     @Override
-    public void outputStrategy(@NonNull TemplateWriter sourceSink) {
-        this.sourceSink = sourceSink;
+    public void outputStrategy(@NonNull TemplateWriter writer) {
+        this.sourceSink = writer;
     }
 
     @Override
@@ -87,10 +87,15 @@ public class ProjectGenerator implements Generator {
 
         // For each feature (i.e., added dependency), generate the assets specific to that feature
         features.forEach( f -> catalogEntries.stream().filter(e -> e.hasFeature(f)).forEach(this::renderTemplate));
+    }
 
-        // Don't save this file for dry runs
+    /**
+     * Saves the mojo.properties file to the root directory of the generated project.
+     */
+    @Override
+    public void tearDown() {
         if ( !((Boolean)lexicalScope.getOrDefault("dryRun", Boolean.FALSE)).booleanValue() )
-            MojoUtils.saveContext(lexicalScope);
+            MojoUtils.saveMojoProperties(lexicalScope);
     }
 
     private void renderTemplate(CatalogEntry entry) {

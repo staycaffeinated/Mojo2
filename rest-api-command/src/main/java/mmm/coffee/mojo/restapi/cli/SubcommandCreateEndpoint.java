@@ -60,8 +60,9 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
         map.put("resource", resourceName);
         map.put("route", baseRoute);
 
-        if (dryRunOption.isDryRun())
+        if (dryRunOption.isDryRun()) {
             map.put(DryRunOption.DRY_RUN_KEY, Boolean.TRUE);
+        }
 
         EndpointGenerator generator = new EndpointGenerator();
         generator.run(map);

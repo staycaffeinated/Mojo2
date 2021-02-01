@@ -25,13 +25,35 @@ import java.util.Map;
  */
 public interface Generator {
 
+    /**
+     * Initialize the state of the instance (whatever a default constructor would do, put that here)
+     */
     void initialize();
 
-    void configure(Map<String,Object> properties);
+    /**
+     * Configure the lexical scope of the generator. Whatever properties will be passed into the
+     * templates during rendering, those properties are set here.
+     * @param commandLineOptions the command line options and anything the CLI might need to pass to the generator
+     */
+    void configure(Map<String,Object> commandLineOptions);
 
-    void outputStrategy(TemplateWriter sourceSink);
+    /**
+     * Configure the Writer that will write rendered templates. For example, by applying a NoOpTemplateWriter,
+     * test cases can avoid writing test output to the file system.
+     *
+     * @param writer the TemplateWriter
+     */
+    void outputStrategy(TemplateWriter writer);
 
+    /**
+     * Render the templates
+     */
     void generate();
+
+    /**
+     * Perform any post processing the Generator needs to do after the templates have been rendered.
+     */
+    default void tearDown() {};
 
     /**
      * Convenience method to enable clients of Generators to run the
@@ -52,5 +74,6 @@ public interface Generator {
         configure(properties);
         outputStrategy(sourceSink);
         generate();
+        tearDown();
     }
 }

@@ -27,6 +27,7 @@ import picocli.CommandLine;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 import java.util.concurrent.Callable;
 
 /**
@@ -130,6 +131,7 @@ public class SubcommandCreateProject implements Callable<Integer> {
 
         // Set-up the ProjectInfo to send to the generator
         Map<String,Object> map = new HashMap<>();
+        map.put(ProjectKeys.BASE_PACKAGE, nullSafeValue(packageName));
         map.put(ProjectKeys.BASE_PACKAGE, nullSafeValue(packageName));
         map.put(ProjectKeys.GROUP_ID, nullSafeValue(groupId));
         map.put(ProjectKeys.APPLICATION_NAME, nullSafeValue(applicationName));

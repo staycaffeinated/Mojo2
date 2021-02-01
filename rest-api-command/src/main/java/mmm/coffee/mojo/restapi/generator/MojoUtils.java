@@ -37,8 +37,8 @@ public class MojoUtils {
      * For example, endpoint classes need to know the basePackage
      * of the project.
      */
-    static void saveContext(@NonNull Map<String,Object> properties) {
-        final String mojoFileName = getMojoFileName();
+    static void saveMojoProperties(@NonNull Map<String,Object> properties) {
+        final String mojoFileName = getMojoPropertiesFileName();
         try (PrintWriter pw = new PrintWriter(new FileOutputStream(mojoFileName))) {
             properties.entrySet().forEach( entry -> pw.printf("%s=%s%n", entry.getKey(), entry.getValue() ));
             pw.flush();
@@ -48,9 +48,13 @@ public class MojoUtils {
         }
     }
 
-    @NonNull static Map<String,String> loadContext() {
+    /**
+     * Reads the mojo.properties file into a Map
+     * @return a Map containing the contents of the mojo.properties file
+     */
+    @NonNull static Map<String,String> loadMojoProperties() {
         Map<String,String> resultMap = new HashMap<>();
-        try (InputStream is = new FileInputStream(getMojoFileName())) {
+        try (InputStream is = new FileInputStream(getMojoPropertiesFileName())) {
             Properties properties = new Properties();
             properties.load(is);
             properties.forEach((key, value) -> resultMap.put((String) key, (String) value));
@@ -61,17 +65,43 @@ public class MojoUtils {
         return resultMap;
     }
 
+    /**
+     * This method is exposed to support test cases that do not want to write to the file system.
+     * A fake set of properties that are typically found in the mojo.properties file are returned.
+     */
+    @NonNull static Map<String,String> loadMojoPropertiesFromDryRun() {
+        Map<String,String> mojoProperties = new HashMap<>();
+        mojoProperties.put(ProjectKeys.BASE_PATH, "/my-service");
+        mojoProperties.put(ProjectKeys.APPLICATION_NAME, "my-service");
+        mojoProperties.put(ProjectKeys.SCHEMA, "exampleDB");
+        mojoProperties.put(ProjectKeys.BASE_PACKAGE, "org.example.myservice");
+        mojoProperties.put(ProjectKeys.BASE_PACKAGE_PATH, "org/example/myservice");
+        mojoProperties.put(ProjectKeys.GROUP_ID, "org.example");
+        mojoProperties.put(ProjectKeys.JAVA_VERSION, "11");
+        mojoProperties.put(ProjectKeys.SPRING_BOOT_VERSION, "2.3.4.RELEASE");
+        mojoProperties.put(ProjectKeys.SPRING_DEPENDENCY_MGMT_VERSION, "1.0.10.RELEASE");
+        mojoProperties.put(ProjectKeys.SPRING_CLOUD_VERSION, "2.2.5.RELEASE");
+        mojoProperties.put(ProjectKeys.PROBLEM_SPRING_VERSION, "0.26.2");
+        return mojoProperties;
+    }
 
     /**
      * Returns the current working directory
      * @return the current working directory, ending with a front-slash, such as "some/path/";
      */
     @NonNull static String currentDirectory() {
-        return System.getProperty("user.dir") + "/"; // JVM guarantees this has a value
+        return System.getProperty("user.dir") + "/"; // the JVM guarantees this property has a value
     }
 
-    @NonNull static String getMojoFileName() {
-        return currentDirectory() + ".mojo";
+    /**
+     * The mojo.properties file contains the project-scope properties. There are some properties
+     * defined at create-project time that also need to be known at create-endpoint time, such
+     * as the base package name.  The mojo.properties thus encapsulates context information that
+     * needs to get passed down from the ProjectGenerator to the EndpointGenerator.
+     * @return the fully-qualified filename of the mojo.properties file.
+     */
+    @NonNull static String getMojoPropertiesFileName() {
+        return currentDirectory() + "mojo.properties";
     }
 
     /**
@@ -82,11 +112,11 @@ public class MojoUtils {
      * ```org.example.greeting_service.endpoint.greeting```.
      * (where ```org.example.greeting_service``` is the assumed base package, and ```Greeting``` is the resource/entity.
      *
+     * @param basePackage the base package of the project
      * @param resourceOrEntityName the name of the RESTful resource/entity, for example ```Student``` or ```Account```
      * @return the package name into which the assets of this resource will be placed
      */
-    @NonNull static String getPackageNameForResource(@NonNull String resourceOrEntityName) {
-        String basePackage = loadContext().get("basePackage");
+    @NonNull static String getPackageNameForResource(@NonNull String basePackage, @NonNull String resourceOrEntityName) {
         String packageName = basePackage + ".endpoint." + StringUtils.toRootLowerCase(resourceOrEntityName);
         return StringUtils.toRootLowerCase(packageName);
     }

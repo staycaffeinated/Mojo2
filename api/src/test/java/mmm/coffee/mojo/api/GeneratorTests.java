@@ -55,8 +55,8 @@ class GeneratorTests {
     
     class FakeGenerator implements Generator {
         @Override public void initialize() {}
-        @Override public void configure(Map<String,Object> properties) {}
-        @Override public void outputStrategy(TemplateWriter sourceSink) {}
+        @Override public void configure(Map<String,Object> commandLineOptions) {}
+        @Override public void outputStrategy(TemplateWriter writer) {}
         @Override public void generate() {}
     }
 

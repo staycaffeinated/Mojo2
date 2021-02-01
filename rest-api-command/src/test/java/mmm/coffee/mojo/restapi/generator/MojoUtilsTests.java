@@ -69,7 +69,7 @@ class MojoUtilsTests {
     class Test_getMojoFileName {
         @Test
         void shouldNotReturnNull() {
-            assertThat(MojoUtils.getMojoFileName()).isNotNull();
+            assertThat(MojoUtils.getMojoPropertiesFileName()).isNotNull();
         }
     }
 
@@ -110,8 +110,8 @@ class MojoUtilsTests {
 
             Map<String, Object> properties = new HashMap<>();
             properties.put(key, value);
-            MojoUtils.saveContext(properties);
-            Map<String, String> results = MojoUtils.loadContext();
+            MojoUtils.saveMojoProperties(properties);
+            Map<String, String> results = MojoUtils.loadMojoProperties();
             assertThat(results).isNotEmpty();
             assertThat(results.get(key)).isEqualTo(value);
         }
