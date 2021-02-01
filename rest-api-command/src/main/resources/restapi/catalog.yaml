@@ -183,9 +183,9 @@ catalog:
       context: "endpoint"
   - entry:
       template: "/integrationTest/ExceptionHandlingIT.ftl"
-      destination: "src/integration/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}/{{entityName}}ExceptionHandlingIT.java"
+      destination: "src/integration/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ExceptionHandlingIT.java"
       context: "endpoint"
   - entry:
       template: "/integrationTest/ControllerIT.ftl"
-      destination: "src/integration/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}/{{entityName}}ControllerIT.java"
+      destination: "src/integration/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ControllerIT.java"
       context: "endpoint"

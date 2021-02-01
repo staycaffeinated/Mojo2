@@ -26,7 +26,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,10 +81,15 @@ class MojoUtilsTests {
     }
 
     @Nested
-    class Test_getMojoFileName {
+    class Test_getMojoPropertiesFileName {
         @Test
         void shouldNotReturnNull() {
             assertThat(MojoUtils.getMojoPropertiesFileName()).isNotNull();
+        }
+
+        @Test
+        void shouldReturnMojoPropertiesAheFilename() {
+            assertThat(MojoUtils.getMojoPropertiesFileName()).endsWith("mojo.properties");
         }
     }
 
@@ -101,19 +105,20 @@ class MojoUtilsTests {
     class Test_getPackageNameForResource {
         @Test
         void shouldTranslatePackageNameToItsEquivalentFilePath() {
-            // happy path
-            assertThat(MojoUtils.convertPackageNameToPath("mmm.coffee.example")).isEqualTo("mmm/coffee/example");
+            String value = MojoUtils.getPackageNameForResource("org.example", "Account");
+            assertThat(value).isNotEmpty();
 
-            // with only one package
-            assertThat(MojoUtils.convertPackageNameToPath("org")).isEqualTo("org");
-
-            // with empty package name
-            assertThat(MojoUtils.convertPackageNameToPath("")).isEqualTo("");
+            // per the naming convention, it should be this:
+            assertThat(value).isEqualTo("org.example.endpoint.account");
         }
 
         @Test
-        void shouldDisallowNullArgument() {
-            assertThrows(NullPointerException.class, () -> MojoUtils.convertPackageNameToPath(null));
+        void shouldDisallowNullBasePackage() {
+            assertThrows(NullPointerException.class, () -> MojoUtils.getPackageNameForResource(null, "widget"));
+        }
+        @Test
+        void shouldDisallowNullResourceName() {
+            assertThrows(NullPointerException.class, () -> MojoUtils.getPackageNameForResource("org.example", null));
         }
     }
 
