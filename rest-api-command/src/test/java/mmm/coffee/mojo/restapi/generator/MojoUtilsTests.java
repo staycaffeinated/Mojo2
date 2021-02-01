@@ -15,14 +15,18 @@
  */
 package mmm.coffee.mojo.restapi.generator;
 
+import org.apache.commons.io.FileUtils;
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.SystemErrRule;
 import org.junit.contrib.java.lang.system.SystemOutRule;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,6 +42,18 @@ class MojoUtilsTests {
 
     @Rule
     public final SystemOutRule systemOutRule = new SystemOutRule().enableLog().muteForSuccessfulTests();
+
+
+    /**
+     * Some tests write/read the mojo.properties file to ensure that code path works.
+     * We want to clean up any remnant mojo.properties files created by these tests.
+     */
+    @AfterEach
+    void cleanUp() {
+        File file = new File (MojoUtils.getMojoPropertiesFileName());
+        if (file.exists())
+            FileUtils.deleteQuietly(file);
+    }
 
 
     @Nested

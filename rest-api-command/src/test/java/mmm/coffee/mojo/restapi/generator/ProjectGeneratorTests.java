@@ -17,6 +17,7 @@ package mmm.coffee.mojo.restapi.generator;
 
 import mmm.coffee.mojo.api.NoOpTemplateWriter;
 import mmm.coffee.mojo.api.TemplateWriter;
+import mmm.coffee.mojo.mixin.DryRunOption;
 import mmm.coffee.mojo.restapi.cli.SubcommandCreateProject;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
 import org.junit.Rule;
@@ -49,11 +50,12 @@ class ProjectGeneratorTests {
     }
     
     @Test
-    void shouldGenerateProjectBasedOnrProperties() {
+    void shouldGenerateProjectBasedOnProperties() {
 
         Map<String,Object> projectSpec = new HashMap<>();
         projectSpec.put(ProjectKeys.BASE_PACKAGE, "com.example.app");
         projectSpec.put(ProjectKeys.APPLICATION_NAME, "mini-service");
+        projectSpec.put(DryRunOption.DRY_RUN_KEY, Boolean.TRUE);
 
         TemplateWriter writer = new NoOpTemplateWriter();
         // The run method has a void return-type, so there's nothing to check
