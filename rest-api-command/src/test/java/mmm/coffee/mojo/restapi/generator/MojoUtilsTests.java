@@ -49,7 +49,7 @@ class MojoUtilsTests {
      */
     @AfterEach
     void cleanUp() {
-        File file = new File (MojoUtils.getMojoPropertiesFileName());
+        File file = new File (MojoProperties.getMojoPropertiesFileName());
         if (file.exists())
             FileUtils.deleteQuietly(file);
     }
@@ -80,18 +80,7 @@ class MojoUtilsTests {
         }
     }
 
-    @Nested
-    class Test_getMojoPropertiesFileName {
-        @Test
-        void shouldNotReturnNull() {
-            assertThat(MojoUtils.getMojoPropertiesFileName()).isNotNull();
-        }
 
-        @Test
-        void shouldReturnMojoPropertiesAheFilename() {
-            assertThat(MojoUtils.getMojoPropertiesFileName()).endsWith("mojo.properties");
-        }
-    }
 
     @Nested
     class Test_getCurrentDirectory {
@@ -129,10 +118,11 @@ class MojoUtilsTests {
             final String key = "springBoot.version";
             final String value = "2.2.4.RELEASE";
 
-            Map<String, Object> properties = new HashMap<>();
+            MojoProperties properties = new MojoProperties();
             properties.put(key, value);
-            MojoUtils.saveMojoProperties(properties);
-            Map<String, String> results = MojoUtils.loadMojoProperties();
+            MojoProperties.saveMojoProperties(properties);
+            
+            MojoProperties results = MojoProperties.loadMojoProperties();
             assertThat(results).isNotEmpty();
             assertThat(results.get(key)).isEqualTo(value);
         }

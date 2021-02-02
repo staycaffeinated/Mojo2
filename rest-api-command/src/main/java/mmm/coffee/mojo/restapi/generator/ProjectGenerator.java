@@ -94,8 +94,11 @@ public class ProjectGenerator implements Generator {
      */
     @Override
     public void tearDown() {
-        if ( !((Boolean)lexicalScope.getOrDefault("dryRun", Boolean.FALSE)).booleanValue() )
-            MojoUtils.saveMojoProperties(lexicalScope);
+        if ( !((Boolean)lexicalScope.getOrDefault("dryRun", Boolean.FALSE)).booleanValue() ) {
+            MojoProperties props = MojoProperties.toMojoProperties(lexicalScope);
+            MojoProperties.saveMojoProperties(props);
+        }
+
     }
 
     private void renderTemplate(CatalogEntry entry) {

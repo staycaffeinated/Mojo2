@@ -56,17 +56,17 @@ public class EndpointGenerator implements Generator {
      */
     @Override
     public void configure(@NonNull Map<String, Object> commandLineOptions) {
-        Map<String,String> mojoProperties;
+        MojoProperties mojoProperties;
         if ( isDryRun(commandLineOptions) ) {
-            mojoProperties = MojoUtils.loadMojoPropertiesFromDryRun();
+            mojoProperties = MojoProperties.loadMojoPropertiesForDryRun();
         }
         else {
-            mojoProperties = MojoUtils.loadMojoProperties();
+            mojoProperties = MojoProperties.loadMojoProperties();
         }
-        lexicalScope.putAll(mojoProperties);
+        mojoProperties.entrySet().forEach( entry -> lexicalScope.put( (String)entry.getKey(), entry.getValue()));
         lexicalScope.putAll(commandLineOptions);
 
-        String basePackage = mojoProperties.get(ProjectKeys.BASE_PACKAGE);
+        String basePackage = mojoProperties.getString(ProjectKeys.BASE_PACKAGE);
         String resourceName = (String) commandLineOptions.get("resource");
         String entityName = SyntaxRules.entityNameSyntax(resourceName);
         String entityVarName = SyntaxRules.entityVarNameSyntax(resourceName);
