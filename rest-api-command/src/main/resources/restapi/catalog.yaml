@@ -99,6 +99,22 @@ catalog:
       destination: "src/main/java/{{basePackagePath}}/validation/OnUpdate.java"
       context: "project"
   - entry:
+      template:  "/main/endpoint-root/RootController.ftl"
+      destination: "src/main/java/{{basePackagePath}}/endpoint/root/RootController.java"
+      context: "project"
+  - entry:
+      template: "/test/endpoint-root/RootControllerTest.ftl"
+      destination: "src/test/java/{{basePackagePath}}/endpoint/root/RootControllerTest.java"
+      context: "project"
+  - entry:
+      template: "/integrationTest/endpoint-root/RootControllerIT.ftl"
+      destination: "src/integration/java/{{basePackage}}/endpoint/root/RootControllerIT.java"
+      context:  "project"
+  - entry:
+      template: "/integrationTest/endpoint-root/RootExceptionHandlingIT.ftl"
+      destination: "src/integration/java/{{basePackage}}/endpoint/root/RootExceptionHandlingIT.java"
+      context: "project"
+  - entry:
       template: "/integrationTest/common/AbstractIntegrationTest.ftl"
       destination: "src/integration/java/{{basePackagePath}}/common/AbstractIntegrationTest.java"
       context: "project"
