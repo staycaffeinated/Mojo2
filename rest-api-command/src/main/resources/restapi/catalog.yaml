@@ -71,6 +71,10 @@ catalog:
       destination: "src/main/java/{{basePackagePath}}/config/WebMvcConfiguration.java"
       context: "project"
   - entry:
+      template: "/main/filter/SecurityResponseHeadersFilter.ftl"
+      destination: "src/main/java/{{basePackagePath}}/filter/SecurityResponseHeadersFilter.java"
+      context: "project"
+  - entry:
       template: "/main/math/SecureRandomSeries.ftl"
       destination: "src/main/java/{{basePackagePath}}/math/SecureRandomSeries.java"
       context: "project"
