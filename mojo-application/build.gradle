@@ -8,9 +8,11 @@ application {
 }
 applicationName = 'mojo'
 
+// --------------------------------------------------------------
+// The shadowJar plugin creates an uber-jar for us
+// --------------------------------------------------------------
 apply plugin: 'com.github.johnrengelman.shadow'
-shadowJar {
-    // empty at the moment
+shadowJar { 
 }
 
 // --------------------------------------------------------------
@@ -21,9 +23,9 @@ dependencies {
     implementation project (path: ':rest-api-command' )
     implementation libs.picocli
 
-    testImplementation(platform(libs.junitBillOfMaterial))
-    testImplementation(libs.junitJupiter)
-    testImplementation(libs.junitSystemRules)
-    testImplementation(libs.truth)
+    testImplementation ( platform(libs.junitBillOfMaterial) )
+    testImplementation ( libs.junitJupiter )
+    testImplementation ( libs.junitSystemRules )
+    testImplementation ( libs.truth )
 }
 
