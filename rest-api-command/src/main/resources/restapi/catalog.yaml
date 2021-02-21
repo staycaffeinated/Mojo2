@@ -74,6 +74,7 @@ catalog:
       template: "/main/filter/SecurityResponseHeadersFilter.ftl"
       destination: "src/main/java/{{basePackagePath}}/filter/SecurityResponseHeadersFilter.java"
       context: "project"
+      feature: "security:headers"
   - entry:
       template: "/main/math/SecureRandomSeries.ftl"
       destination: "src/main/java/{{basePackagePath}}/math/SecureRandomSeries.java"

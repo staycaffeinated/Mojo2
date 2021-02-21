@@ -104,5 +104,6 @@ public class SecurityResponseHeadersFilter implements Filter {
         SECURITY_HEADERS.entrySet().forEach(entry  -> {
             ((HttpServletResponse)response).addHeader(entry.getKey(), entry.getValue());
         });
+        chain.doFilter(request, response);
     }
 }
