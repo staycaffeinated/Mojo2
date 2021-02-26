@@ -28,9 +28,21 @@ public class ProjectKeys {
     public static final String BASE_PATH = "basePath";
     public static final String JAVA_VERSION = "javaVersion";
     public static final String SCHEMA = "schema";
+    public static final String GROUP_ID = "groupId";
+
+    // Library Versions
     public static final String SPRING_BOOT_VERSION = "springBootVersion";
     public static final String SPRING_CLOUD_VERSION = "springCloudVersion";
     public static final String SPRING_DEPENDENCY_MGMT_VERSION = "springDependencyManagementVersion";
     public static final String PROBLEM_SPRING_VERSION = "problemSpringWebVersion";
-    public static final String GROUP_ID = "groupId";
+    public static final String ASSERTJ_VERSION = "assertJVersion";
+    public static final String JUNIT_SYSTEM_RULES_VERSION = "junitSystemRulesVersion";
+    public static final String JUNIT_VERSION = "junitVersion";
+    public static final String LIQUIBASE_VERSION = "liquibaseVersion";
+    public static final String LOMBOK_VERSION = "lombokVersion";
+    public static final String LOG4J_VERSION = "log4JVersion";
+    public static final String MOJO_VERSION = "mojoVersion";
+    public static final String TEST_CONTAINERS_VERSION = "testContainersVersion";
+    
+
 }

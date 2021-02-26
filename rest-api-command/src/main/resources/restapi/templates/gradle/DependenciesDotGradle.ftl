@@ -1,17 +1,17 @@
 ext {
     versions = [
-        assertJ              : '3.15.0',            // Assertion library for test cases
-        junitSystemRules     : '1.19.0',            // JUnit extensions
-        junit                : '5.7.0',             // JUnit Jupiter
-        liquibase            : '4.2.2',             // Database schema initialization & evolution
-        lombok               : '1.18.16',           // Lombok annotation processor
-        log4j                : '2.14.0',            // Logging
-        mockito              : '3.10.0',            // Mocking library
-        springBoot           : '${project.springBootVersion}',     // Spring Boot
-        springCloud          : "2.2.5.RELEASE",     // Spring Cloud
-        problemSpringWeb     : '0.26.2',            // Zalando's Problem API
-        testContainers       : '1.15.1',            // Test containers for integration testing
-        truth                : '1.1'                // Google's assertion library
+        assertJ              : '${project.assertJVersion}',             // Assertion library for test cases
+        junitSystemRules     : '${project.junitSystemRulesVersion}',    // JUnit extensions
+        junit                : '${project.junitVersion}',               // JUnit Jupiter
+        liquibase            : '${project.liquibaseVersion}',           // Database schema initialization & evolution
+        lombok               : '${project.lombokVersion}',              // Lombok annotation processor
+        log4j                : '${project.log4jVersion}',               // Logging
+        mockito              : '${project.mockitoVersion}',             // Mocking library
+        springBoot           : '${project.springBootVersion}',          // Spring Boot
+        springCloud          : '${project.springCloudVersion}',         // Spring Cloud
+        problemSpringWeb     : '${project.problemSpringWebVersion}',    // Zalando's Problem API
+        testContainers       : '${project.testContainersVersion}',      // Test containers for integration testing
+        truth                : '${project.truthVersion}'                // Google's assertion library
         ]
 <#noparse>
     libs = [

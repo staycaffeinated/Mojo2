@@ -21,6 +21,8 @@ import mmm.coffee.mojo.api.Generator;
 import mmm.coffee.mojo.api.TemplateWriter;
 import mmm.coffee.mojo.catalog.CatalogEntry;
 import mmm.coffee.mojo.catalog.TemplateCatalog;
+import mmm.coffee.mojo.library.Dependency;
+import mmm.coffee.mojo.library.DependencyCatalog;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
 
 import java.io.File;
@@ -38,6 +40,7 @@ public class ProjectGenerator implements Generator {
     private TemplateWriter sourceSink;
     private Configuration configuration;
     private final List<String> features = new ArrayList<>();
+    private List<Dependency> libraries;
 
     @Override
     public void initialize() {
@@ -55,11 +58,9 @@ public class ProjectGenerator implements Generator {
     public void configure(@NonNull Map<String, Object> commandLineOptions) {
         // Populate the lexicalScope with all properties expected by
         // the templates (a runtime error occurs if a template cannot resolve a property).
-        lexicalScope.put(ProjectKeys.SPRING_BOOT_VERSION, "2.3.4.RELEASE");
-        lexicalScope.put(ProjectKeys.SPRING_DEPENDENCY_MGMT_VERSION, "1.0.10.RELEASE");
-        lexicalScope.put(ProjectKeys.SPRING_CLOUD_VERSION, "2.2.5.RELEASE");
-        lexicalScope.put(ProjectKeys.PROBLEM_SPRING_VERSION, "0.26.2");
-        lexicalScope.put(ProjectKeys.JAVA_VERSION, "11");
+        libraries = new DependencyCatalog(DependencyCatalog.RESOURCE_NAME).entries();
+        
+        assignDependencyVersions(libraries);
 
         // The caller provides the basePackage, applicationName, groupId, basePath, etc.
         // The caller is usually the SubcommandCreateProject.
@@ -139,5 +140,11 @@ public class ProjectGenerator implements Generator {
                 this.features.add(f.toString());
             });
         }
+    }
+
+    private void assignDependencyVersions(@NonNull List<Dependency> libraries) {
+        libraries.forEach( library -> {
+            lexicalScope.put(library.getName()+"Version", library.getVersion());
+        });
     }
 }
