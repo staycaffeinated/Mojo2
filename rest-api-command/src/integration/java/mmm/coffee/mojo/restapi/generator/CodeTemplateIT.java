@@ -66,7 +66,7 @@ class CodeTemplateIT {
 
     @BeforeEach
     public void setUpEachTime() {
-        catalog = new TemplateCatalog(TemplateCatalog.CATALOG_NAME);
+        catalog = new TemplateCatalog(Constants.TEMPLATE_CATALOG);
 
         projectProperties.clear();
         endpointProperties.clear();
@@ -95,7 +95,7 @@ class CodeTemplateIT {
     }
 
     private void populateDependencyKeys() {
-        DependencyCatalog catalog = new DependencyCatalog(DependencyCatalog.RESOURCE_NAME);
+        DependencyCatalog catalog = new DependencyCatalog(Constants.DEPENDENCY_CATALOG);
         catalog.loadTemplateKeys(projectProperties);
     }
 

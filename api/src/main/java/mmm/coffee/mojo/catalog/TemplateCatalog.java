@@ -27,9 +27,7 @@ import java.util.stream.Collectors;
  * a helper method to filter the catalog entries.
  */
 public class TemplateCatalog {
-
-    public static final String CATALOG_NAME = "/restapi/catalog.yaml";
-
+    
     private final List<CatalogEntry> entries;   // catalogReader.readCatalog guarantees a non-null list
 
     /**

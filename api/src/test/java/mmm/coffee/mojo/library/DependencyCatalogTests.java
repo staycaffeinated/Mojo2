@@ -13,11 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package mmm.coffee.mojo.restapi.generator.catalog;
+package mmm.coffee.mojo.library;
 
-import mmm.coffee.mojo.catalog.CatalogReader;
-import mmm.coffee.mojo.catalog.TemplateCatalog;
-import mmm.coffee.mojo.restapi.generator.Constants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -27,26 +24,27 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
- * Unit tests of CatalogReader
+ * Tests of the DependencyCatalog class
  */
-class CatalogReaderTests {
+public class DependencyCatalogTests {
 
-    CatalogReader reader;
+    private static final String TEST_CATALOG = "/test-dependencies.yaml";
+
+    DependencyCatalog catalogUnderTest;
 
     @BeforeEach
-    public void setUp() {
-        reader = new CatalogReader();
+    public void setUpEachTime() {
+        catalogUnderTest = new DependencyCatalog(TEST_CATALOG);
     }
 
     @Test
-    void shouldReadTemplateCatalogSuccessfully() throws Exception {
-        List<?> entries = reader.readCatalog(Constants.TEMPLATE_CATALOG);
-        assertThat(entries).isNotNull();
+    void shouldReturnDependencyEntries() {
+        List<Dependency> entries = catalogUnderTest.entries();
         assertThat(entries).isNotEmpty();
     }
 
     @Test
-    void shouldThrowNullPointerExceptionWhenArgIsNull() {
-        assertThrows(NullPointerException.class, () -> reader.readCatalog(null));
+    void shouldDisallowNullCatalogName() {
+        assertThrows(NullPointerException.class, () -> new DependencyCatalog(null));
     }
 }

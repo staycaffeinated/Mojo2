@@ -19,7 +19,6 @@ import lombok.NonNull;
 import mmm.coffee.mojo.exception.MojoException;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,8 +27,6 @@ import java.util.Map;
  * a helper method to filter the catalog entries.
  */
 public class DependencyCatalog {
-
-    public static final String RESOURCE_NAME = "/restapi/dependencies.yaml";
 
     private final List<Dependency> entries;   // libraryVersionReader.readCatalog guarantees a non-null list
 
@@ -46,9 +43,7 @@ public class DependencyCatalog {
     }
 
     public void loadTemplateKeys(@NonNull Map<String,Object> templateKeys) {
-        entries.forEach( library -> {
-            templateKeys.put(library.getName()+"Version", library.getVersion());
-        });
+        entries.forEach( library -> templateKeys.put(library.getName()+"Version", library.getVersion()));
     }
 
     public List<Dependency> entries()  { return entries; }

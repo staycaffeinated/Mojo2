@@ -44,7 +44,7 @@ public class ProjectGenerator implements Generator {
 
     @Override
     public void initialize() {
-        catalogEntries = new TemplateCatalog(TemplateCatalog.CATALOG_NAME).filterByContext(PROJECT_CONTEXT);
+        catalogEntries = new TemplateCatalog(Constants.TEMPLATE_CATALOG).filterByContext(PROJECT_CONTEXT);
         configuration = ConfigurationFactory.defaultConfiguration();
     }
 
@@ -61,7 +61,7 @@ public class ProjectGenerator implements Generator {
     public void configure(@NonNull Map<String, Object> commandLineOptions) {
         // Copy the library dependency versions into the lexicalScope.
         // These keys are used when dependency.gradle and build.gradle are generated
-        DependencyCatalog catalog = new DependencyCatalog(DependencyCatalog.RESOURCE_NAME);
+        DependencyCatalog catalog = new DependencyCatalog(Constants.DEPENDENCY_CATALOG);
         catalog.loadTemplateKeys(lexicalScope);
 
         // The caller provides the basePackage, applicationName, groupId, basePath, etc.
@@ -97,7 +97,7 @@ public class ProjectGenerator implements Generator {
      */
     @Override
     public void tearDown() {
-        if ( !((Boolean)lexicalScope.getOrDefault("dryRun", Boolean.FALSE)).booleanValue() ) {
+        if ( !(Boolean) lexicalScope.getOrDefault("dryRun", Boolean.FALSE)) {
             MojoProperties props = MojoProperties.toMojoProperties(lexicalScope);
             MojoProperties.saveMojoProperties(props);
         }
@@ -142,11 +142,5 @@ public class ProjectGenerator implements Generator {
                 this.features.add(f.toString());
             });
         }
-    }
-
-    private void assignDependencyVersions(@NonNull List<Dependency> libraries) {
-        libraries.forEach( library -> {
-            lexicalScope.put(library.getName()+"Version", library.getVersion());
-        });
     }
 }
