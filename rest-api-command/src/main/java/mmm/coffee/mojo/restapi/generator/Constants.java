@@ -20,6 +20,8 @@ package mmm.coffee.mojo.restapi.generator;
  */
 public final class Constants {
 
+    private Constants() {}
+
     public static final String DEPENDENCY_CATALOG = "/restapi/dependencies.yaml";
     public static final String TEMPLATE_CATALOG = "/restapi/catalog.yaml";
 }

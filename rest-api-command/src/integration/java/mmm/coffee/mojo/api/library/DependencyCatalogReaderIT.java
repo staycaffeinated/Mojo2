@@ -13,22 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package mmm.coffee.mojo.library;
+package mmm.coffee.mojo.api.library;
 
+import mmm.coffee.mojo.library.Dependency;
+import mmm.coffee.mojo.library.DependencyCatalogReader;
+import mmm.coffee.mojo.restapi.generator.Constants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Tests of DependencyCatalogReader class
  */
-class DependencyCatalogReaderTests {
-
-    private final static String TEST_CATALOG = "/test-dependencies.yaml";
+class DependencyCatalogReaderIT {
 
     DependencyCatalogReader readerUnderTest;
 
@@ -37,18 +37,15 @@ class DependencyCatalogReaderTests {
         readerUnderTest = new DependencyCatalogReader();
     }
 
-    @Test
-    void shouldDisallowNullCatalog() {
-        assertThrows (NullPointerException.class,() ->  readerUnderTest.readLibraryCatalog(null));
-    }
-
     /**
-     * Reads the dependency catalog and confirms each entry has a name and version
+     * Verify the content of the production dependency catalog is well-formed.
+     * This test helps catch errors in the dependencies.yaml file.
+     *
      * @throws Exception for the usual reasons
      */
     @Test
-    void shouldReturnWellFormedCatalogEntries() throws Exception {
-        List<Dependency> entries = readerUnderTest.readLibraryCatalog(TEST_CATALOG);
+    void shouldBeWellFormedCatalog() throws Exception {
+        List<Dependency> entries = readerUnderTest.readLibraryCatalog(Constants.DEPENDENCY_CATALOG);
 
         assertThat(entries).isNotEmpty();
 

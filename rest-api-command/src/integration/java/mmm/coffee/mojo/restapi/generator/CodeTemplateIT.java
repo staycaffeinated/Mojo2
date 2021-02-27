@@ -18,7 +18,6 @@ package mmm.coffee.mojo.restapi.generator;
 import freemarker.template.Configuration;
 import mmm.coffee.mojo.catalog.CatalogEntry;
 import mmm.coffee.mojo.catalog.TemplateCatalog;
-import mmm.coffee.mojo.library.Dependency;
 import mmm.coffee.mojo.library.DependencyCatalog;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
 import org.junit.jupiter.api.BeforeEach;
@@ -29,7 +28,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.function.Supplier;
 
 import static com.google.common.truth.Truth.assertThat;
 

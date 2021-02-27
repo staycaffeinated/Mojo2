@@ -21,8 +21,8 @@ import mmm.coffee.mojo.api.Generator;
 import mmm.coffee.mojo.api.TemplateWriter;
 import mmm.coffee.mojo.catalog.CatalogEntry;
 import mmm.coffee.mojo.catalog.TemplateCatalog;
-import mmm.coffee.mojo.library.Dependency;
 import mmm.coffee.mojo.library.DependencyCatalog;
+import mmm.coffee.mojo.mixin.DryRunOption;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
 
 import java.io.File;
@@ -40,7 +40,6 @@ public class ProjectGenerator implements Generator {
     private TemplateWriter sourceSink;
     private Configuration configuration;
     private final List<String> features = new ArrayList<>();
-    private List<Dependency> libraries;
 
     @Override
     public void initialize() {
@@ -97,11 +96,11 @@ public class ProjectGenerator implements Generator {
      */
     @Override
     public void tearDown() {
-        if ( !(Boolean) lexicalScope.getOrDefault("dryRun", Boolean.FALSE)) {
+        // If this was -not- a dry run, write the mojo.properties file
+        if (Boolean.FALSE.equals(lexicalScope.getOrDefault(DryRunOption.DRY_RUN_KEY, Boolean.FALSE))) {
             MojoProperties props = MojoProperties.toMojoProperties(lexicalScope);
             MojoProperties.saveMojoProperties(props);
         }
-
     }
 
     private void renderTemplate(CatalogEntry entry) {

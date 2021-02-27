@@ -20,9 +20,9 @@ import org.junit.jupiter.api.Test;
 
 import static com.google.common.truth.Truth.assertThat;
 /**
- * TODO: Fill me in
+ * Unit test the Dependency class
  */
-public class DependencyTests {
+class DependencyTests {
 
     Dependency dependencyUnderTest;
 
@@ -37,7 +37,7 @@ public class DependencyTests {
      * A Dependency is a simple POJO, so we only need to verify the POJO is well-formed
      */
     @Test
-    public void shouldBeWellFormed() {
+    void shouldBeWellFormed() {
         assertThat(dependencyUnderTest.getName()).isNotEmpty();
         assertThat(dependencyUnderTest.getVersion()).isNotEmpty();
     }

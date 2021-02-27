@@ -122,7 +122,6 @@ public class EndpointGenerator implements Generator {
      * @return {@code true} if --dry-run was found; {@code false} otherwise.
      */
     private boolean isDryRun(Map<String,Object> commandLineOptions) {
-        boolean value = ((Boolean)commandLineOptions.getOrDefault(DryRunOption.DRY_RUN_KEY, Boolean.FALSE)).booleanValue();
-        return value;
+        return ((Boolean)commandLineOptions.getOrDefault(DryRunOption.DRY_RUN_KEY, Boolean.FALSE)).booleanValue();
     }
 }

@@ -23,6 +23,7 @@ import java.util.Map;
 /**
  * Defines the Generator stereotype
  */
+@SuppressWarnings("java:S1116")
 public interface Generator {
 
     /**

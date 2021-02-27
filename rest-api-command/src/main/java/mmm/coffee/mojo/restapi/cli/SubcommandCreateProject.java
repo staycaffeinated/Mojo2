@@ -27,7 +27,6 @@ import picocli.CommandLine;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 import java.util.concurrent.Callable;
 
 /**

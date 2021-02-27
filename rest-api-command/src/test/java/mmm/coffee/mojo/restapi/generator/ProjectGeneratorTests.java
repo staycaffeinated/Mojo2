@@ -18,7 +18,6 @@ package mmm.coffee.mojo.restapi.generator;
 import mmm.coffee.mojo.api.NoOpTemplateWriter;
 import mmm.coffee.mojo.api.TemplateWriter;
 import mmm.coffee.mojo.mixin.DryRunOption;
-import mmm.coffee.mojo.restapi.cli.SubcommandCreateProject;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.SystemErrRule;

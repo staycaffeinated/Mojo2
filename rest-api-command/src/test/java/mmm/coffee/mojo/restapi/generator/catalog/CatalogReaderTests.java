@@ -16,7 +16,6 @@
 package mmm.coffee.mojo.restapi.generator.catalog;
 
 import mmm.coffee.mojo.catalog.CatalogReader;
-import mmm.coffee.mojo.catalog.TemplateCatalog;
 import mmm.coffee.mojo.restapi.generator.Constants;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

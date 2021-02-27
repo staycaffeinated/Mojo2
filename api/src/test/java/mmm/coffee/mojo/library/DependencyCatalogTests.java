@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Tests of the DependencyCatalog class
  */
-public class DependencyCatalogTests {
+class DependencyCatalogTests {
 
     private static final String TEST_CATALOG = "/test-dependencies.yaml";
 
