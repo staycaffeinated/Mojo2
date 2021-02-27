@@ -72,16 +72,19 @@ public class ${endpoint.entityName}ControllerIT extends AbstractIntegrationTest 
 
         }
 
+        /**
+         * Verify the controller's data validation catches malformed inputs and returns a problem/json response
+         */
         @Test
-        void shouldReturn500WhenCreateNew${endpoint.entityName}WithoutText() throws Exception {
+        void shouldReturn400WhenCreateNew${endpoint.entityName}WithoutText() throws Exception {
             ${endpoint.entityName}Resource resource = ${endpoint.entityName}Resource.builder().build();
 
             mockMvc.perform(post("${endpoint.basePath}")
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(resource)))
-                    .andExpect(status().is(500))
-                    .andExpect(header().string("Content-Type", startsWith("application/problem+json"))) // it may/may not end with ;charset=UTF-8
-                    .andExpect(jsonPath("$.status", is(500))) // hibernate throws DataIntegrityViolationException, which maps to 500
+                    .andExpect(status().is(400))
+                    .andExpect(header().string("Content-Type", startsWith("application/problem+json")))
+                    .andExpect(jsonPath("$.status", is(400)))
                     .andReturn()
                     ;
         }
