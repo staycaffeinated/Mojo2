@@ -18,6 +18,8 @@ package mmm.coffee.mojo.restapi.generator;
 import freemarker.template.Configuration;
 import mmm.coffee.mojo.catalog.CatalogEntry;
 import mmm.coffee.mojo.catalog.TemplateCatalog;
+import mmm.coffee.mojo.library.Dependency;
+import mmm.coffee.mojo.library.DependencyCatalog;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -80,6 +82,8 @@ class CodeTemplateIT {
         projectProperties.put(ProjectKeys.SCHEMA, "widgets");
         projectProperties.put(ProjectKeys.BASE_PATH, "/widgets");
 
+        populateDependencyKeys();
+
         endpointProperties.putAll(projectProperties);
         endpointProperties.put("entityName", "Widget");
         endpointProperties.put("entityVarName", "widget");
@@ -88,6 +92,11 @@ class CodeTemplateIT {
         endpointProperties.put("packagePath", BASE_PACKAGE_PATH + "/endpoint/widget");
         endpointProperties.put("basePath", "/widget");
         endpointProperties.put("tableName", "Widget");
+    }
+
+    private void populateDependencyKeys() {
+        DependencyCatalog catalog = new DependencyCatalog(DependencyCatalog.RESOURCE_NAME);
+        catalog.loadTemplateKeys(projectProperties);
     }
 
     @Nested

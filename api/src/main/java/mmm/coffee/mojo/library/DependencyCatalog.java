@@ -19,7 +19,9 @@ import lombok.NonNull;
 import mmm.coffee.mojo.exception.MojoException;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Abstracts the contents of a library-versions.yaml file. Provides
@@ -41,6 +43,12 @@ public class DependencyCatalog {
         catch (IOException e) {
             throw new MojoException(e.getMessage(), e);
         }
+    }
+
+    public void loadTemplateKeys(@NonNull Map<String,Object> templateKeys) {
+        entries.forEach( library -> {
+            templateKeys.put(library.getName()+"Version", library.getVersion());
+        });
     }
 
     public List<Dependency> entries()  { return entries; }

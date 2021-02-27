@@ -51,16 +51,18 @@ public class ProjectGenerator implements Generator {
     /**
      * Configure the lexical scope of the ProjectGenerator. This method defines the
      * variables that will be shared with the templates when the templates are rendered.
+     *
+     * Internally, the lexicalScope is populated with all properties expected by templates.
+     * A runtime error occurs if a template cannot resolve a property.
      * 
      * @param commandLineOptions values captured from the command-line, passed to us via a Map
      */
     @Override
     public void configure(@NonNull Map<String, Object> commandLineOptions) {
-        // Populate the lexicalScope with all properties expected by
-        // the templates (a runtime error occurs if a template cannot resolve a property).
-        libraries = new DependencyCatalog(DependencyCatalog.RESOURCE_NAME).entries();
-        
-        assignDependencyVersions(libraries);
+        // Copy the library dependency versions into the lexicalScope.
+        // These keys are used when dependency.gradle and build.gradle are generated
+        DependencyCatalog catalog = new DependencyCatalog(DependencyCatalog.RESOURCE_NAME);
+        catalog.loadTemplateKeys(lexicalScope);
 
         // The caller provides the basePackage, applicationName, groupId, basePath, etc.
         // The caller is usually the SubcommandCreateProject.
