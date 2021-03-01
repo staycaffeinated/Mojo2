@@ -109,11 +109,11 @@ catalog:
       context: "project"
   - entry:
       template: "/integrationTest/endpoint-root/RootControllerIT.ftl"
-      destination: "src/integration/java/{{basePackage}}/endpoint/root/RootControllerIT.java"
+      destination: "src/integration/java/{{basePackagePath}}/endpoint/root/RootControllerIT.java"
       context:  "project"
   - entry:
       template: "/integrationTest/endpoint-root/RootExceptionHandlingIT.ftl"
-      destination: "src/integration/java/{{basePackage}}/endpoint/root/RootExceptionHandlingIT.java"
+      destination: "src/integration/java/{{basePackagePath}}/endpoint/root/RootExceptionHandlingIT.java"
       context: "project"
   - entry:
       template: "/integrationTest/common/AbstractIntegrationTest.ftl"
