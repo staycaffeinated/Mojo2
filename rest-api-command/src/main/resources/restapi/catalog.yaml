@@ -51,8 +51,12 @@ catalog:
       destination: "src/main/java/{{basePackagePath}}/ServletInitializer.java"
       context: "project"
   - entry:
-      template: "/main/advice/ExceptionHandler.ftl"
-      destination: "src/main/java/{{basePackagePath}}/advice/ExceptionHandler.java"
+      template: "/main/advice/GlobalExceptionHandler.ftl"
+      destination: "src/main/java/{{basePackagePath}}/advice/GlobalExceptionHandler.java"
+      context: "project"
+  - entry:
+      template: "/main/exception/UnprocessableEntityException.ftl"
+      destination: "src/main/java/{{basePackagePath}}/advice/UnprocessableEntityException.java"
       context: "project"
   - entry:
       template: "/main/common/Constants.ftl"
@@ -106,6 +110,10 @@ catalog:
   - entry:
       template: "/test/endpoint-root/RootControllerTest.ftl"
       destination: "src/test/java/{{basePackagePath}}/endpoint/root/RootControllerTest.java"
+      context: "project"
+  - entry:
+      template: "/test/advice/GlobalExceptionHandlerTests.ftl"
+      destination: "src/test/java/{{basePackagePath}}/advice/GlobalExceptionHandlerTests.java"
       context: "project"
   - entry:
       template: "/integrationTest/endpoint-root/RootControllerIT.ftl"
