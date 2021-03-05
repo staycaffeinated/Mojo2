@@ -47,7 +47,7 @@ public class ${endpoint.entityName}ControllerIT extends AbstractIntegrationTest 
             ${endpoint.entityName} ${endpoint.entityVarName} = ${endpoint.entityVarName}List.get(0);
             Long ${endpoint.entityVarName}Id = ${endpoint.entityVarName}.getResourceId();
 
-            mockMvc.perform(get("${endpoint.basePath}/{id}", ${endpoint.entityVarName}Id))
+            mockMvc.perform(get(${endpoint.entityName}Routes.EXACTLY_ONE, ${endpoint.entityVarName}Id))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.text", is(${endpoint.entityVarName}.getText())));
 
@@ -63,7 +63,7 @@ public class ${endpoint.entityName}ControllerIT extends AbstractIntegrationTest 
         void shouldCreateNew${endpoint.entityName}() throws Exception {
             ${endpoint.entityName}Resource resource = ${endpoint.entityName}Resource.builder().text("I am a new resource").build();
 
-            mockMvc.perform(post("${endpoint.basePath}")
+            mockMvc.perform(post(${endpoint.entityName}Routes.CREATE_ONE)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(resource)))
                     .andExpect(status().isCreated())
@@ -79,7 +79,7 @@ public class ${endpoint.entityName}ControllerIT extends AbstractIntegrationTest 
         void shouldReturn400WhenCreateNew${endpoint.entityName}WithoutText() throws Exception {
             ${endpoint.entityName}Resource resource = ${endpoint.entityName}Resource.builder().build();
 
-            mockMvc.perform(post("${endpoint.basePath}")
+            mockMvc.perform(post(${endpoint.entityName}Routes.CREATE_ONE)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(resource)))
                     .andExpect(status().is(400))
@@ -101,7 +101,7 @@ public class ${endpoint.entityName}ControllerIT extends AbstractIntegrationTest 
             ${endpoint.entityName} ${endpoint.entityVarName} = ${endpoint.entityVarName}List.get(0);
             ${endpoint.entityName}Resource resource = new ${endpoint.entityName}BeanToResourceConverter().convert(${endpoint.entityVarName});
 
-            mockMvc.perform(put("${endpoint.basePath}/{id}", ${endpoint.entityVarName}.getResourceId())
+            mockMvc.perform(put(${endpoint.entityName}Routes.EXACTLY_ONE, ${endpoint.entityVarName}.getResourceId())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(resource)))
                     .andExpect(status().isOk())
@@ -120,7 +120,7 @@ public class ${endpoint.entityName}ControllerIT extends AbstractIntegrationTest 
             ${endpoint.entityName} ${endpoint.entityVarName} = ${endpoint.entityVarName}List.get(0);
 
             mockMvc.perform(
-                    delete("${endpoint.basePath}/{id}", ${endpoint.entityVarName}.getResourceId()))
+                    delete(${endpoint.entityName}Routes.EXACTLY_ONE, ${endpoint.entityVarName}.getResourceId()))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.text", is(${endpoint.entityVarName}.getText())));
         }

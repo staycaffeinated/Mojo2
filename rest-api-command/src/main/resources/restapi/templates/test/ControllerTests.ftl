@@ -72,7 +72,7 @@ class ${endpoint.entityName}ControllerTest {
         void shouldFetchAll${endpoint.entityName}s() throws Exception {
             given(${endpoint.entityVarName}Service.findAll${endpoint.entityName}s()).willReturn(${endpoint.entityVarName}List);
 
-            mockMvc.perform(get("${endpoint.basePath}"))
+            mockMvc.perform(get( ${endpoint.entityName}Routes.GET_ALL ))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", is(${endpoint.entityVarName}List.size())));
         }
@@ -96,7 +96,7 @@ class ${endpoint.entityName}ControllerTest {
                 .willReturn(Optional.of(${endpoint.entityVarName}));
 
             // when/then
-            mockMvc.perform(get("${endpoint.basePath}/{id}", resourceId))
+            mockMvc.perform(get(${endpoint.entityName}Routes.EXACTLY_ONE, resourceId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.text", is(${endpoint.entityVarName}.getText())))
             ;
@@ -110,7 +110,7 @@ class ${endpoint.entityName}ControllerTest {
                     .willReturn(Optional.empty());
 
             // when/then
-            mockMvc.perform(get("${endpoint.basePath}/{id}", resourceId ))
+            mockMvc.perform(get(${endpoint.entityName}Routes.EXACTLY_ONE, resourceId ))
                 .andExpect(status().isNotFound());
 
         }
@@ -126,7 +126,7 @@ class ${endpoint.entityName}ControllerTest {
             given(${endpoint.entityVarName}Service.create${endpoint.entityName}( any(${endpoint.entityName}Resource.class))).willReturn(resourceAfterSave);
 
             // when/then
-            mockMvc.perform(post("${endpoint.basePath}")
+            mockMvc.perform(post(${endpoint.entityName}Routes.CREATE_ONE)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(resource)))
                     .andExpect(status().isCreated())
@@ -148,7 +148,7 @@ class ${endpoint.entityName}ControllerTest {
             given(${endpoint.entityVarName}Service.update${endpoint.entityName}(any(${endpoint.entityName}Resource.class))).willReturn(Optional.of(${endpoint.entityVarName}));
 
             // when/then
-            mockMvc.perform(put("${endpoint.basePath}/{id}", ${endpoint.entityVarName}.getResourceId())
+            mockMvc.perform(put(${endpoint.entityName}Routes.EXACTLY_ONE, ${endpoint.entityVarName}.getResourceId())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(${endpoint.entityVarName})))
                     .andExpect(status().isOk())
@@ -166,7 +166,7 @@ class ${endpoint.entityName}ControllerTest {
             // when/then
             ${endpoint.entityName}Resource resource = ${endpoint.entityName}Resource.builder().resourceId(resourceId).text("updated text").build();
 
-            mockMvc.perform(put("${endpoint.basePath}/{id}", resourceId)
+            mockMvc.perform(put(${endpoint.entityName}Routes.EXACTLY_ONE, resourceId)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString( resource )))
                     .andExpect(status().isNotFound());
@@ -185,7 +185,7 @@ class ${endpoint.entityName}ControllerTest {
             doNothing().when(${endpoint.entityVarName}Service).delete${endpoint.entityName}ByResourceId(${endpoint.entityVarName}.getResourceId());
 
             // when/then
-            mockMvc.perform(delete("${endpoint.basePath}/{id}", resourceId))
+            mockMvc.perform(delete(${endpoint.entityName}Routes.EXACTLY_ONE, resourceId))
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.text", is(${endpoint.entityVarName}.getText())))
                     ;
@@ -197,7 +197,7 @@ class ${endpoint.entityName}ControllerTest {
             Long resourceId = 1L;
             given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.empty());
 
-            mockMvc.perform(delete("${endpoint.basePath}/{id}",resourceId))
+            mockMvc.perform(delete(${endpoint.entityName}Routes.EXACTLY_ONE,resourceId))
                     .andExpect(status().isNotFound());
         }
     }
@@ -209,12 +209,11 @@ class ${endpoint.entityName}ControllerTest {
             given (${endpoint.entityVarName}Service.findByText(anyString(), anyInt(), anyInt())).willReturn(${endpoint.entityVarName}List);
 
             // when/then
-            mockMvc.perform(get("${endpoint.basePath}/search")
+            mockMvc.perform(get(${endpoint.entityName}Routes.SEARCH)
                     .param("text", "sample")
                     .param("page", "1")
                     .param("size", "10"))
                     .andExpect(status().isOk())
-                    // todo: assert size of result set
             ;
         }
     }
