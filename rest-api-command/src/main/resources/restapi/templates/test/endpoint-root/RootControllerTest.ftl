@@ -38,6 +38,9 @@ class RootControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+    
+    @MockBean
+    private RootService mockRootService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -46,6 +49,11 @@ class RootControllerTest {
     void setUp() {
         objectMapper.registerModule(new ProblemModule());
         objectMapper.registerModule(new ConstraintViolationProblemModule());
+    }
+    
+    @AfterEach
+    void tearDownEachTime() {
+        reset ( mockRootService );
     }
 
     @Nested

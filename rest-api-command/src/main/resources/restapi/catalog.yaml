@@ -108,6 +108,10 @@ catalog:
       destination: "src/main/java/{{basePackagePath}}/endpoint/root/RootController.java"
       context: "project"
   - entry:
+      template:  "/main/endpoint-root/RootService.ftl"
+      destination: "src/main/java/{{basePackagePath}}/endpoint/root/RootService.java"
+      context: "project"
+  - entry:
       template: "/test/endpoint-root/RootControllerTest.ftl"
       destination: "src/test/java/{{basePackagePath}}/endpoint/root/RootControllerTest.java"
       context: "project"
