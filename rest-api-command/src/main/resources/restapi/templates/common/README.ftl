@@ -1,40 +1,73 @@
 
+# Application
 
-## Notes for Developers
+## Application Users: Getting Started
 
-### To Compile the Application
+* Overview
 
-To build the application, run ```./gradlew build```.
-
-To run the application, run ```./gradlew bootRun```.  Naturally, if there are any external dependencies,
-such as a PostgreSQL database, those have to be started first.
+This section discusses how end users use a deployed instance
+of this application. (This section is filled in by you, the developer).class
 
 
-### To Export Results to SonarQube
+## Developers: Getting Started
 
-Before code metrics can be exported to SonarQube, the ```gradle.properties``` file
-must be updated with configuration values that match your environment.
+### Setting up your environment
 
-A local SonarQube instance can be acquired by starting up a SonarQube docker instance.
-See https://docs.sonarqube.org/latest/setup/get-started-2-minutes/ and https://hub.docker.com/_/sonarqube for
-specifics.  Generally, this command will suffice:
+* You must have Java 11 or higher installed
+* You must have Gradle 6.7 or higher installed to build Docker images
+* Sonarqube is only required for code coverage reports.
+
+#### Setting up Sonarqube
+
+Before code metrics can be exported to Sonarqube, the `gradle.properties` file
+in this project must be updated with configuration values that match your environment.class
+
+A local Sonarqube Docker container can be used. Generally, this command will suffice
 
 ```docker run -d --name sonarqube -e SONAR_ES_BOOTSTRAP_CHECKS_DISABLE=true -p 9000:9000 sonarqube:latest```
 
-Once the Sonarqube instance is running, log in to ```http://localhost:9000``` using the default credentials admin/admin.
-You will be prompted to change the default password. Whatever new password you select, update the ```gradle.properties```
-with that password.  When that's done, code metrics from this project can be exported to that Sonarqube server.
+Once Sonarqube is running, log in to `https://localhost:9000` using the default credentials `admin/admin`.
+You will be prompted to change the default password.  Whatever new password you select, update the
+`gradle.properties` file with that password.  When that's done, the code metrics from this project can
+be exported to the Sonarqube Docker container.
 
-To build, test, report test coverage, and export the test coverage to Sonarqube, run
+See [Getting Started with Sonarqube in 2 Minutes](https://docs.sonarqube.org/latest/setup/get-started-2-minutes/)
+and [Running Sonarqube in Docker](https://hub.docker.com/_/sonarqube)
+for additional information.
 
-```./gradlew clean build jacocoTestReport sonarqube```
+### First Steps
 
-### To Check for Latest Library Versions
+The code generator does not create a Gradle wrapper, so create one:
 
-The build includes the _gradle-versions_ plugin, which will report on any outdated libraries.
-To run this report, run this gradle task:
+```gradle wrapper```
+
+#### Compile
+
+```./gradlew build```
+
+#### Compile and get code coverage
+
+```./gradlew clean build jacocoTestRepeort sonarqube```
+
+#### Build Docker Image
+
+```./gradlew bootBuildImage```
+
+#### Run the application in Docker (locally)
+
+```
+./gradlew bootBuildImage
+cd docker-compose
+docker-compose up -d
+```
+
+A simple docker-compose file is written into the docker-compose directory.
+The explicit version of the application is stated. The `latest` version keyword
+is not used becuase that causes Docker to search the global Docker registry
+for the latest version.  By indicating the specific version of this application,
+Docker checks the local cache of images first.
+
+#### Check for latest library versions
 
 ```./gradlew dependencyUpdates```
 
-which prints its report to the console.  See the [plugin documentation](https://github.com/ben-manes/gradle-versions-plugin)
-for a deep dive.
