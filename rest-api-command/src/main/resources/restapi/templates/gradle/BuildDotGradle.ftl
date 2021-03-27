@@ -6,7 +6,7 @@ plugins {
     id 'idea'
     id 'jacoco'
     id 'org.sonarqube' version '3.1.1'
-    id 'com.github.ben-manes.versions' version '${project.benManesVersions}'
+    id 'com.github.ben-manes.versions' version '${project.benManesPluginVersion}'
 }
 
 apply from: "gradle/dependencies.gradle"
