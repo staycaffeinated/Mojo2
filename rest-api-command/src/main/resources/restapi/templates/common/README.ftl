@@ -1,6 +1,19 @@
 
 # Application
 
+## Table of Contents
+
+[Application Users: Getting Started](## Application Users: Getting Started)
+[Developers: Getting Started](## Developers: Getting Started)
+[Setting Up your Environment](### Setting up your environment)
+[Setting up Sonarqube](#### Setting up Sonarqube)
+[First Steps](### First Steps)
+[Compile](#### Compile)
+[Compile with Code Coverage](#### Compile and get code coverage)
+[Build Docker Image](#### Build Docker Image)
+[Run Locally in Docker](#### Run the application in Docker (locally))
+[Check for Latest Dependency Versions](#### Check for latest library versions)
+
 ## Application Users: Getting Started
 
 * Overview
