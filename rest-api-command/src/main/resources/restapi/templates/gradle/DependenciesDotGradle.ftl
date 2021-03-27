@@ -14,6 +14,8 @@ ext {
         truth                : '${project.truthVersion}'                // Google's assertion library
         ]
 <#noparse>
+
+
     libs = [
         assertJ                     : "org.assertj:assertj-core:$versions.assertJ",
         h2                          : "com.h2database:h2",
