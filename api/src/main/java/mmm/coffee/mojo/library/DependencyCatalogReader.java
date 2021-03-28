@@ -26,7 +26,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * Reads the library-versions.yaml file
+ * Reads the dependencies.yaml file
  */
 public class DependencyCatalogReader {
 
