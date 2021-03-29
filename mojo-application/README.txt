@@ -12,6 +12,10 @@ A Homebrew formula exists for Mojo. The archive fetched by homebrew is manually 
 
 ## Steps to create the archive:
 
+# FIRST STEP:
+# Update the MojoApplication.java and update the picoli version annotation
+
+# NEXT STEP:
 ```[bash]
 # Assemble the application's artifacts
 # The version property is optional; this is the syntax when used.
@@ -49,13 +53,13 @@ vi mojo.rb
 # Commit the new gzip file and Formula to git:
 git add -f ../mojo-application-x.y.z.tar.gz
 git add mojo.rb
-git commit -n "publishing version x.y.z"
+git commit -m "publishing version x.y.z"
 git push
 
 # Update the local homebrew formula
 ./update-tap.sh
 
 # Update the homebrew-install mojo
-# (something like) brew update mojo
-# (the tap may need refreshing, too; but not sure)
+```[shell]
+brew upgrade mojo
 ```
