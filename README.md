@@ -106,6 +106,9 @@ curl http://localhost:8080/adventure/_internal/health
 ## Build Process
 
 This section discusses how to build this code base.
+
+NOTE: Java 11 is required; Jacoco does not yet support later versions (support for java 15
+is in beta, but not working at the time I added this note).
                     
 ### Compile
 
