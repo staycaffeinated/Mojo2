@@ -7,6 +7,7 @@ plugins {
     id 'jacoco'
     id 'org.sonarqube' version '3.1.1'
     id 'com.github.ben-manes.versions' version '${project.benManesPluginVersion}'
+    id 'com.google.cloud.tools.jib' version '${project.jibPluginVersion}'
 }
 
 apply from: "gradle/dependencies.gradle"
@@ -130,4 +131,23 @@ sonarqube {
 }
 tasks['sonarqube'].dependsOn test
 tasks['sonarqube'].dependsOn integrationTest
+
+// --------------------------------------------------------------------------------
+// Jib plugin for Docker
+// --------------------------------------------------------------------------------
+jib {
+    from {
+        image = 'openjdk:17-jdk-alpine'
+    }
+    to {
+        image = '${project.applicationName}'
+        tags = [ 'latest', 'jdk-17', '0.0.1-SNAPSHOT' ]
+    }
+    container {
+        format = 'OCI'
+    }
+}
+// This next line causes the Docker image to be rebuilt after every `gw build` command.
+// Its safe to comment out this line if you do not want this behavior.
+tasks.build.dependsOn tasks.jibDockerBuild
 
