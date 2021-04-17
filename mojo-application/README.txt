@@ -55,7 +55,5 @@ git push
 # Update the local homebrew formula
 ./update-tap.sh
 
-# Update the homebrew-install mojo
-# (something like) brew update mojo
-# (the tap may need refreshing, too; but not sure)
-```
+# Update the homebrew version of mojo
+brew upgrade mojo
