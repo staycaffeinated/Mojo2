@@ -28,7 +28,7 @@ package mmm.coffee.mojo.restapi.shared;
  * to the backend code that handles requests.
  * 
  */
-public enum Mode {
+public enum ApiMode {
     BLOCKING("blocking"),
     REACTIVE ("reactive"),
     FUNCTIONAL ("functional")
@@ -37,7 +37,7 @@ public enum Mode {
     // This is the value an end-user enters on the command line.
     private final String value;
 
-    Mode(String name) { this.value = name; }
+    ApiMode(String name) { this.value = name; }
 
     @Override
     public String toString() { return value; }
