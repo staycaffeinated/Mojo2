@@ -73,12 +73,19 @@ public class SubcommandCreateProject implements Callable<Integer> {
      * In 'reactive' and 'functional' mode, the generated code depends on Spring-WebFlux.
      * With 'reactive', Controllers with reactive streams are generated.
      * With 'functional', Handlers and Routers are generated.
+     *
+     * The -m flag indicates the programming model followed by the generated code.
+     * WebFlux has 2 programming models: Annotated Controllers; Functional Endpoints.
+     * Annotated Controllers work like MVC controllers.
+     * Functional Endpoints are lambda-based functional programming model. These employ Handlers and Routers.
+     *
+     * See https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html
      */
-    @CommandLine.Option(names = { "-m", "--mode" },
-            description = { "The API mode indicates whether to generate endpoints that use a blocking, reactive, or functional API.",
-                             "A blocking API will use Spring MVC.",
-                             "A reactive API will use Spring WebFlux and employ Controllers.",
-                             "A functional API will use Spring WebFlux and employ Routers and Handlers." },
+    @CommandLine.Option(names = { "-m", "--model" },
+            description = { "The API model indicates whether to generate endpoints that are blocking or non-blocking.",
+                             "Endpoints using the blocking model will use Spring MVC. Use this if doing JDBC, JPA, or imperative logic.",
+                             "Endpoints using the simple reactive model will use Spring WebFlux and employ annotated Controllers.",
+                             "Endpoints using the functional model will use Spring WebFlux and employ Routers and Handlers." },
             defaultValue = "blocking",
             paramLabel = "API_MODE")
     private ApiMode mode;
