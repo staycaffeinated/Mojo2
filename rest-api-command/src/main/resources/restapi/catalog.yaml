@@ -35,6 +35,22 @@ catalog:
       destination: "gradle/dependencies.gradle"
       context: "project"
   - entry:
+      template: "/gradle/JibDotGradle.ftl"
+      destination: "gradle/jib.gradle"
+      context: "project"
+  - entry:
+      template: "/gradle/LintDotGradle.ftl"
+      destination: "gradle/lint.gradle"
+      context: "project"
+  - entry:
+      template: "/gradle/SonarqubeDotGradle.ftl"
+      destination: "gradle/sonarqube.gradle"
+      context: "project"
+  - entry:
+      template: "/gradle/SpotlessDotGradle.ftl"
+      destination: "gradle/spotless.gradle"
+      context: "project"
+  - entry:
       template: "/gradle/GradleDotProperties.ftl"
       destination: "gradle.properties"
       context: "project"

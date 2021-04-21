@@ -30,6 +30,9 @@ dependencies:
       name: "mockito"
       version: "3.10.0"
   - dependency:
+      name: "spotless"
+      version: "5.12.2"
+  - dependency:
       name: "springBoot"
       version: "2.4.5"
   - dependency:
