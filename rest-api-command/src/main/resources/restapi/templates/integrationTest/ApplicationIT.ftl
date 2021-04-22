@@ -8,5 +8,4 @@ class ApplicationTests extends AbstractIntegrationTest {
 
     @Test
     void contextLoads() {}
-
 }

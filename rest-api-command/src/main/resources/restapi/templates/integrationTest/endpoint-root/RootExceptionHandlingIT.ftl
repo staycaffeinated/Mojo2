@@ -2,31 +2,24 @@
 
 package ${project.basePackage}.endpoint.root;
 
-import ${project.basePackage}.common.AbstractIntegrationTest;
-
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.test.context.TestExecutionListeners;
-import org.springframework.test.web.servlet.ResultMatcher;
-import org.springframework.web.HttpRequestMethodNotSupportedException;
-
 import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
-import static org.springframework.mock.http.server.reactive.MockServerHttpRequest.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.options;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import ${project.basePackage}.common.AbstractIntegrationTest;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 
 /**
  * Integration tests of the exception handling of the root controller
@@ -34,12 +27,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 class RootExceptionHandlingIT extends AbstractIntegrationTest {
 
-    @MockBean
-    private RootService mockService;  // this is used to initialize the controller
+    @MockBean private RootService mockService;  // this is used to initialize the controller
 
-    @Autowired
-    private RootController controllerUnderTest;
-
+    @Autowired private RootController controllerUnderTest;
 
     @Nested
     class ExceptionTests {
