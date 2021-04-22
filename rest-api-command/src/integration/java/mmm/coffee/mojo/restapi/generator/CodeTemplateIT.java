@@ -19,6 +19,7 @@ import freemarker.template.Configuration;
 import mmm.coffee.mojo.catalog.CatalogEntry;
 import mmm.coffee.mojo.catalog.TemplateCatalog;
 import mmm.coffee.mojo.library.DependencyCatalog;
+import mmm.coffee.mojo.restapi.shared.ProgrammingModel;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -57,10 +58,10 @@ class CodeTemplateIT {
 
     private TemplateCatalog catalog;
 
-    private Map<String,Object> projectProperties = new HashMap<>();
-    private Map<String,Object> endpointProperties = new HashMap<>();
+    final private Map<String,Object> projectProperties = new HashMap<>();
+    final private Map<String,Object> endpointProperties = new HashMap<>();
 
-    private Configuration freemarkerConfiguration = ConfigurationFactory.defaultConfiguration();
+    final private Configuration freemarkerConfiguration = ConfigurationFactory.defaultConfiguration();
 
     @BeforeEach
     public void setUpEachTime() {
@@ -69,6 +70,7 @@ class CodeTemplateIT {
         projectProperties.clear();
         endpointProperties.clear();
 
+        // These are the properties in the lexical scope of the project-scope templates
         projectProperties.put("basePackage", BASE_PACKAGE);
         projectProperties.put("basePackagePath", BASE_PACKAGE_PATH);
         projectProperties.put("springBootVersion", "2.2.4.RELEASE");
@@ -79,9 +81,11 @@ class CodeTemplateIT {
         projectProperties.put("javaVersion", "11");
         projectProperties.put(ProjectKeys.SCHEMA, "widgets");
         projectProperties.put(ProjectKeys.BASE_PATH, "/widgets");
+        projectProperties.put(ProjectKeys.PROGRAMMING_MODEL, ProgrammingModel.BLOCKING.name());
 
         populateDependencyKeys();
 
+        // These are the properties in the lexical scope of the endpoint-scope templates
         endpointProperties.putAll(projectProperties);
         endpointProperties.put("entityName", "Widget");
         endpointProperties.put("entityVarName", "widget");

@@ -22,7 +22,7 @@ import mmm.coffee.mojo.restapi.cli.validator.PackageNameValidator;
 import mmm.coffee.mojo.restapi.generator.ProjectGenerator;
 import mmm.coffee.mojo.restapi.generator.ProjectKeys;
 import mmm.coffee.mojo.restapi.generator.SyntaxRules;
-import mmm.coffee.mojo.restapi.shared.ApiMode;
+import mmm.coffee.mojo.restapi.shared.ProgrammingModel;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
 import picocli.CommandLine;
 
@@ -68,9 +68,9 @@ public class SubcommandCreateProject implements Callable<Integer> {
     private String groupId;
 
     /**
-     * The Mode determines whether the backend code will use Controllers or Handlers and Routers.
-     * In 'standard' mode, the generated code is depends on Spring-MVC.
-     * In 'reactive' and 'functional' mode, the generated code depends on Spring-WebFlux.
+     * The Programming Model determines whether the backend code will use Controllers or Handlers and Routers.
+     * In the 'standard' programming model, the generated code is depends on Spring-MVC.
+     * In 'reactive' and 'functional' programming model, the generated code depends on Spring-WebFlux.
      * With 'reactive', Controllers with reactive streams are generated.
      * With 'functional', Handlers and Routers are generated.
      *
@@ -82,13 +82,13 @@ public class SubcommandCreateProject implements Callable<Integer> {
      * See https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html
      */
     @CommandLine.Option(names = { "-m", "--model" },
-            description = { "The API model indicates whether to generate endpoints that are blocking or non-blocking.",
+            description = { "The programming model indicates whether to generate endpoints that are blocking or non-blocking.",
                              "Endpoints using the blocking model will use Spring MVC. Use this if doing JDBC, JPA, or imperative logic.",
                              "Endpoints using the simple reactive model will use Spring WebFlux and employ annotated Controllers.",
                              "Endpoints using the functional model will use Spring WebFlux and employ Routers and Handlers." },
             defaultValue = "blocking",
-            paramLabel = "API_MODE")
-    private ApiMode mode;
+            paramLabel = "PROGRAMMING_MODEL")
+    private ProgrammingModel programmingModel;
 
 
     /**
@@ -172,6 +172,7 @@ public class SubcommandCreateProject implements Callable<Integer> {
         map.put(ProjectKeys.APPLICATION_NAME, nullSafeValue(applicationName));
         map.put(ProjectKeys.SCHEMA, nullSafeValue(SyntaxRules.schemaSyntax(dbmsSchema)));
         map.put(ProjectKeys.BASE_PATH, nullSafeValue(basePath));
+        map.put(ProjectKeys.PROGRAMMING_MODEL, programmingModel);
         map.put("features", features);
         if (dryRun)
             map.put(DryRunOption.DRY_RUN_KEY, Boolean.TRUE);

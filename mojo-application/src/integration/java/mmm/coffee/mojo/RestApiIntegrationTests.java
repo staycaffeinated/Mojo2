@@ -38,22 +38,22 @@ public class RestApiIntegrationTests {
 
     @Test
     @DisplayName("Generate a project without extra features")
-    void shouldCreateProjectBasicProject() {
-        int rc = cli.execute(toArgV("rest-api create-project --dry-run -p=oops.delete_me.ima_mistake"));
+    void shouldCreateProjectWithMinimumFeatures() {
+        int rc = cli.execute(toArgV("rest-api create-project --dry-run -p=oops.delete_me.ima_mistake --model=blocking"));
         assertThat(rc).isEqualTo(0);
     }
 
     @Test
     @DisplayName("Generate a project without extra features")
     void shouldCreateProjectWithPostgresql() {
-        int rc = cli.execute(toArgV("rest-api create-project --dry-run -p=oops.delete_me.ima_mistake"));
+        int rc = cli.execute(toArgV("rest-api create-project --dry-run -p=oops.delete_me.ima_mistake --model=blocking"));
         assertThat(rc).isEqualTo(0);
     }
 
     @Test
     @DisplayName("Generate a project with postgres, liquibase, and test container support")
     void shouldCreateProjectWithPostgresqlLiquibaseTestContainers() {
-        int rc = cli.execute(toArgV("rest-api create-project --dry-run -p=oops.delete_me.ima_mistake --support postgres liquibase testcontainers"));
+        int rc = cli.execute(toArgV("rest-api create-project --dry-run -p=oops.delete_me.ima_mistake --model=blocking --support postgres liquibase testcontainers"));
         assertThat(rc).isEqualTo(0);
     }
 
@@ -66,7 +66,7 @@ public class RestApiIntegrationTests {
 
     @Test
     void shouldReturnNonZeroIfPackageNameIsInvalid() {
-        int rc = cli.execute(toArgV("rest-api create-project --dry-run --package=ABC.def.123foo"));
+        int rc = cli.execute(toArgV("rest-api create-project --dry-run --model=blocking --package=ABC.def.123foo"));
         assertThat(rc).isNotEqualTo(0);
     }
 

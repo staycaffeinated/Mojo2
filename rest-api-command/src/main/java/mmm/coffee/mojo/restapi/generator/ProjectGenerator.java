@@ -23,6 +23,7 @@ import mmm.coffee.mojo.catalog.CatalogEntry;
 import mmm.coffee.mojo.catalog.TemplateCatalog;
 import mmm.coffee.mojo.library.DependencyCatalog;
 import mmm.coffee.mojo.mixin.DryRunOption;
+import mmm.coffee.mojo.restapi.shared.ProgrammingModel;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
 
 import java.io.File;
@@ -50,6 +51,7 @@ public class ProjectGenerator implements Generator {
     /**
      * Configure the lexical scope of the ProjectGenerator. This method defines the
      * variables that will be shared with the templates when the templates are rendered.
+     * Another way of putting it: define the variables intended for consumption by the templates.
      *
      * Internally, the lexicalScope is populated with all properties expected by templates.
      * A runtime error occurs if a template cannot resolve a property.
@@ -67,6 +69,11 @@ public class ProjectGenerator implements Generator {
         // The caller is usually the SubcommandCreateProject.
         lexicalScope.putAll(commandLineOptions);
 
+        // Set the programming model
+        ProgrammingModel programmingModel = (ProgrammingModel) commandLineOptions.get(ProjectKeys.PROGRAMMING_MODEL);
+        if (programmingModel == null) programmingModel = ProgrammingModel.BLOCKING;
+        lexicalScope.put(ProjectKeys.PROGRAMMING_MODEL, programmingModel.name());
+        
         String basePackagePath = MojoUtils.convertPackageNameToPath((String)commandLineOptions.get(ProjectKeys.BASE_PACKAGE));
         lexicalScope.put(ProjectKeys.BASE_PACKAGE_PATH, basePackagePath);
 
