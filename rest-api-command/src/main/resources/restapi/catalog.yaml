@@ -59,186 +59,186 @@ catalog:
       destination: "src/main/docker-compose/docker-compose.yaml"
       context: "project"
   - entry:
-      template: "/main/Application.ftl"
+      template: "/flavor/blocking/main/Application.ftl"
       destination: "src/main/java/{{basePackagePath}}/Application.java"
       context: "project"
   - entry:
-      template: "/main/ServletInitializer.ftl"
+      template: "/flavor/blocking/main/ServletInitializer.ftl"
       destination: "src/main/java/{{basePackagePath}}/ServletInitializer.java"
       context: "project"
   - entry:
-      template: "/main/advice/GlobalExceptionHandler.ftl"
+      template: "/flavor/blocking/main/advice/GlobalExceptionHandler.ftl"
       destination: "src/main/java/{{basePackagePath}}/advice/GlobalExceptionHandler.java"
       context: "project"
   - entry:
-      template: "/main/exception/UnprocessableEntityException.ftl"
+      template: "/flavor/blocking/main/exception/UnprocessableEntityException.ftl"
       destination: "src/main/java/{{basePackagePath}}/advice/UnprocessableEntityException.java"
       context: "project"
   - entry:
-      template: "/main/common/Constants.ftl"
+      template: "/flavor/blocking/main/common/Constants.ftl"
       destination: "src/main/java/{{basePackagePath}}/common/Constants.java"
       context: "project"
   - entry:
-      template: "/main/config/DateTimeFormatConfiguration.ftl"
+      template: "/flavor/blocking/main/config/DateTimeFormatConfiguration.ftl"
       destination: "src/main/java/{{basePackagePath}}/config/DateTimeFormatConfiguration.java"
       context: "project"
   - entry:
-      template: "/main/config/ProblemConfiguration.ftl"
+      template: "/flavor/blocking/main/config/ProblemConfiguration.ftl"
       destination: "src/main/java/{{basePackagePath}}/config/ProblemConfiguration.java"
       context: "project"
   - entry:
-      template: "/main/config/WebMvcConfiguration.ftl"
+      template: "/flavor/blocking/main/config/WebMvcConfiguration.ftl"
       destination: "src/main/java/{{basePackagePath}}/config/WebMvcConfiguration.java"
       context: "project"
   - entry:
-      template: "/main/filter/SecurityResponseHeadersFilter.ftl"
+      template: "/flavor/blocking/main/filter/SecurityResponseHeadersFilter.ftl"
       destination: "src/main/java/{{basePackagePath}}/filter/SecurityResponseHeadersFilter.java"
       context: "project"
       feature: "security:headers"
   - entry:
-      template: "/main/math/SecureRandomSeries.ftl"
+      template: "/flavor/blocking/main/math/SecureRandomSeries.ftl"
       destination: "src/main/java/{{basePackagePath}}/math/SecureRandomSeries.java"
       context: "project"
   - entry:
-      template: "/main/stereotype/RestfulResource.ftl"
+      template: "/flavor/blocking/main/stereotype/RestfulResource.ftl"
       destination: "src/main/java/{{basePackagePath}}/stereotype/RestfulResource.java"
       context: "project"
   - entry:
-      template: "/main/validation/Alphabetic.ftl"
+      template: "/flavor/blocking/main/validation/Alphabetic.ftl"
       destination: "src/main/java/{{basePackagePath}}/validation/Alphabetic.java"
       context: "project"
   - entry:
-      template: "/main/validation/AlphabeticValidation.ftl"
+      template: "/flavor/blocking/main/validation/AlphabeticValidation.ftl"
       destination: "src/main/java/{{basePackagePath}}/validation/AlphabeticValidation.java"
       context: "project"
   - entry:
-      template: "/main/validation/OnCreate.ftl"
+      template: "/flavor/blocking/main/validation/OnCreate.ftl"
       destination: "src/main/java/{{basePackagePath}}/validation/OnCreate.java"
       context: "project"
   - entry:
-      template: "/main/validation/OnUpdate.ftl"
+      template: "/flavor/blocking/main/validation/OnUpdate.ftl"
       destination: "src/main/java/{{basePackagePath}}/validation/OnUpdate.java"
       context: "project"
   - entry:
-      template:  "/main/endpoint-root/RootController.ftl"
+      template:  "/flavor/blocking/main/endpoint-root/RootController.ftl"
       destination: "src/main/java/{{basePackagePath}}/endpoint/root/RootController.java"
       context: "project"
   - entry:
-      template:  "/main/endpoint-root/RootService.ftl"
+      template:  "/flavor/blocking/main/endpoint-root/RootService.ftl"
       destination: "src/main/java/{{basePackagePath}}/endpoint/root/RootService.java"
       context: "project"
   - entry:
-      template: "/test/endpoint-root/RootControllerTest.ftl"
+      template: "/flavor/blocking/test/endpoint-root/RootControllerTest.ftl"
       destination: "src/test/java/{{basePackagePath}}/endpoint/root/RootControllerTest.java"
       context: "project"
   - entry:
-      template: "/test/advice/GlobalExceptionHandlerTests.ftl"
+      template: "/flavor/blocking/test/advice/GlobalExceptionHandlerTests.ftl"
       destination: "src/test/java/{{basePackagePath}}/advice/GlobalExceptionHandlerTests.java"
       context: "project"
   - entry:
-      template: "/integrationTest/endpoint-root/RootControllerIT.ftl"
+      template: "/flavor/blocking/integrationTest/endpoint-root/RootControllerIT.ftl"
       destination: "src/integration/java/{{basePackagePath}}/endpoint/root/RootControllerIT.java"
       context:  "project"
   - entry:
-      template: "/integrationTest/endpoint-root/RootExceptionHandlingIT.ftl"
+      template: "/flavor/blocking/integrationTest/endpoint-root/RootExceptionHandlingIT.ftl"
       destination: "src/integration/java/{{basePackagePath}}/endpoint/root/RootExceptionHandlingIT.java"
       context: "project"
   - entry:
-      template: "/integrationTest/common/AbstractIntegrationTest.ftl"
+      template: "/flavor/blocking/integrationTest/common/AbstractIntegrationTest.ftl"
       destination: "src/integration/java/{{basePackagePath}}/common/AbstractIntegrationTest.java"
       context: "project"
   - entry:
-      template: "/integrationTest/ApplicationIT.ftl"
+      template: "/flavor/blocking/integrationTest/ApplicationIT.ftl"
       destination: "src/integration/java/{{basePackagePath}}/ApplicationIT.java"
       context: "project"
   - entry:
-      template: "/main/resources/ApplicationDotProperties.ftl"
+      template: "/flavor/blocking/main/resources/ApplicationDotProperties.ftl"
       destination: "src/main/resources/application.properties"
       context: "project"
   - entry:
-      template: "/test/resources/ApplicationTestDotYaml.ftl"
+      template: "/flavor/blocking/test/resources/ApplicationTestDotYaml.ftl"
       destination: "src/test/resources/application-test.yaml"
       context: "project"
   - entry:
-      template: "/test/resources/BootstrapDotProperties.ftl"
+      template: "/flavor/blocking/test/resources/BootstrapDotProperties.ftl"
       destination: "src/test/resources/bootstrap-test.properties"
       context: "project"
       feature: "testcontainers"
   - entry:
-      template: "/main/resources/db/liquibase/db.changelog-master.ftl"
+      template: "/flavor/blocking/main/resources/db/liquibase/db.changelog-master.ftl"
       destination: "src/main/resources/db/changelog/db.changelog-master.yaml"
       context: "project"
       feature: "liquibase"
   - entry:
-      template: "/main/resources/db/liquibase/db.changelog-001-create-schema.ftl"
+      template: "/flavor/blocking/main/resources/db/liquibase/db.changelog-001-create-schema.ftl"
       destination: "src/main/resources/db.changelog/db.changelog-001-create-schema.yaml"
       context: "project"
       feature: "liquibase"
   - entry:
-      template: "/test/math/SecureRandomSeriesTests.ftl"
+      template: "/flavor/blocking/test/math/SecureRandomSeriesTests.ftl"
       destination: "src/test/java/{{basePackagePath}}/math/SecureRandomSeriesTests.java"
       context: "project"
   - entry:
-      template: "/test/validation/AlphabeticValidationTests.ftl"
+      template: "/flavor/blocking/test/validation/AlphabeticValidationTests.ftl"
       destination: "src/test/java/{{basePackagePath}}/validation/AlphabeticValidationTests.java"
       context: "project"
   - entry:
-      template: "/main/endpoint/Entity.ftl"
+      template: "/flavor/blocking/main/endpoint/Entity.ftl"
       destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}.java"
       context: "endpoint"
   - entry:
-      template: "/main/endpoint/EntityBeanToResourceConverter.ftl"
+      template: "/flavor/blocking/main/endpoint/EntityBeanToResourceConverter.ftl"
       destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}BeanToResourceConverter.java"
       context: "endpoint"
   - entry:
-      template: "/main/endpoint/EntityResource.ftl"
+      template: "/flavor/blocking/main/endpoint/EntityResource.ftl"
       destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}Resource.java"
       context: "endpoint"
   - entry:
-      template: "/main/endpoint/Repository.ftl"
+      template: "/flavor/blocking/main/endpoint/Repository.ftl"
       destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}Repository.java"
       context: "endpoint"
   - entry:
-      template: "/main/endpoint/ResourceToEntityBeanConverter.ftl"
+      template: "/flavor/blocking/main/endpoint/ResourceToEntityBeanConverter.ftl"
       destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ResourceToBeanConverter.java"
       context: "endpoint"
   - entry:
-      template: "/main/endpoint/RestController.ftl"
+      template: "/flavor/blocking/main/endpoint/RestController.ftl"
       destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}Controller.java"
       context: "endpoint"
   - entry:
-      template: "/main/endpoint/RestService.ftl"
+      template: "/flavor/blocking/main/endpoint/RestService.ftl"
       destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}Service.java"
       context: "endpoint"
   - entry:
-      template: "/main/endpoint/EntityRoutes.ftl"
+      template: "/flavor/blocking/main/endpoint/EntityRoutes.ftl"
       destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}Routes.java"
       context: "endpoint"
   - entry:
-      template: "/test/BeanToResourceConverterTests.ftl"
+      template: "/flavor/blocking/test/BeanToResourceConverterTests.ftl"
       destination: "src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}BeanToResourceConverterTests.java"
       context: "endpoint"
   - entry:
-      template: "/test/ControllerTests.ftl"
+      template: "/flavor/blocking/test/ControllerTests.ftl"
       destination: "src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ControllerTests.java"
       context: "endpoint"
   - entry:
-      template: "/test/FakeConversionService.ftl"
+      template: "/flavor/blocking/test/FakeConversionService.ftl"
       destination: "src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/FakeConversionService.java"
       context: "endpoint"
   - entry:
-      template: "/test/ResourceToBeanConverterTests.ftl"
+      template: "/flavor/blocking/test/ResourceToBeanConverterTests.ftl"
       destination: "src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ResourceToBeanConverterTests.java"
       context: "endpoint"
   - entry:
-      template: "/test/ServiceTests.ftl"
+      template: "/flavor/blocking/test/ServiceTests.ftl"
       destination: "src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ServiceTests.java"
       context: "endpoint"
   - entry:
-      template: "/integrationTest/ExceptionHandlingIT.ftl"
+      template: "/flavor/blocking/integrationTest/ExceptionHandlingIT.ftl"
       destination: "src/integration/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ExceptionHandlingIT.java"
       context: "endpoint"
   - entry:
-      template: "/integrationTest/ControllerIT.ftl"
+      template: "/flavor/blocking/integrationTest/ControllerIT.ftl"
       destination: "src/integration/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ControllerIT.java"
       context: "endpoint"

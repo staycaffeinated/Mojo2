@@ -27,9 +27,11 @@ import org.springframework.web.HttpRequestMethodNotSupportedException;
 @ExtendWith(SpringExtension.class)
 class RootExceptionHandlingIT extends AbstractIntegrationTest {
 
-    @MockBean private RootService mockService;  // this is used to initialize the controller
+    @MockBean
+    private RootService mockService;  // this is used to initialize the controller
 
-    @Autowired private RootController controllerUnderTest;
+    @Autowired
+    private RootController controllerUnderTest;
 
     @Nested
     class ExceptionTests {
@@ -37,13 +39,10 @@ class RootExceptionHandlingIT extends AbstractIntegrationTest {
         @Test
         void shouldNotReturnStackTrace() throws Exception {
             // when/then
-            mockMvc.perform(post("/")
-                    .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(jsonPath("$.stackTrace").doesNotExist())
-                    .andDo((print()))
-                    .andReturn();
+            mockMvc.perform(post("/").contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(jsonPath("$.stackTrace").doesNotExist()).andDo((print())).andReturn();
         }
-
+   
         /**
          * This exercises the GlobalExceptionHandler by simulating an HttpRequestMethodNotSupportedException.
          * If properly configured, the ProblemHandling method that handles this exception should catch it
@@ -61,12 +60,10 @@ class RootExceptionHandlingIT extends AbstractIntegrationTest {
             });
 
             // when/then
-            mockMvc.perform(get("/")
-                    .contentType(MediaType.APPLICATION_JSON))
+            mockMvc.perform(get("/").contentType(MediaType.APPLICATION_JSON))
                     .andExpect(status().is(HttpStatus.METHOD_NOT_ALLOWED.value()))
                     .andExpect(jsonPath("$.status", is(405)))   // problem/json should return a status:405
-                    .andDo(print())
-                    .andReturn();
+                    .andDo(print()).andReturn();
         }
-    }
+   }
 }

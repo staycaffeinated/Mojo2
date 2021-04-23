@@ -1,4 +1,4 @@
-<#-- @ftlroot "../.." -->
+<#-- @ftlroot "../../../.." -->
 <#include "/common/Copyright.ftl">
 package ${project.basePackage}.endpoint.root;
 

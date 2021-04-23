@@ -7,5 +7,7 @@ import org.junit.jupiter.api.Test;
 class ApplicationTests extends AbstractIntegrationTest {
 
     @Test
-    void contextLoads() {}
+    void contextLoads() {
+        // If this test runs without throwing an exception, then SpringBoot started successfully
+    }
 }

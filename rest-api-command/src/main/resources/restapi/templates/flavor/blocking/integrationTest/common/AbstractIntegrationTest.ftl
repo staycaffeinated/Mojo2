@@ -27,9 +27,11 @@ import org.testcontainers.containers.PostgreSQLContainer;
 @SuppressWarnings({"rawtypes"})
 </#if>
 public abstract class AbstractIntegrationTest {
-    @Autowired protected MockMvc mockMvc;
+    @Autowired
+    protected MockMvc mockMvc;
 
-    @Autowired protected ObjectMapper objectMapper;
+    @Autowired
+    protected ObjectMapper objectMapper;
 <#if (project.testcontainers)??>
 
     // if possible, initialize these from bootstrap-test.properties

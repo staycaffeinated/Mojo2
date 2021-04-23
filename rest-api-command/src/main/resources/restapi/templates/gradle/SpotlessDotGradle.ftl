@@ -22,7 +22,8 @@ spotless {
     java {
         // don't need to set target, it is inferred from java
 
-        // apply a specific flavor of google-java-format
-        googleJavaFormat().aosp()
+        // apply the desired code formatter
+        // googleJavaFormat().aosp()
+        eclipse()
     }
 }
