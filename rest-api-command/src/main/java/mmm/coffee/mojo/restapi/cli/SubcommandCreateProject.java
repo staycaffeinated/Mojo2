@@ -69,19 +69,23 @@ public class SubcommandCreateProject implements Callable<Integer> {
 
     /**
      * The Programming Model determines whether the backend code will use Controllers or Handlers and Routers.
-     * In the 'standard' programming model, the generated code is depends on Spring-MVC.
+     * In the 'blocking' programming model, the generated code is depends on Spring-MVC.
      * In 'reactive' and 'functional' programming model, the generated code depends on Spring-WebFlux.
      * With 'reactive', Controllers with reactive streams are generated.
      * With 'functional', Handlers and Routers are generated.
      *
-     * The -m flag indicates the programming model followed by the generated code.
+     * The -f flag (f for 'flavor') indicates the programming model followed by the generated code.
+     * Spring provides two base libraries: SpringMVC and Spring WebFlux.
+     * SpringMVC is for applications that desire synchronous, or blocking, API calls, such as a typical CRUD application.
+     * Spring WebFlux is for asynchronous (non-blocking) API calls, such as applications that continually refresh,
+     * such as a stock ticker application or a monitoring application.
      * WebFlux has 2 programming models: Annotated Controllers; Functional Endpoints.
      * Annotated Controllers work like MVC controllers.
      * Functional Endpoints are lambda-based functional programming model. These employ Handlers and Routers.
      *
      * See https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html
      */
-    @CommandLine.Option(names = { "-m", "--model" },
+    @CommandLine.Option(names = { "-f", "--flavor" },
             description = { "The programming model indicates whether to generate endpoints that are blocking or non-blocking.",
                              "Endpoints using the blocking model will use Spring MVC. Use this if doing JDBC, JPA, or imperative logic.",
                              "Endpoints using the simple reactive model will use Spring WebFlux and employ annotated Controllers.",
@@ -113,7 +117,7 @@ public class SubcommandCreateProject implements Callable<Integer> {
     /**
      * This is the base URL to the running application.
      */
-    @CommandLine.Option(names = {"-r", "--base-path"},
+    @CommandLine.Option(names = {"--route", "--base-path"},
             description = "The base path (URL) of this application; for example: '/my-service.",
             defaultValue = "/",
             paramLabel = "BASE_PATH")
