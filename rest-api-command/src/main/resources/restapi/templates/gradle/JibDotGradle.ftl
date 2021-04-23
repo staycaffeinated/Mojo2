@@ -5,10 +5,6 @@ jib {
     from {
         image = 'openjdk:17-jdk-alpine'
     }
-    to {
-        image = '${project.applicationName}'
-        tags = [ 'latest', 'jdk-17', '0.0.1-SNAPSHOT' ]
-    }
     container {
         format = 'OCI'
     }

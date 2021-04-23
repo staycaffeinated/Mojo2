@@ -52,3 +52,13 @@ tasks.withType(Test) {
     useJUnitPlatform()
     testLogging { events "passed", "skipped", "failed" }
 }
+
+// --------------------------------------------------------------------------------
+// Jib specific configuration for this application
+// --------------------------------------------------------------------------------
+jib {
+    to {
+        image = '${project.applicationName}'
+        tags = [ 'latest', 'jdk-17', '0.0.1' ]
+    }
+}
