@@ -144,11 +144,6 @@ catalog:
       destination: "src/test/resources/application-test.yaml"
       context: "project"
   - entry:
-      template: "/test/resources/BootstrapDotProperties.ftl"
-      destination: "src/test/resources/bootstrap-test.properties"
-      context: "project"
-      feature: "testcontainers"
-  - entry:
       template: "/main/resources/db/liquibase/db.changelog-master.ftl"
       destination: "src/main/resources/db/changelog/db.changelog-master.yaml"
       context: "project"

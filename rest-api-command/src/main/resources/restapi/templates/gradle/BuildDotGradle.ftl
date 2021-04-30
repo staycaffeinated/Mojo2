@@ -5,7 +5,7 @@ plugins {
     id 'java'
     id 'idea'
     id 'jacoco'
-    id 'org.sonarqube' version '3.1.1'
+    id 'org.sonarqube' version '3.2.0'
     id 'com.github.ben-manes.versions' version '${project.benManesPluginVersion}'
     id 'com.google.cloud.tools.jib' version '${project.jibPluginVersion}'
 }
@@ -141,7 +141,7 @@ jib {
     }
     to {
         image = '${project.applicationName}'
-        tags = [ 'latest', 'jdk-17', '0.0.1-SNAPSHOT' ]
+        tags = [ 'latest', 'jdk-17', '0.0.1' ]
     }
     container {
         format = 'OCI'
