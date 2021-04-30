@@ -38,7 +38,7 @@ repositories {
     mavenCentral()
 }
 
-<#if (project.programmingModel == 'blocking')??>
+<#if (project.programmingModel == 'webmvc')??>
     <#include "SpringWebMvcDependencies.ftl">
 <#else>
     <#include "SpringWebFluxDependencies.ftl">

@@ -69,10 +69,8 @@ public class SubcommandCreateProject implements Callable<Integer> {
 
     /**
      * The Programming Model determines whether the backend code will use Controllers or Handlers and Routers.
-     * In the 'blocking' programming model, the generated code is depends on Spring-MVC.
-     * In 'reactive' and 'functional' programming model, the generated code depends on Spring-WebFlux.
-     * With 'reactive', Controllers with reactive streams are generated.
-     * With 'functional', Handlers and Routers are generated.
+     * In the 'webmvc' programming model, the generated code is depends on Spring-MVC.
+     * In the 'webflux' programming model, the generated code depends on Spring-WebFlux.
      *
      * The -f flag (f for 'flavor') indicates the programming model followed by the generated code.
      * Spring provides two base libraries: SpringMVC and Spring WebFlux.
@@ -86,11 +84,8 @@ public class SubcommandCreateProject implements Callable<Integer> {
      * See https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html
      */
     @CommandLine.Option(names = { "-f", "--flavor" },
-            description = { "The programming model indicates whether to generate endpoints that are blocking or non-blocking.",
-                             "Endpoints using the blocking model will use Spring MVC. Use this if doing JDBC, JPA, or imperative logic.",
-                             "Endpoints using the simple reactive model will use Spring WebFlux and employ annotated Controllers.",
-                             "Endpoints using the functional model will use Spring WebFlux and employ Routers and Handlers." },
-            defaultValue = "blocking",
+            description = { "The flavor indicates whether to lay down a spring-mvc (webmvc) or spring-webflux (webflux) project." },
+            defaultValue = "webmvc",
             paramLabel = "PROGRAMMING_MODEL")
     private ProgrammingModel programmingModel;
 

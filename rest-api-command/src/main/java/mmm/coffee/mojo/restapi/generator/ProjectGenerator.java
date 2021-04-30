@@ -71,7 +71,7 @@ public class ProjectGenerator implements Generator {
 
         // Set the programming model
         ProgrammingModel programmingModel = (ProgrammingModel) commandLineOptions.get(ProjectKeys.PROGRAMMING_MODEL);
-        if (programmingModel == null) programmingModel = ProgrammingModel.BLOCKING;
+        if (programmingModel == null) programmingModel = ProgrammingModel.WEBMVC;
         lexicalScope.put(ProjectKeys.PROGRAMMING_MODEL, programmingModel.name());
         
         String basePackagePath = MojoUtils.convertPackageNameToPath((String)commandLineOptions.get(ProjectKeys.BASE_PACKAGE));

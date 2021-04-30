@@ -81,7 +81,7 @@ class CodeTemplateIT {
         projectProperties.put("javaVersion", "11");
         projectProperties.put(ProjectKeys.SCHEMA, "widgets");
         projectProperties.put(ProjectKeys.BASE_PATH, "/widgets");
-        projectProperties.put(ProjectKeys.PROGRAMMING_MODEL, ProgrammingModel.BLOCKING.name());
+        projectProperties.put(ProjectKeys.PROGRAMMING_MODEL, ProgrammingModel.WEBMVC.name());
 
         populateDependencyKeys();
 

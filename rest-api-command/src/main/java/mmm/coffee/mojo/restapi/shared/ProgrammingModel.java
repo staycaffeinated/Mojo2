@@ -16,23 +16,14 @@
 package mmm.coffee.mojo.restapi.shared;
 
 /**
- * The mode indicates the communication style of the controllers or handlers.
- * The 'standard' mode is for blocking APIs; this is probably the most common style
- * for CRUD applications. In this mode, Spring-MVC is used.
- * The 'reactive' and 'functional' are for asynchronous, non-blocking APIs.
- * A common use for this is dashboards that continually receive data updates,
- * such as a stock ticker. In these two modes, Spring-Webflux is used.
- *
- * In 'reactive' mode, Controllers are generated that use reactive streams.
- * In 'functional' mode, Handlers and Routers are generated, giving a functional style
- * to the backend code that handles requests.
- * 
+ * This indicates whether the generated project will
+ * use the spring-mvc libraries or spring-webflux libraries.
+ * Spring-MVC is used for blocking (synchronous) APIs as well as JDBC and JPA-based applications.
+ * Spring-WebFlux uses the Spring reactive library for non-blocking (asynchronous) APIS
  */
 public enum ProgrammingModel {
-    BLOCKING("blocking"),
-    REACTIVE ("reactive"),
-    FUNCTIONAL ("functional")
-    ;
+    WEBMVC("webmvc"),
+    WEBFLUX("webflux");
 
     // This is the value an end-user enters on the command line.
     private final String modelName;
