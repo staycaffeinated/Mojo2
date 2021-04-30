@@ -4,9 +4,9 @@ spring:
     datasource:
         driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
     <#noparse>
-        url: ${embedded.postgresql.url}
-        username: ${embedded.postgresql.user}
-        password: ${embedded.postgresql.password}
+        url: jdbc:tc:postgresql:9.6.8:///testdb?currentSchema=public
+        username: postgres
+        password: postgres
         initialization-mode: embedded
     </#noparse>
     jpa:

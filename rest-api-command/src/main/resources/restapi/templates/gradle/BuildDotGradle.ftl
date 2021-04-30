@@ -5,7 +5,7 @@ plugins {
     id 'java'
     id 'idea'
     id 'jacoco'
-    id 'org.sonarqube' version '3.1.1'
+    id 'org.sonarqube' version '${project.sonarqubeVersion}'
     id 'com.github.ben-manes.versions' version '${project.benManesPluginVersion}'
     id 'com.google.cloud.tools.jib' version '${project.jibPluginVersion}'
     id 'com.diffplug.spotless' version '${project.spotlessVersion}'
