@@ -16,10 +16,16 @@
 package mmm.coffee.mojo.restapi.generator.catalog;
 
 import mmm.coffee.mojo.catalog.CatalogReader;
-import mmm.coffee.mojo.restapi.generator.Constants;
+import mmm.coffee.mojo.restapi.generator.Catalogs;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.runner.RunWith;
+import org.junit.runners.Parameterized;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -37,12 +43,14 @@ class CatalogReaderTests {
         reader = new CatalogReader();
     }
 
-    @Test
-    void shouldReadTemplateCatalogSuccessfully() throws Exception {
-        List<?> entries = reader.readCatalog(Constants.TEMPLATE_CATALOG);
+    @ParameterizedTest
+    @ValueSource(strings = { Catalogs.BOOT_CATALOG, Catalogs.COMMON_CATALOG, Catalogs.GRADLE_CATALOG, Catalogs.WEBMVC_CATALOG, Catalogs.WEBFLUX_CATALOG})
+    void shouldReadTemplateCatalogSuccessfully(String catalogName) throws Exception {
+        List<?> entries = reader.readCatalog(catalogName);
         assertThat(entries).isNotNull();
         assertThat(entries).isNotEmpty();
     }
+
 
     @Test
     void shouldThrowNullPointerExceptionWhenArgIsNull() {

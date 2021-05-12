@@ -16,10 +16,12 @@
 package mmm.coffee.mojo.restapi.generator;
 
 import freemarker.template.Configuration;
+import mmm.coffee.mojo.api.Generator;
 import mmm.coffee.mojo.catalog.CatalogEntry;
 import mmm.coffee.mojo.catalog.TemplateCatalog;
 import mmm.coffee.mojo.library.DependencyCatalog;
-import mmm.coffee.mojo.restapi.shared.ProgrammingModel;
+import mmm.coffee.mojo.restapi.generator.spring.SpringWebMvcProjectGenerator;
+import mmm.coffee.mojo.restapi.shared.SupportedFramework;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -31,6 +33,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Integration tests of the CodeTemplate.
@@ -65,7 +68,7 @@ class CodeTemplateIT {
 
     @BeforeEach
     public void setUpEachTime() {
-        catalog = new TemplateCatalog(Constants.TEMPLATE_CATALOG);
+        catalog = loadCatalogs();
 
         projectProperties.clear();
         endpointProperties.clear();
@@ -81,7 +84,7 @@ class CodeTemplateIT {
         projectProperties.put("javaVersion", "11");
         projectProperties.put(ProjectKeys.SCHEMA, "widgets");
         projectProperties.put(ProjectKeys.BASE_PATH, "/widgets");
-        projectProperties.put(ProjectKeys.PROGRAMMING_MODEL, ProgrammingModel.WEBMVC.name());
+        projectProperties.put(ProjectKeys.FRAMEWORK, SupportedFramework.WEBMVC.name());
 
         populateDependencyKeys();
 
@@ -96,8 +99,20 @@ class CodeTemplateIT {
         endpointProperties.put("tableName", "Widget");
     }
 
+    /**
+     * Load a TemplateCatalog suitable for testing
+     */
+    private TemplateCatalog loadCatalogs() {
+        // Arbitrarily pick this generator to have sample templates
+        Generator g = new SpringWebMvcProjectGenerator();
+        g.loadTemplates();
+        if (g.getCatalog().isPresent())
+            return g.getCatalog().get();
+        throw new NullPointerException("No catalog was returned by the SpringWebMvcProjectGenerator");
+    }
+
     private void populateDependencyKeys() {
-        DependencyCatalog catalog = new DependencyCatalog(Constants.DEPENDENCY_CATALOG);
+        DependencyCatalog catalog = new DependencyCatalog(Catalogs.THIRD_PARTY_LIBRARY_CATALOG);
         catalog.loadTemplateKeys(projectProperties);
     }
 

@@ -19,10 +19,10 @@ import lombok.NonNull;
 import mmm.coffee.mojo.exception.MojoException;
 import mmm.coffee.mojo.mixin.DryRunOption;
 import mmm.coffee.mojo.restapi.cli.validator.PackageNameValidator;
-import mmm.coffee.mojo.restapi.generator.ProjectGenerator;
+import mmm.coffee.mojo.restapi.generator.ProjectGeneratorFactory;
 import mmm.coffee.mojo.restapi.generator.ProjectKeys;
-import mmm.coffee.mojo.restapi.generator.SyntaxRules;
-import mmm.coffee.mojo.restapi.shared.ProgrammingModel;
+import mmm.coffee.mojo.restapi.generator.helpers.NamingRules;
+import mmm.coffee.mojo.restapi.shared.SupportedFramework;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
 import picocli.CommandLine;
 
@@ -84,10 +84,10 @@ public class SubcommandCreateProject implements Callable<Integer> {
      * See https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html
      */
     @CommandLine.Option(names = { "-f", "--flavor" },
-            description = { "The flavor indicates whether to lay down a spring-mvc (webmvc) or spring-webflux (webflux) project." },
+            description = { "The flavor indicates the underlying framework to use: spring-webmvc (--flavor webmvc) or spring-webflux (--flavor webflux)" },
             defaultValue = "webmvc",
             paramLabel = "PROGRAMMING_MODEL")
-    private ProgrammingModel programmingModel;
+    private SupportedFramework programmingModel;
 
 
     /**
@@ -169,19 +169,21 @@ public class SubcommandCreateProject implements Callable<Integer> {
         map.put(ProjectKeys.BASE_PACKAGE, nullSafeValue(packageName));
         map.put(ProjectKeys.GROUP_ID, nullSafeValue(groupId));
         map.put(ProjectKeys.APPLICATION_NAME, nullSafeValue(applicationName));
-        map.put(ProjectKeys.SCHEMA, nullSafeValue(SyntaxRules.schemaSyntax(dbmsSchema)));
+        map.put(ProjectKeys.SCHEMA, nullSafeValue(NamingRules.toDatabaseSchemaName(dbmsSchema)));
         map.put(ProjectKeys.BASE_PATH, nullSafeValue(basePath));
-        map.put(ProjectKeys.PROGRAMMING_MODEL, programmingModel);
+        map.put(ProjectKeys.FRAMEWORK, programmingModel);
         map.put("features", features);
         if (dryRun)
             map.put(DryRunOption.DRY_RUN_KEY, Boolean.TRUE);
 
         try {
-            ProjectGenerator projectGenerator = new ProjectGenerator();
+            var projectGenerator = ProjectGeneratorFactory.createProjectGenerator(programmingModel);
+            System.out.printf("===> projectGenerator is-a %s%n", projectGenerator.getClass().getName());
             projectGenerator.run(map);
             return 0;
         }
         catch (Exception e) {
+            e.printStackTrace();
             throw new MojoException(e.getMessage());
         }
     }

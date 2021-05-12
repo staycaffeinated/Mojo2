@@ -15,8 +15,12 @@
  */
 package mmm.coffee.mojo.restapi.cli;
 
+import mmm.coffee.mojo.api.Generator;
 import mmm.coffee.mojo.mixin.DryRunOption;
-import mmm.coffee.mojo.restapi.generator.EndpointGenerator;
+import mmm.coffee.mojo.restapi.generator.AbstractEndpointGenerator;
+import mmm.coffee.mojo.restapi.generator.EndpointGeneratorFactory;
+import mmm.coffee.mojo.restapi.generator.helpers.MojoProperties;
+import mmm.coffee.mojo.restapi.shared.SupportedFramework;
 import picocli.CommandLine;
 
 import java.util.HashMap;
@@ -43,15 +47,15 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
     private DryRunOption dryRunOption;
 
     @CommandLine.Option(
-            names={"-resource"},
-            description="The resource available at this endpoint (e.g: -resource=Coffee)",
-            paramLabel = "ENTITY-NAME")
+            names={"-e", "--resource"},
+            description="The resource (entity) available at this endpoint (e.g: --resource Coffee)",
+            paramLabel = "ENTITY")
     private String resourceName;
 
     @CommandLine.Option(
-            names={"-route"},
-            description="The base path to the resource (e.g: -route=/coffee)",
-            paramLabel = "BASE-PATH")
+            names={"-p", "--route"},
+            description="The route (path) to the resource (e.g: --route /coffee)",
+            paramLabel = "ROUTE")
     private String baseRoute;
 
     @Override
@@ -64,7 +68,8 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
             map.put(DryRunOption.DRY_RUN_KEY, Boolean.TRUE);
         }
 
-        EndpointGenerator generator = new EndpointGenerator();
+        // TODO: Need to peek at mojo.properties to determine framework code
+        Generator generator = EndpointGeneratorFactory.createGenerator(SupportedFramework.WEBMVC);
         generator.run(map);
         return 0;
     }

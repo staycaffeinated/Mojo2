@@ -38,7 +38,7 @@ public class ConfigurationFactory {
      * Creates a Configuration instance with some default settings.
      * @return a Configuration
      */
-    @NonNull static Configuration defaultConfiguration() {
+    @NonNull public static Configuration defaultConfiguration() {
         Configuration configuration = new Configuration(Configuration.VERSION_2_3_30);
         configuration.setClassForTemplateLoading(ConfigurationFactory.class, TEMPLATE_PATH);
         configuration.setDefaultEncoding("UTF-8");

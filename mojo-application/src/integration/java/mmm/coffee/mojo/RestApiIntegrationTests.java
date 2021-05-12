@@ -39,7 +39,7 @@ public class RestApiIntegrationTests {
     @Test
     @DisplayName("Generate a project without extra features")
     void shouldCreateProjectWithMinimumFeatures() {
-        int rc = cli.execute(toArgV("rest-api create-project --dry-run -p=oops.delete_me.ima_mistake --flavor=webmvc"));
+        int rc = cli.execute(toArgV("rest-api create-project --dry-run --package oops.delete_me.ima_mistake --flavor webmvc"));
         assertThat(rc).isEqualTo(0);
     }
 

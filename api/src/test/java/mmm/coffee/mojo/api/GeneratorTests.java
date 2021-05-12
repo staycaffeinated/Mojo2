@@ -15,10 +15,13 @@
  */
 package mmm.coffee.mojo.api;
 
+import mmm.coffee.mojo.catalog.TemplateCatalog;
+import org.checkerframework.checker.nullness.Opt;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -47,17 +50,20 @@ class GeneratorTests {
     }
 
     @Test
-    void shouldHandleLiveRun() {
+    void shouldHandleDryRun() {
         Map<String,Object> map = new HashMap<>();
+        map.put("dryRun", true);
         generatorUnderTest.run(map);
         assertThat(true).isTrue();
     }
     
     class FakeGenerator implements Generator {
-        @Override public void initialize() {}
-        @Override public void configure(Map<String,Object> commandLineOptions) {}
-        @Override public void outputStrategy(TemplateWriter writer) {}
+        @Override public void loadTemplates() {}
+        @Override public void setUpLexicalScope(Map<String,Object> commandLineOptions) {}
+        @Override public Map<String, Object> getLexicalScope() { return new HashMap<String,Object>(); }
+        @Override public void setOutputStrategy(TemplateWriter writer) {}
         @Override public void generate() {}
+        @Override public Optional<TemplateCatalog> getCatalog() { return Optional.empty(); }
     }
 
 }

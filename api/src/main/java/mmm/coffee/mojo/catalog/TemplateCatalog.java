@@ -19,6 +19,7 @@ import lombok.NonNull;
 import mmm.coffee.mojo.exception.MojoException;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,13 +34,32 @@ public class TemplateCatalog {
     /**
      * Constructor
      */
-    public TemplateCatalog(@NonNull String catalogName) {
+    public TemplateCatalog() {
+        entries = new ArrayList<>();
+    }
+
+    /**
+     * Constructor
+     *
+     * Example:
+     *      // read the catalog found at **\/resources/test-catalog.yml.
+     *      new TemplateCatalog ( "/test-catalog.yml" )
+     *
+     *      // read the catalog found at **\/resources/restapi/webmvc-catalog.yml
+     *      new TemplateCatalog ( "/restapi/webmvc-catalog.yml" )
+     */
+    public TemplateCatalog(@NonNull String resourcePathToCatalog) {
         try {
-            entries = new CatalogReader().readCatalog(catalogName);
+            entries = new CatalogReader().readCatalog(resourcePathToCatalog);
         }
         catch (IOException e) {
             throw new MojoException(e.getMessage(), e);
         }
+    }
+
+    public TemplateCatalog append (@NonNull TemplateCatalog other ) {
+        this.entries.addAll(other.entries);
+        return this;
     }
 
     /**

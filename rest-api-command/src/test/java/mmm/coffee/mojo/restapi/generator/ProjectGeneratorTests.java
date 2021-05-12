@@ -15,10 +15,13 @@
  */
 package mmm.coffee.mojo.restapi.generator;
 
+import mmm.coffee.mojo.api.Generator;
 import mmm.coffee.mojo.api.NoOpTemplateWriter;
 import mmm.coffee.mojo.api.TemplateWriter;
 import mmm.coffee.mojo.mixin.DryRunOption;
+import mmm.coffee.mojo.restapi.generator.spring.SpringProjectGenerator;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
+import mmm.coffee.mojo.restapi.shared.SupportedFramework;
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.SystemErrRule;
 import org.junit.contrib.java.lang.system.SystemOutRule;
@@ -41,19 +44,25 @@ class ProjectGeneratorTests {
     @Rule
     public final SystemOutRule systemOutRule = new SystemOutRule().enableLog().muteForSuccessfulTests();
 
-    private ProjectGenerator projectGenerator;
+    private Generator projectGenerator;
 
     @BeforeEach
     public void setUp() {
-        projectGenerator = new ProjectGenerator();
+        projectGenerator = ProjectGeneratorFactory.createProjectGenerator(SupportedFramework.WEBMVC);
     }
-    
+
+    /**
+     * A happy path test case where the minimum parameters that would be given on the
+     * command line are provided to the ProjectGenerator, and we verify the
+     * ProjectGenerator can indeed produce the project assets with those minimum parameters.
+     */
     @Test
     void shouldGenerateProjectBasedOnProperties() {
 
         Map<String,Object> projectSpec = new HashMap<>();
         projectSpec.put(ProjectKeys.BASE_PACKAGE, "com.example.app");
         projectSpec.put(ProjectKeys.APPLICATION_NAME, "mini-service");
+        projectSpec.put(ProjectKeys.BASE_PATH, "/examples");
         projectSpec.put(DryRunOption.DRY_RUN_KEY, Boolean.TRUE);
 
         TemplateWriter writer = new NoOpTemplateWriter();
@@ -62,7 +71,7 @@ class ProjectGeneratorTests {
         projectGenerator.run(projectSpec, writer);
         assertThat(writer).isNotNull(); }
 
-    /****
+    /**
      * Verify the use case of the user not using the '--support' flag, which
      * adds supported dependencies to the generated code.
      *
@@ -75,8 +84,8 @@ class ProjectGeneratorTests {
         given.put(ProjectKeys.APPLICATION_NAME, "taxi-service");
         given.put(ProjectKeys.BASE_PACKAGE, "org.example");
 
-        projectGenerator.configure(given);
-        Map<String,Object> actual = projectGenerator.getConfiguration();
+        projectGenerator.setUpLexicalScope(given);
+        Map<String,Object> actual = projectGenerator.getLexicalScope();
 
         for (SupportedFeatures it : SupportedFeatures.values())
             assertThat(actual).doesNotContainKey(it.toString());

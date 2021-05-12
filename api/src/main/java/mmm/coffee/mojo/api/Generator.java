@@ -16,9 +16,13 @@
 package mmm.coffee.mojo.api;
 
 import lombok.NonNull;
+import mmm.coffee.mojo.catalog.CatalogEntry;
+import mmm.coffee.mojo.catalog.TemplateCatalog;
 import mmm.coffee.mojo.mixin.DryRunOption;
 
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Defines the Generator stereotype
@@ -27,16 +31,34 @@ import java.util.Map;
 public interface Generator {
 
     /**
-     * Initialize the state of the instance (whatever a default constructor would do, put that here)
+     * Initialize the state of the generator (whatever a default constructor would do, put that here)
      */
-    void initialize();
+    default void initialize() {}
+
+    /**
+     * Loads the templates to be rendered
+     */
+    void loadTemplates();
+
+    /**
+     * Returns the master TemplateCatalog being used by the generator.
+     * This method is exposed for testing. 
+     */
+    Optional<TemplateCatalog> getCatalog();
 
     /**
      * Configure the lexical scope of the generator. Whatever properties will be passed into the
      * templates during rendering, those properties are set here.
+     *
      * @param commandLineOptions the command line options and anything the CLI might need to pass to the generator
      */
-    void configure(Map<String,Object> commandLineOptions);
+    void setUpLexicalScope(@NonNull Map<String, Object> commandLineOptions);
+
+    /**
+     * Made visible for testing
+     * @return a map containing the variables within the lexical scope of this generator.
+     */
+    public Map<String,Object> getLexicalScope();
 
     /**
      * Configure the Writer that will write rendered templates. For example, by applying a NoOpTemplateWriter,
@@ -44,7 +66,7 @@ public interface Generator {
      *
      * @param writer the TemplateWriter
      */
-    void outputStrategy(TemplateWriter writer);
+    void setOutputStrategy(TemplateWriter writer);
 
     /**
      * Render the templates
@@ -54,7 +76,7 @@ public interface Generator {
     /**
      * Perform any post processing the Generator needs to do after the templates have been rendered.
      */
-    default void tearDown() {};
+    default void tearDown() {}
 
     /**
      * Convenience method to enable clients of Generators to run the
@@ -62,19 +84,21 @@ public interface Generator {
      * @param properties the properties consumed by the generator to resolve template values
      *                   and other variables
      */
-    default void run(@NonNull Map<String,Object> properties) {
-        if ( ((Boolean)properties.getOrDefault(DryRunOption.DRY_RUN_KEY, Boolean.FALSE)).booleanValue()) {
-            run(properties, new NoOpTemplateWriter());
+    default int run(@NonNull Map<String,Object> properties) {
+        if ((Boolean) properties.getOrDefault(DryRunOption.DRY_RUN_KEY, Boolean.FALSE)) {
+            return run(properties, new NoOpTemplateWriter());
         } else {
-            run(properties, new DefaultTemplateWriter());
+            return run(properties, new DefaultTemplateWriter());
         }
     }
 
-    default void run(@NonNull Map<String,Object> properties, @NonNull TemplateWriter sourceSink) {
+    default int run(@NonNull Map<String,Object> properties, @NonNull TemplateWriter sourceSink) {
         initialize();
-        configure(properties);
-        outputStrategy(sourceSink);
+        loadTemplates();
+        setUpLexicalScope(properties);
+        setOutputStrategy(sourceSink);
         generate();
         tearDown();
+        return 0;
     }
 }

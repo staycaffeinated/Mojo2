@@ -17,7 +17,7 @@ package mmm.coffee.mojo.api.library;
 
 import mmm.coffee.mojo.library.Dependency;
 import mmm.coffee.mojo.library.DependencyCatalogReader;
-import mmm.coffee.mojo.restapi.generator.Constants;
+import mmm.coffee.mojo.restapi.generator.Catalogs;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -45,7 +45,7 @@ class DependencyCatalogReaderIT {
      */
     @Test
     void shouldBeWellFormedCatalog() throws Exception {
-        List<Dependency> entries = readerUnderTest.readLibraryCatalog(Constants.DEPENDENCY_CATALOG);
+        List<Dependency> entries = readerUnderTest.readLibraryCatalog(Catalogs.THIRD_PARTY_LIBRARY_CATALOG);
 
         assertThat(entries).isNotEmpty();
 
