@@ -19,6 +19,10 @@
 #
 catalog:
   - entry:
+        template: "/spring/webmvc/main/Application.ftl"
+        destination: "src/main/java/{{basePackagePath}}/Application.java"
+        context: "project"
+  - entry:
       template: "/spring/webmvc/main/advice/GlobalExceptionHandler.ftl"
       destination: "src/main/java/{{basePackagePath}}/advice/GlobalExceptionHandler.java"
       context: "project"

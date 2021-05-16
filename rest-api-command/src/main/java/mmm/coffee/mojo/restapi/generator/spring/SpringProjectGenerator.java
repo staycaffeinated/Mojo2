@@ -27,25 +27,19 @@ import mmm.coffee.mojo.restapi.generator.Catalogs;
 public class SpringProjectGenerator extends AbstractProjectGenerator {
 
     /**
-     * Load the templates to be rendered
+     * Loads the templates commong to Spring WebMvc and Spring WebFlux
      */
     @Override
     public void loadTemplates() {
         catalog().append( loadCommonTemplates() )
-               .append( loadSpringGradleTemplates() )
-               .append( loadSpringBootApplicationTemplates() );
-
+               .append( loadSpringGradleTemplates() );
     }
-
-
-
+    
     private TemplateCatalog loadCommonTemplates() {
         return new TemplateCatalog(Catalogs.COMMON_CATALOG);
     }
     private TemplateCatalog loadSpringGradleTemplates() {
         return new TemplateCatalog(Catalogs.GRADLE_CATALOG);
     }
-    private TemplateCatalog loadSpringBootApplicationTemplates() {
-        return new TemplateCatalog(Catalogs.BOOT_CATALOG);
-    }
+
 }

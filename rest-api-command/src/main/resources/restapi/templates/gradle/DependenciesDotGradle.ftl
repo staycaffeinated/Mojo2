@@ -30,16 +30,20 @@ ext {
         lombok                      : "org.projectlombok:lombok:$versions.lombok",
         liquibaseCore               : "org.liquibase:liquibase-core:$versions.liquibase",
         mockito                     : "org.mockito:mockito-core:$versions.mockito",
+        mongoEmbed                  : "de.flapdoodle.embed:de.flapdoodle.embed.mongo",
         postgresql                  : "org.postgresql:postgresql",
         problemSpringWeb            : "org.zalando:problem-spring-web-starter:$versions.problemSpringWeb",
+        reactorTest                 : "io.projectreactor:reactor-test",
         truth                       : "com.google.truth:truth:$versions.truth",
 
         // Spring's dependency management plugin will auto-resolve the Spring library versions
         springBootConfigProcessor   : "org.springframework.boot:spring-boot-configuration-processor",
         springBootStarterActuator   : "org.springframework.boot:spring-boot-starter-actuator",
         springBootStarterWeb        : "org.springframework.boot:spring-boot-starter-web",
+        springBootStarterWebFlux    : "org.springframework.boot:spring-boot-starter-webflux",
         springBootStarterDataJpa    : "org.springframework.boot:spring-boot-starter-data-jpa",
         springBootStarterTest       : "org.springframework.boot:spring-boot-starter-test",
+        springBootStarterValidation : "org.springframework.boot:spring-boot-starter-validation",
         springCloud                 : "org.springframework.cloud:spring-cloud-starter:$versions.springCloud",
         springDevTools              : "org.springframework.boot:spring-boot-devtools",
 

@@ -6,9 +6,9 @@ spring.application.name=example-service
 </#if>
 server.port=8080
 <#if (project.basePath)??>
-server.servlet.context-path=${project.basePath}
+spring.webflux.base-path=${project.basePath}
 <#else>
-server.servlet.context-path=/
+spring.webflux.base-path=/
 </#if>
 
 

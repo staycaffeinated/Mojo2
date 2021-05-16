@@ -32,6 +32,9 @@ public class SpringWebFluxProjectGenerator extends SpringProjectGenerator {
         catalog().append ( loadWebFluxTemplates() );
     }
 
+    /**
+     * Returns the Catalog of Spring WebFlux templates
+     */
     private TemplateCatalog loadWebFluxTemplates() {
         return new TemplateCatalog(Catalogs.WEBFLUX_CATALOG);
     }

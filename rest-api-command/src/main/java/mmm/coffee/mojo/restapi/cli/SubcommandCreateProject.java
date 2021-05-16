@@ -83,11 +83,11 @@ public class SubcommandCreateProject implements Callable<Integer> {
      *
      * See https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html
      */
-    @CommandLine.Option(names = { "-f", "--flavor" },
-            description = { "The flavor indicates the underlying framework to use: spring-webmvc (--flavor webmvc) or spring-webflux (--flavor webflux)" },
+    @CommandLine.Option(names = { "-f", "--framework" },
+            description = { "This indicates the underlying framework to use, such as spring-webmvc (-f webmvc) or spring-webflux (-f webflux)" },
             defaultValue = "webmvc",
-            paramLabel = "PROGRAMMING_MODEL")
-    private SupportedFramework programmingModel;
+            paramLabel = "FRAMEWORK")
+    private SupportedFramework framework;
 
 
     /**
@@ -171,14 +171,13 @@ public class SubcommandCreateProject implements Callable<Integer> {
         map.put(ProjectKeys.APPLICATION_NAME, nullSafeValue(applicationName));
         map.put(ProjectKeys.SCHEMA, nullSafeValue(NamingRules.toDatabaseSchemaName(dbmsSchema)));
         map.put(ProjectKeys.BASE_PATH, nullSafeValue(basePath));
-        map.put(ProjectKeys.FRAMEWORK, programmingModel);
+        map.put(ProjectKeys.FRAMEWORK, framework);
         map.put("features", features);
         if (dryRun)
             map.put(DryRunOption.DRY_RUN_KEY, Boolean.TRUE);
 
         try {
-            var projectGenerator = ProjectGeneratorFactory.createProjectGenerator(programmingModel);
-            System.out.printf("===> projectGenerator is-a %s%n", projectGenerator.getClass().getName());
+            var projectGenerator = ProjectGeneratorFactory.createProjectGenerator(framework);
             projectGenerator.run(map);
             return 0;
         }

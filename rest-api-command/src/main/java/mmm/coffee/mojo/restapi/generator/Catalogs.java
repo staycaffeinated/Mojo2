@@ -19,10 +19,28 @@ package mmm.coffee.mojo.restapi.generator;
  * This class defines the resource paths of the various template catalogs.
  */
 public class Catalogs {
-    public static final String BOOT_CATALOG = "/restapi/catalogs/spring-boot.yml";
+    /**
+     * Common-stuff contains general artifacts, such as the README template
+     */
     public static final String COMMON_CATALOG = "/restapi/catalogs/common-stuff.yml";
+
+    /**
+     * spring-gradle contains the templates for the **.gradle files
+     */
     public static final String GRADLE_CATALOG = "/restapi/catalogs/spring-gradle.yml";
+
+    /**
+     * This file contains the 3rd-party library versions; this does not contain any templates
+     */
     public static final String THIRD_PARTY_LIBRARY_CATALOG = "/restapi/catalogs/dependencies.yml";
+
+    /**
+     * These are the templates rendered for a Spring WebMVC project
+     */
     public static final String WEBMVC_CATALOG = "/restapi/catalogs/spring-webmvc.yml";
+
+    /**
+     * These are the templates rendered for a Spring Webflux project
+     */
     public static final String WEBFLUX_CATALOG = "/restapi/catalogs/spring-webflux.yml";
 }

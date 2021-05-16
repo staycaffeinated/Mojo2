@@ -39,34 +39,34 @@ public class RestApiIntegrationTests {
     @Test
     @DisplayName("Generate a project without extra features")
     void shouldCreateProjectWithMinimumFeatures() {
-        int rc = cli.execute(toArgV("rest-api create-project --dry-run --package oops.delete_me.ima_mistake --flavor webmvc"));
+        int rc = cli.execute(toArgV("rest-api create-project --dry-run --package oops.delete_me.ima_mistake --framework webmvc"));
         assertThat(rc).isEqualTo(0);
     }
 
     @Test
     @DisplayName("Generate a project without extra features")
     void shouldCreateProjectWithPostgresql() {
-        int rc = cli.execute(toArgV("rest-api create-project --dry-run -p=oops.delete_me.ima_mistake --flavor=webmvc"));
+        int rc = cli.execute(toArgV("rest-api create-project --dry-run -p=oops.delete_me.ima_mistake --framework=webmvc"));
         assertThat(rc).isEqualTo(0);
     }
 
     @Test
     @DisplayName("Generate a project with postgres, liquibase, and test container support")
     void shouldCreateProjectWithPostgresqlLiquibaseTestContainers() {
-        int rc = cli.execute(toArgV("rest-api create-project --dry-run -p=oops.delete_me.ima_mistake --flavor=webmvc --support postgres liquibase testcontainers"));
+        int rc = cli.execute(toArgV("rest-api create-project --dry-run -p=oops.delete_me.ima_mistake --framework=webmvc --support postgres liquibase testcontainers"));
         assertThat(rc).isEqualTo(0);
     }
 
     @Test
     @DisplayName("Generate an endpoint with postgres, liquibase, and test container support")
     void shouldCreateEndpoint() {
-        int rc = cli.execute(toArgV("rest-api create-endpoint --dry-run -resource=DeleteMe -route=/delete-me"));
+        int rc = cli.execute(toArgV("rest-api create-endpoint --dry-run -e DeleteMe --route=/delete-me"));
         assertThat(rc).isEqualTo(0);
     }
 
     @Test
     void shouldReturnNonZeroIfPackageNameIsInvalid() {
-        int rc = cli.execute(toArgV("rest-api create-project --dry-run --flavor=webmvc --package=ABC.def.123foo"));
+        int rc = cli.execute(toArgV("rest-api create-project --dry-run --framework=webmvc --package=ABC.def.123foo"));
         assertThat(rc).isNotEqualTo(0);
     }
 

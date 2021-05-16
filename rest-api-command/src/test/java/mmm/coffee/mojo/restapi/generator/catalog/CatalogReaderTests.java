@@ -44,7 +44,7 @@ class CatalogReaderTests {
     }
 
     @ParameterizedTest
-    @ValueSource(strings = { Catalogs.BOOT_CATALOG, Catalogs.COMMON_CATALOG, Catalogs.GRADLE_CATALOG, Catalogs.WEBMVC_CATALOG, Catalogs.WEBFLUX_CATALOG})
+    @ValueSource(strings = { Catalogs.COMMON_CATALOG, Catalogs.GRADLE_CATALOG, Catalogs.WEBMVC_CATALOG, Catalogs.WEBFLUX_CATALOG})
     void shouldReadTemplateCatalogSuccessfully(String catalogName) throws Exception {
         List<?> entries = reader.readCatalog(catalogName);
         assertThat(entries).isNotNull();

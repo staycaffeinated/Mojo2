@@ -86,9 +86,9 @@ public abstract class AbstractProjectGenerator implements Generator {
         lexicalScope.putAll(commandLineOptions);
 
         // Set the programming model, which determines whether Spring-MVC libraries are used, or Spring-Webflux
-        SupportedFramework programmingModel = (SupportedFramework) commandLineOptions.get(ProjectKeys.FRAMEWORK);
-        if (programmingModel == null) programmingModel = SupportedFramework.WEBMVC;
-        lexicalScope.put(ProjectKeys.FRAMEWORK, programmingModel.name());
+        SupportedFramework framework = (SupportedFramework) commandLineOptions.get(ProjectKeys.FRAMEWORK);
+        if (framework == null) framework = SupportedFramework.WEBMVC;
+        lexicalScope.put(ProjectKeys.FRAMEWORK, framework.name());
 
         // Translate the base package value into the equivalent filesystem folder hierarchy
         // For example, the package 'org.example' translates to the folder 'org/example'
