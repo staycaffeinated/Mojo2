@@ -10,7 +10,7 @@ spring.webflux.base-path=${project.basePath}
 <#else>
 spring.webflux.base-path=/
 </#if>
-
+spring.main.web-application-type=reactive
 
 # Obfuscate the /actuator endpoint
 # Health probes enable a liveness check, and a readiness check.

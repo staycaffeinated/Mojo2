@@ -33,6 +33,7 @@ ext {
         mongoEmbed                  : "de.flapdoodle.embed:de.flapdoodle.embed.mongo",
         postgresql                  : "org.postgresql:postgresql",
         problemSpringWeb            : "org.zalando:problem-spring-web-starter:$versions.problemSpringWeb",
+        problemSpringWebflux        : "org.zalando:problem-spring-webflux:$versions.problemSpringWeb",
         reactorTest                 : "io.projectreactor:reactor-test",
         truth                       : "com.google.truth:truth:$versions.truth",
 

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 /**
  * Empty implementation of a Service
  */
-// This service a placeholder, so we suppress the Sonarqube complaint
+// Because sonarqube complains about doNothing returning a constant value
 @SuppressWarnings("java:S3400")
 @Service
 public class RootService {

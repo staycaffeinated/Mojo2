@@ -9,13 +9,14 @@ dependencies {
     implementation libs.springBootStarterActuator
     implementation libs.springBootStarterWebFlux
     implementation libs.springBootStarterValidation
-    implementation libs.mongoEmbed
+    implementation libs.problemSpringWeb
+    implementation libs.problemSpringWebflux
+    implementation group: 'org.zalando', name: 'jackson-datatype-problem', version: '0.25.0'
 
     testImplementation (libs.springBootStarterTest){
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     testImplementation (platform( libs.junitBillOfMaterial ))
     testImplementation libs.junitJupiter
-    testImplementation libs.mongoEmbed
     testImplementation libs.reactorTest
 }

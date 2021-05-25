@@ -6,9 +6,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.server.ResponseStatusException;
 
 /**
- * Catch all exception
+ * An UnprocessableEntity exception indicates a well-formed request was
+ * received, but could not be successfully processed.
  */
-@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+@ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)
 public class UnprocessableEntityException extends ResponseStatusException {
 
     static private final long serialVersionUID = 1;
@@ -17,7 +18,14 @@ public class UnprocessableEntityException extends ResponseStatusException {
      * Default Constructor
      */
     public UnprocessableEntityException() {
-        super(HttpStatus.BAD_REQUEST);
+        super(HttpStatus.UNPROCESSABLE_ENTITY);
+    }
+
+    /**
+     * Constructor
+     */
+    public UnprocessableEntityException(Throwable throwable) {
+       super(HttpStatus.UNPROCESSABLE_ENTITY, "Unable to process the resource (or entity)", throwable);
     }
 
     /**
@@ -27,7 +35,7 @@ public class UnprocessableEntityException extends ResponseStatusException {
      * @param reason the associated reason (optional)
      */
     public UnprocessableEntityException(String reason) {
-        super(HttpStatus.BAD_REQUEST, reason);
+        super(HttpStatus.UNPROCESSABLE_ENTITY, reason);
     }
 
     /**
@@ -38,6 +46,6 @@ public class UnprocessableEntityException extends ResponseStatusException {
      * @param cause  a nested exception (optional)
      */
     public UnprocessableEntityException(String reason, Throwable cause) {
-        super(HttpStatus.BAD_REQUEST, reason, cause);
+        super(HttpStatus.UNPROCESSABLE_ENTITY, reason, cause);
     }
 }

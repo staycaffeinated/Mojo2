@@ -33,7 +33,6 @@ import java.util.Map;
 import java.util.Optional;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.junit.jupiter.api.Assertions.fail;
 
 /**
  * Integration tests of the CodeTemplate.
@@ -54,7 +53,7 @@ import static org.junit.jupiter.api.Assertions.fail;
  *    template.
  *
  */
-class CodeTemplateIT {
+class WebMvcCatalogIT {
 
     private static final String BASE_PACKAGE = "mmm.coffee.example";
     private static final String BASE_PACKAGE_PATH = "mmm/coffee/example";
@@ -68,7 +67,7 @@ class CodeTemplateIT {
 
     @BeforeEach
     public void setUpEachTime() {
-        catalog = loadCatalogs();
+        catalog = loadWebMvcCatalog();
 
         projectProperties.clear();
         endpointProperties.clear();
@@ -102,7 +101,7 @@ class CodeTemplateIT {
     /**
      * Load a TemplateCatalog suitable for testing
      */
-    private TemplateCatalog loadCatalogs() {
+    private TemplateCatalog loadWebMvcCatalog() {
         // Arbitrarily pick this generator to have sample templates
         Generator g = new SpringWebMvcProjectGenerator();
         g.loadTemplates();
@@ -144,7 +143,7 @@ class CodeTemplateIT {
         @Test
         void shouldAddLiquibaseDependencyWhenLiquibaseFeatureIsSpecified() {
             Optional<CatalogEntry> optional = getBuildDotGradleTemplate();
-            assertThat(optional.isPresent());
+            assertThat(optional.isPresent()).isTrue();
 
             // FreeMarker doesn't evaluate the value of the property;
             // it only evaluates whether the property exists.
@@ -170,7 +169,7 @@ class CodeTemplateIT {
         @Test
         void shouldAddPostgresDependencyWhenPostgresFeatureIsSpecified() {
             Optional<CatalogEntry> optional = getBuildDotGradleTemplate();
-            assertThat(optional.isPresent());
+            assertThat(optional.isPresent()).isTrue();
 
             // FreeMarker doesn't evaluate the value of the property;
             // it only evaluates whether the property exists.
@@ -196,6 +195,13 @@ class CodeTemplateIT {
 
     @Nested
     class TestEndpointTemplates {
+        /**
+         * The scope of this test is to load every spring web-mvc template for endpoints
+         * and attempt to render them.  This test helps reveal syntax errors, misspelled
+         * template variable names, and incorrect template paths.  Syntax errors that
+         * are later revealed by compile errors in the generated code -will not- be
+         * detected here; those syntax errors are best detected by end-to-end testing.
+         */
         @Test
         void shouldParseTemplatesSuccessfully() {
             List<CatalogEntry> templates = catalog.filterByContext("endpoint");
@@ -281,7 +287,9 @@ class CodeTemplateIT {
 
             String content = handler.render();
             assertThat(content).isNotNull();
+            // Since postgres database support was selected, expect to see the postgres driver property
             assertThat(content).contains("spring.datasource.driver-class-name=org.postgresql.Driver");
+            // Since a schema name was given, expect to see that schema name in the datasource URL
             assertThat(content).contains("spring.datasource.url=jdbc:postgresql://localhost:5432/taxi-db");
         }
 
@@ -312,6 +320,7 @@ class CodeTemplateIT {
             String content = handler.render();
             assertThat(content).isNotNull();
             assertThat(content).contains("spring.datasource.driver-class-name=org.postgresql.Driver");
+            // Since no schema name was given, expect the default 'testdb' schema in the datasource URL
             assertThat(content).contains("spring.datasource.url=jdbc:postgresql://localhost:5432/testdb");
         }
         

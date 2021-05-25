@@ -74,4 +74,7 @@ catalog:
       template: "/spring/webflux/main/resources/ApplicationDotProperties.ftl"
       destination: "src/main/resources/application.properties"
       context: "project"
-      
+  - entry:
+      template: "/spring/webflux/test/endpoint/root/RootControllerTest.ftl"
+      destination: "src/test/java/{{basePackagePath}}/endpoint/root/RootControllerTest.java"
+      context: "project"
