@@ -16,7 +16,7 @@
 package mmm.coffee.mojo.restapi.generator.helpers;
 
 import mmm.coffee.mojo.restapi.generator.ProjectKeys;
-import mmm.coffee.mojo.restapi.generator.helpers.MojoProperties;
+import mmm.coffee.mojo.restapi.shared.MojoProperties;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 

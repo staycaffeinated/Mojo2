@@ -112,7 +112,7 @@ public class SubcommandCreateProject implements Callable<Integer> {
     /**
      * This is the base URL to the running application.
      */
-    @CommandLine.Option(names = {"--route", "--base-path"},
+    @CommandLine.Option(names = {"-r", "--route", "--base-path"},
             description = "The base path (URL) of this application; for example: '/my-service.",
             defaultValue = "/",
             paramLabel = "BASE_PATH")

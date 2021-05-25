@@ -1,22 +1,22 @@
 ext {
     versions = [
-        assertJ              : '${project.assertJVersion}',             // Assertion library for test cases
-        junitSystemRules     : '${project.junitSystemRulesVersion}',    // JUnit extensions
-        junit                : '${project.junitVersion}',               // JUnit Jupiter
-        liquibase            : '${project.liquibaseVersion}',           // Database schema initialization & evolution
-        lombok               : '${project.lombokVersion}',              // Lombok annotation processor
-        log4j                : '${project.log4jVersion}',               // Logging
-        mockito              : '${project.mockitoVersion}',             // Mocking library
-        springBoot           : '${project.springBootVersion}',          // Spring Boot
-        springCloud          : '${project.springCloudVersion}',         // Spring Cloud
+        assertJ                : '${project.assertJVersion}',             // Assertion library for test cases
+        junitSystemRules       : '${project.junitSystemRulesVersion}',    // JUnit extensions
+        junit                  : '${project.junitVersion}',               // JUnit Jupiter
+        liquibase              : '${project.liquibaseVersion}',           // Database schema initialization & evolution
+        lombok                 : '${project.lombokVersion}',              // Lombok annotation processor
+        log4j                  : '${project.log4jVersion}',               // Logging
+        mockito                : '${project.mockitoVersion}',             // Mocking library
+        springBoot             : '${project.springBootVersion}',          // Spring Boot
+        springCloud            : '${project.springCloudVersion}',         // Spring Cloud
         problemJacksonDataType : '${project.problemJacksonDataTypeVersion}',  // Zalando's Jackson DataType
-        problemSpringWeb     : '${project.problemSpringWebVersion}',    // Zalando's Problem API
-        testContainers       : '${project.testContainersVersion}',      // Test containers for integration testing
-        truth                : '${project.truthVersion}'                // Google's assertion library
+        problemSpringWeb       : '${project.problemSpringWebVersion}',    // Zalando's Problem API
+        testContainers         : '${project.testContainersVersion}',      // Test containers for integration testing
+        truth                  : '${project.truthVersion}'                // Google's assertion library
         ]
+
+
 <#noparse>
-
-
     libs = [
         assertJ                     : "org.assertj:assertj-core:$versions.assertJ",
         h2                          : "com.h2database:h2",
@@ -31,12 +31,10 @@ ext {
         lombok                      : "org.projectlombok:lombok:$versions.lombok",
         liquibaseCore               : "org.liquibase:liquibase-core:$versions.liquibase",
         mockito                     : "org.mockito:mockito-core:$versions.mockito",
-        mongoEmbed                  : "de.flapdoodle.embed:de.flapdoodle.embed.mongo",
         postgresql                  : "org.postgresql:postgresql",
         problemSpringWeb            : "org.zalando:problem-spring-web-starter:$versions.problemSpringWeb",
-        problemSpringWebflux        : "org.zalando:problem-spring-webflux:$versions.problemSpringWeb",
+        problemSpringWebFlux        : "org.zalando:problem-spring-webflux:$versions.problemSpringWeb",
         problemJacksonDataType      : "org.zalando:jackson-datatype-problem:$versions.problemJacksonDataType",
-        reactorTest                 : "io.projectreactor:reactor-test",
         truth                       : "com.google.truth:truth:$versions.truth",
 
         // Spring's dependency management plugin will auto-resolve the Spring library versions

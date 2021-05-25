@@ -26,7 +26,7 @@ import static com.google.common.truth.Truth.assertThat;
  * at least one integration test class. This class provides an empty
  * test to ensure codeCoverageReport can find its requisite integration test class.
  */
-public class RestApiIntegrationTests {
+public class RestApiWebMvcIntegrationTests {
 
     MojoApplication application = new MojoApplication();
     CommandLine cli = new CommandLine(application);

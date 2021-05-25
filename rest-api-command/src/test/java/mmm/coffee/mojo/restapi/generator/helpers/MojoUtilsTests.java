@@ -15,8 +15,7 @@
  */
 package mmm.coffee.mojo.restapi.generator.helpers;
 
-import mmm.coffee.mojo.restapi.generator.helpers.MojoProperties;
-import mmm.coffee.mojo.restapi.generator.helpers.MojoUtils;
+import mmm.coffee.mojo.restapi.shared.MojoProperties;
 import org.apache.commons.io.FileUtils;
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.SystemErrRule;

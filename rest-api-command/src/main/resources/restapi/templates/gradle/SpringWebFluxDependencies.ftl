@@ -10,7 +10,7 @@ dependencies {
     implementation libs.springBootStarterWebFlux
     implementation libs.springBootStarterValidation
     implementation libs.problemSpringWeb
-    implementation libs.problemSpringWebflux
+    implementation libs.problemSpringWebFlux
     implementation libs.problemJacksonDataType
 
     testImplementation (libs.springBootStarterTest){

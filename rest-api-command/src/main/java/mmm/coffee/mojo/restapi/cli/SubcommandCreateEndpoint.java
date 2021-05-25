@@ -17,15 +17,17 @@ package mmm.coffee.mojo.restapi.cli;
 
 import mmm.coffee.mojo.api.Generator;
 import mmm.coffee.mojo.mixin.DryRunOption;
-import mmm.coffee.mojo.restapi.generator.AbstractEndpointGenerator;
 import mmm.coffee.mojo.restapi.generator.EndpointGeneratorFactory;
-import mmm.coffee.mojo.restapi.generator.helpers.MojoProperties;
+import mmm.coffee.mojo.restapi.generator.ProjectKeys;
+import mmm.coffee.mojo.restapi.shared.MojoProperties;
 import mmm.coffee.mojo.restapi.shared.SupportedFramework;
 import picocli.CommandLine;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.Callable;
+import java.util.function.Supplier;
 
 /**
  * This subcommand generates the code assets for a specific resource.
@@ -68,9 +70,53 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
             map.put(DryRunOption.DRY_RUN_KEY, Boolean.TRUE);
         }
 
-        // TODO: Need to peek at mojo.properties to determine framework code
-        Generator generator = EndpointGeneratorFactory.createGenerator(SupportedFramework.WEBMVC);
+        SupportedFramework framework = determineFramework(dryRunOption.isDryRun());
+        Generator generator = EndpointGeneratorFactory.createGenerator(framework);
         generator.run(map);
         return 0;
+    }
+
+    /**
+     * Side-bar task to look up the project's framework, since the framework
+     * affects whether the code generator produces WebMVC or WebFlux controllers
+     *
+     * @param isDryRun when doing a dry-run, the env variable 'mojo.framework'
+     *                 is inspected (used for testing)
+     */
+    private SupportedFramework determineFramework(boolean isDryRun) {
+        if (isDryRun) {
+            Optional<SupportedFramework> framework = getFrameworkFromEnv();
+            if (framework.isPresent())
+                return framework.get();
+            else
+                return SupportedFramework.WEBMVC;
+        }
+        else {
+            String stringValue = MojoProperties.loadMojoProperties().getProperty(ProjectKeys.FRAMEWORK);
+            return SupportedFramework.valueOf(stringValue);
+        }
+    }
+
+    /**
+     * Returns the supported framework based on the env variable, 'mojo.framework'.
+     * If that env variable is undefined, an empty Optional is returned.
+     *
+     * @return an Optional that wraps the project's framework
+     */
+    private Optional<SupportedFramework> getFrameworkFromEnv() {
+        String s = System.getenv("mojo.framework");
+        if (isEmpty(s)) {
+            return Optional.empty();
+        }
+        try {
+            return Optional.of(SupportedFramework.valueOf(s));
+        }
+        catch (IllegalArgumentException | NullPointerException e) {
+            return Optional.empty();
+        }
+    }
+
+    private boolean isEmpty(String s) {
+        return s == null || s.trim().length() == 0;
     }
 }

@@ -13,11 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package mmm.coffee.mojo.restapi.generator.helpers;
+package mmm.coffee.mojo.restapi.shared;
 
 import lombok.NonNull;
 import mmm.coffee.mojo.exception.MojoException;
 import mmm.coffee.mojo.restapi.generator.ProjectKeys;
+import mmm.coffee.mojo.restapi.generator.helpers.MojoUtils;
 
 import java.io.*;
 import java.util.Map;

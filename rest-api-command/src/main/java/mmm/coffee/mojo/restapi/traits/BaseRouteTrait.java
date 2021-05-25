@@ -13,23 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package mmm.coffee.mojo.restapi.generator.spring;
-
-import mmm.coffee.mojo.catalog.TemplateCatalog;
-import mmm.coffee.mojo.restapi.generator.*;
-
+package mmm.coffee.mojo.restapi.traits;
 
 /**
- * Generates the assets of a single endpoint, such as the Controller,
- * Service, and Repository classes of that endpoint.
+ * The base path (aka base route) of the application.
+ * For example, 'hello-service/api/v1'.
  */
-public class SpringWebMvcEndpointGenerator extends AbstractEndpointGenerator {
-
-    /**
-     * Loads the catalog of templates used for Spring WebMVC endpoint artifacts.
-     */
-    public void initialize() {
-        super.initialize();
-        templateCatalog = new TemplateCatalog(Catalogs.WEBMVC_CATALOG);
-    }
+public interface BaseRouteTrait {
+    String getBaseRoute();
 }
