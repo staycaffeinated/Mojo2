@@ -9,6 +9,7 @@ ext {
         mockito              : '${project.mockitoVersion}',             // Mocking library
         springBoot           : '${project.springBootVersion}',          // Spring Boot
         springCloud          : '${project.springCloudVersion}',         // Spring Cloud
+        problemJacksonDataType : '${project.problemJacksonDataTypeVersion}',  // Zalando's Jackson DataType
         problemSpringWeb     : '${project.problemSpringWebVersion}',    // Zalando's Problem API
         testContainers       : '${project.testContainersVersion}',      // Test containers for integration testing
         truth                : '${project.truthVersion}'                // Google's assertion library
@@ -34,6 +35,7 @@ ext {
         postgresql                  : "org.postgresql:postgresql",
         problemSpringWeb            : "org.zalando:problem-spring-web-starter:$versions.problemSpringWeb",
         problemSpringWebflux        : "org.zalando:problem-spring-webflux:$versions.problemSpringWeb",
+        problemJacksonDataType      : "org.zalando:jackson-datatype-problem:$versions.problemJacksonDataType",
         reactorTest                 : "io.projectreactor:reactor-test",
         truth                       : "com.google.truth:truth:$versions.truth",
 

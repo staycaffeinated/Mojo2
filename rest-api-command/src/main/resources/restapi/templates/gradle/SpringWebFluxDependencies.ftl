@@ -11,7 +11,7 @@ dependencies {
     implementation libs.springBootStarterValidation
     implementation libs.problemSpringWeb
     implementation libs.problemSpringWebflux
-    implementation group: 'org.zalando', name: 'jackson-datatype-problem', version: '0.25.0'
+    implementation libs.problemJacksonDataType
 
     testImplementation (libs.springBootStarterTest){
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'

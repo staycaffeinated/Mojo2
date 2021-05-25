@@ -9,6 +9,9 @@ dependencies:
       name: "benManesPlugin"
       version: "0.38.0"
   - dependency:
+      name: "problemJacksonDataType"
+      version: "0.25.0"
+  - dependency:
       name: "jibPlugin"
       version: "3.0.0"
   - dependency:
