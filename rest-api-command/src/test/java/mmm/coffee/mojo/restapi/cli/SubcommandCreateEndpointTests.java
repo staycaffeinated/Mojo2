@@ -55,4 +55,12 @@ class SubcommandCreateEndpointTests {
     void shouldEnableHelpOption() {
         assertThat(cli.execute("--help")).isEqualTo(0);
     }
+
+    @Test
+    void shouldRejectInvalidResourceNames() {
+        // Expect a non-zero return code when an error occurs.
+        // 'import' is a reserved word in java, so we want the code generator to
+        // catch errors like that early
+        assertThat(cli.execute("--resource", "import", "--route", "/import")).isNotEqualTo(0);
+    }
 }

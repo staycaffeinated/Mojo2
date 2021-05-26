@@ -16,24 +16,19 @@
 package mmm.coffee.mojo.restapi.cli.validator;
 
 
-import java.util.StringTokenizer;
-
 import static java.util.Arrays.binarySearch;
 
 /**
- * Validation of packageName to ensure its a legal Java package name
+ * Validation of resourceName to ensure its not a reserved Java keyword
  *
- * A review of the rules for package names
- * (from  https://docs.oracle.com/javase/tutorial/java/package/namingpkgs.html )
+ * A list of the reserved keywords:
+ * https://docs.oracle.com/javase/tutorial/java/nutsandbolts/_keywords.html
  *
- * 1. Package names are written in all lower case
- * 2. Cannot contain a hyphen or other special character (underscore is allowed)
- * 3. Cannot contain a reserved word
  */
-public class PackageNameValidator {
+public class ResourceNameValidator {
 
     // Creating a private constructor to ensure instances of this are not created
-    private PackageNameValidator() {}
+    private ResourceNameValidator() {}
     
     /**
      * Checks whether {@code value} represents a valid Java package name
@@ -53,36 +48,24 @@ public class PackageNameValidator {
      * @return if it can be used as a package name
      */
     private static boolean check (String candidate) {
-        StringTokenizer tokenizer = new StringTokenizer(candidate, ".");
-
-        while (tokenizer.hasMoreTokens()) {
-            String token = tokenizer.nextToken();
-            if (ReservedWords.isReservedWord(token))
-                return false;
-            if (!isLegalIdentifier((token))) return false;
-        }
-        return true;
+        if (ReservedWords.isReservedWord(candidate)) return false;
+        return isLegalClassName(candidate);
     }
 
     /**
-     * Not exactly the rules of a Java identifier, but sufficient for package names
-     * @param token the token to check
-     * @return true if the token is a legal part of a package name
+     * Checks whether {@code token} is a valid Java identifier.
+     * The assumption is {@code token} will be used as a classname.
+     * @param token the value to check
+     * @return true if the token is suitable as a classname
      */
-    private static boolean isLegalIdentifier(String token) {
-        // first character must be a-z or underscore
-        if (! ((token.charAt(0) >= 'a' && token.charAt(0) <= 'z')
-                || token.charAt(0) == '_'))
-            return false;
+    private static boolean isLegalClassName(String token) {
+        // Does the token does not start with a valid starting character
+        if (!Character.isJavaIdentifierStart(token.charAt(0))) return false;
 
-        // subsequent letters can be a-z, 0-9, or underscore
+        // Are subsequent characters legal parts of an identifier
         for (int i = 1; i < token.length(); i++) {
-            if (! ((token.charAt(i) >= 'a' && token.charAt(i) <= 'z')
-                || (token.charAt(i) >= '0' && token.charAt(i) <= '9')
-                || token.charAt(i) == '_'))
-                return false;
+            if (!Character.isJavaIdentifierPart(token.charAt(i))) return false;
         }
         return true;
     }
-
 }

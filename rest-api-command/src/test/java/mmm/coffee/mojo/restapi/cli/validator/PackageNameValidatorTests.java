@@ -28,9 +28,10 @@ class PackageNameValidatorTests {
     /**
      * Check whether the PackageNameValidator detects legal and illegal
      * package names.  At the moment, this test "kicks the tires" and
-     * does not try to be an exhaustive test of all package name rules.
+     * does not try to be an exhaustive test of all package name scenarios.
      */
     @ParameterizedTest
+    // Because of the comma in the first element, @ValueSource won't work here
     @CsvSource( value = {
             "org.example,widget",
             "org.example.warehouse",

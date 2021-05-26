@@ -17,6 +17,7 @@ package mmm.coffee.mojo.restapi.cli;
 
 import mmm.coffee.mojo.api.Generator;
 import mmm.coffee.mojo.mixin.DryRunOption;
+import mmm.coffee.mojo.restapi.cli.validator.ResourceNameValidator;
 import mmm.coffee.mojo.restapi.generator.EndpointGeneratorFactory;
 import mmm.coffee.mojo.restapi.generator.ProjectKeys;
 import mmm.coffee.mojo.restapi.shared.MojoProperties;
@@ -44,6 +45,9 @@ import java.util.function.Supplier;
 )
 public class SubcommandCreateEndpoint implements Callable<Integer> {
 
+    @CommandLine.Spec
+    CommandLine.Model.CommandSpec commandSpec;  // injected by picocli
+
     // adds support for the --dry-run option
     @CommandLine.Mixin
     private DryRunOption dryRunOption;
@@ -62,6 +66,8 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
 
     @Override
     public Integer call() {
+        validate();
+
         Map<String,Object> map = new HashMap<>();
         map.put("resource", resourceName);
         map.put("route", baseRoute);
@@ -74,6 +80,19 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
         Generator generator = EndpointGeneratorFactory.createGenerator(framework);
         generator.run(map);
         return 0;
+    }
+
+    /**
+     * Validate the inputs. In particular, ensure the resourceName will yield a valid Java class name.
+     * For example, if the resourceName is 'import', that should not be allowed since 'import' is a
+     * reserved word and cannot be used as a classname and will cause the generator to emit code
+     * that won't compile. 
+     */
+    private void validate() {
+        if ( !ResourceNameValidator.isValid(resourceName)) {
+            throw new CommandLine.ParameterException( commandSpec.commandLine(),
+                    String.format("%nERROR: %n\tThe resource name '%s' cannot be used; it will not produce a legal Java class name.%n\tResource names must not be Java reserved words and must begin with a letter.%n", resourceName));
+        }
     }
 
     /**
@@ -119,4 +138,5 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
     private boolean isEmpty(String s) {
         return s == null || s.trim().length() == 0;
     }
+
 }
