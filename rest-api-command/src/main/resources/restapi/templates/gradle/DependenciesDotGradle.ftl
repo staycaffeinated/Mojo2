@@ -11,6 +11,7 @@ ext {
         springCloud            : '${project.springCloudVersion}',         // Spring Cloud
         problemJacksonDataType : '${project.problemJacksonDataTypeVersion}',  // Zalando's Jackson DataType
         problemSpringWeb       : '${project.problemSpringWebVersion}',    // Zalando's Problem API
+        reactorTest            : '${project.reactorTestVersion}',         // reactor-test library
         testContainers         : '${project.testContainersVersion}',      // Test containers for integration testing
         truth                  : '${project.truthVersion}'                // Google's assertion library
         ]
@@ -35,6 +36,7 @@ ext {
         problemSpringWeb            : "org.zalando:problem-spring-web-starter:$versions.problemSpringWeb",
         problemSpringWebFlux        : "org.zalando:problem-spring-webflux:$versions.problemSpringWeb",
         problemJacksonDataType      : "org.zalando:jackson-datatype-problem:$versions.problemJacksonDataType",
+        reactorTest                 : "io.projectreactor:reactor-test:$versions.reactorTest",
         truth                       : "com.google.truth:truth:$versions.truth",
 
         // Spring's dependency management plugin will auto-resolve the Spring library versions

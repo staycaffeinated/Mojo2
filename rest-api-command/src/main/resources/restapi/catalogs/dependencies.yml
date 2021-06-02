@@ -51,6 +51,9 @@ dependencies:
       name: "problemSpringWeb"
       version: "0.26.2"
   - dependency:
+      name: "reactorTest"
+      version: "3.4.6" 
+  - dependency:
       name: "testContainers"
       version: "1.15.3"
   - dependency:
