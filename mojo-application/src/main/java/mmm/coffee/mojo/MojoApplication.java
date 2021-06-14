@@ -26,7 +26,7 @@ import java.util.concurrent.Callable;
 @CommandLine.Command(
         name="mojo",
         description="Code generation mojo for programmers",
-        version = "0.1.9",
+        version = "0.2.0",
         mixinStandardHelpOptions = true,
         subcommands = { CommandRestApi.class }
 )
@@ -43,7 +43,9 @@ public class MojoApplication implements Callable<Integer> {
      * @param args command line args
      */
     public static void main(String[] args) {
-        int exitCode = new CommandLine(new MojoApplication()).execute(args);
+        int exitCode = new CommandLine(new MojoApplication())
+                            .setUsageHelpAutoWidth(true) // take advantage of wide terminals when available
+                            .execute(args);
         System.exit(exitCode);
     }
 }

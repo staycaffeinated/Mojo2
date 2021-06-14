@@ -27,6 +27,7 @@ public class ProjectKeys {
     public static final String BASE_PACKAGE_PATH = "basePackagePath";
     public static final String BASE_PATH = "basePath";
     public static final String JAVA_VERSION = "javaVersion";
+    public static final String FRAMEWORK = "framework";
     public static final String SCHEMA = "schema";
     public static final String GROUP_ID = "groupId";
 

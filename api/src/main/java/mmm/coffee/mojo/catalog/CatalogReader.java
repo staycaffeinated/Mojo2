@@ -48,7 +48,7 @@ public class CatalogReader {
     public @NonNull List<CatalogEntry> readCatalog(@NonNull String catalog) throws IOException {
         try (InputStream is = this.getClass().getResourceAsStream(catalog)) {
             // Fail fast if the catalog.yaml file wasn't found
-            Objects.requireNonNull(is, String.format("The catalog file, '%s', was not found. Verify the resource exists at the given path", catalog));
+            Objects.requireNonNull(is, String.format("The catalog file, '%s', was not found. Verify the resource exists at the given path.", catalog));
 
             // Load the yaml content as CatalogEntry items
             Yaml yaml = new Yaml();

@@ -57,7 +57,7 @@ public class PackageNameValidator {
 
         while (tokenizer.hasMoreTokens()) {
             String token = tokenizer.nextToken();
-            if (binarySearch(reserved, token) >= 0)
+            if (ReservedWords.isReservedWord(token))
                 return false;
             if (!isLegalIdentifier((token))) return false;
         }
@@ -83,19 +83,6 @@ public class PackageNameValidator {
                 return false;
         }
         return true;
-    }
-
-    private static final String[] reserved;
-
-    static {
-        reserved = new String[] { "abstract", "assert", "boolean", "break", "byte",
-                "case", "catch", "char", "class", "const", "continue", "default", "do",
-                "double", "else", "enum", "extends", "false", "final", "finally",
-                "float", "for", "if", "goto", "implements", "import", "instanceof",
-                "int", "interface", "long", "native", "new", "null", "package",
-                "private", "protected", "public", "return", "short", "static",
-                "strictfp", "super", "switch", "synchronized", "this", "throw",
-                "throws", "transient", "true", "try", "void", "volatile", "while" };
     }
 
 }

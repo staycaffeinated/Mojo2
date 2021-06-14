@@ -16,6 +16,7 @@
 package mmm.coffee.mojo.restapi.generator;
 
 import lombok.NonNull;
+import mmm.coffee.mojo.restapi.generator.helpers.NamingRules;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,9 +33,9 @@ public class EndpointPropertyFactory {
                                                        @NonNull Map<String,String> projectProps) {
         HashMap<String,String> map = new HashMap<>();
 
-        map.put("entityName", SyntaxRules.entityNameSyntax(resource));
-        map.put("entityVarName", SyntaxRules.entityVarNameSyntax(resource));
-        map.put("basePath", SyntaxRules.basePathSyntax(route));
+        map.put("entityName", NamingRules.toEntityName(resource));
+        map.put("entityVarName", NamingRules.toEntityVariableName(resource));
+        map.put("basePath", NamingRules.toBasePathUrl(route));
 
         map.putAll(projectProps);
         return map;

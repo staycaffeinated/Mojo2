@@ -26,7 +26,7 @@ import java.util.concurrent.Callable;
         name="rest-api",
         descriptionHeading = "%nDescription:%n%n",
         description="Create a REST API project and its artifacts",
-        version = "v1.0", mixinStandardHelpOptions = true,
+        version = "v1.1", mixinStandardHelpOptions = true,
         commandListHeading = "%nCommands:%n%n",
         subcommands = { SubcommandCreateProject.class, SubcommandCreateEndpoint.class }
 )

@@ -66,7 +66,7 @@ class ConfigurationFactoryTests {
     @CsvSource(value = {
             "common/Copyright.ftl",
             "gradle/BuildDotGradle.ftl",
-            "main/endpoint/RestController.ftl"
+            "spring/webmvc/main/endpoint/RestController.ftl"
     })
     void shouldFindTemplates(String templatePath) throws IOException {
         Template template = configuration.getTemplate(templatePath);

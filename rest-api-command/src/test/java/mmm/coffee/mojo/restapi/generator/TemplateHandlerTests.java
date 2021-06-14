@@ -63,8 +63,7 @@ class TemplateHandlerTests {
         properties.put("basePath", BASE_PATH);
         properties.put("packageName", PACKAGE_NAME);
     }
-
-
+    
     @Nested
     class LoadMethodTests {
         /**
@@ -102,18 +101,16 @@ class TemplateHandlerTests {
             assertThat(content.indexOf("package mmm.coffee.example")).isGreaterThan(0);
         }
     }
-
-
+    
     /**
-     * Returns a mimic of an entry from the catalog.yaml.
+     * Returns a mimic of an entry from the webmvc-catalog.yaml.
      * @return a catalog entry
      */
     private CatalogEntry createFakeControllerEntry() {
         CatalogEntry entry = new CatalogEntry();
-        entry.setTemplate("main/endpoint/RestController.ftl");
+        entry.setTemplate("/spring/webmvc/main/endpoint/RestController.ftl");
         entry.setDestination("src/main/java/{{basePackagePath}}/endpoint/{{entityName}}Controller.java");
         entry.setContext("endpoint");
         return entry;
     }
-
 }
