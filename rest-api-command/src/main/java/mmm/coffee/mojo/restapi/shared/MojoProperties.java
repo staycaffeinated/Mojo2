@@ -15,105 +15,81 @@
  */
 package mmm.coffee.mojo.restapi.shared;
 
-import lombok.NonNull;
-import mmm.coffee.mojo.exception.MojoException;
 import mmm.coffee.mojo.restapi.generator.ProjectKeys;
-import mmm.coffee.mojo.restapi.generator.helpers.MojoUtils;
-
-import org.apache.commons.configuration2.CombinedConfiguration;
 import org.apache.commons.configuration2.Configuration;
-import java.io.*;
+import org.apache.commons.configuration2.ConfigurationUtils;
+import org.apache.commons.configuration2.EnvironmentConfiguration;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.BasicConfigurationBuilder;
+import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
+import org.apache.commons.configuration2.builder.fluent.Parameters;
+import org.apache.commons.configuration2.ex.ConfigurationException;
+
+import java.io.File;
+import java.io.FileWriter;
 import java.util.Map;
-import java.util.Properties;
 
 /**
- * This encapsulates the content of the mojo.properties file
+ * Mojo configuration properties
  */
-public class MojoProperties extends Properties {
+public class MojoProperties {
+    public static final String DEFAULT_FILE_NAME = "mojo.properties";
 
-    /**
-     * Reads the mojo.properties file into a Map
-     * @return a Map containing the contents of the mojo.properties file
-     */
-    @NonNull
-    public static MojoProperties loadMojoProperties() {
-        MojoProperties mojoProperties = new MojoProperties();
-        try (InputStream is = new FileInputStream(getMojoPropertiesFileName())) {
-            mojoProperties.load(is);
-        }
-        catch (IOException e) {
-            throw new MojoException(String.format("ERROR: %s%n", e.getMessage()), e);
-        }
-        return mojoProperties;
+    private final Configuration configuration;
+    
+    public MojoProperties() {
+        this.configuration = readConfigurationFile();
     }
 
-    /**
-     * Saves project-level properties to a hidden file to enable
-     * these properties to be recalled when endpoints are generated.
-     * For example, endpoint classes need to know the basePackage
-     * of the project.
-     */
-    public static void saveMojoProperties(@NonNull MojoProperties properties) {
-        final String mojoFileName = getMojoPropertiesFileName();
-        try (PrintWriter pw = new PrintWriter(new FileOutputStream(mojoFileName))) {
-            properties.store(pw, "These are properties from the Mojo code generator");
-            pw.flush();
+    public static void saveConfiguration(Map<String, Object> lexicalScope) {
+        try {
+            PropertiesConfiguration config = new PropertiesConfiguration();
+
+            // Only copy properties needed for endpoint generation
+            config.setHeader("This property file was created by the Mojo code generator.\nThese values are consumed when creating endpoints");
+            config.setProperty(ProjectKeys.BASE_PATH, lexicalScope.get(ProjectKeys.BASE_PATH));
+            config.setProperty(ProjectKeys.BASE_PACKAGE, lexicalScope.get(ProjectKeys.BASE_PACKAGE));
+            config.setProperty(ProjectKeys.FRAMEWORK, lexicalScope.get(ProjectKeys.FRAMEWORK));
+
+            writeConfiguration(config);
         }
-        catch (Exception e) {
-            throw new MojoException(String.format("ERROR: Tried to save '%s' file but encountered this: %s%n", mojoFileName, e.getMessage()), e);
+        catch (Exception ex) {
+            throw new RuntimeException(ex.getMessage(), ex);
         }
     }
 
-    /**
-     * This method is exposed to support test cases that do not want to write to the file system.
-     * A fake set of properties that are typically found in the mojo.properties file are returned.
-     */
-    @NonNull
-    public static MojoProperties loadMojoPropertiesForDryRun() {
-        MojoProperties mojoProperties = new MojoProperties();
-        mojoProperties.put(ProjectKeys.BASE_PATH, "/my-service");
-        mojoProperties.put(ProjectKeys.APPLICATION_NAME, "my-service");
-        mojoProperties.put(ProjectKeys.SCHEMA, "exampleDB");
-        mojoProperties.put(ProjectKeys.BASE_PACKAGE, "org.example.myservice");
-        mojoProperties.put(ProjectKeys.BASE_PACKAGE_PATH, "org/example/myservice");
-        mojoProperties.put(ProjectKeys.GROUP_ID, "org.example");
-        mojoProperties.put(ProjectKeys.JAVA_VERSION, "11");
-        mojoProperties.put(ProjectKeys.SPRING_BOOT_VERSION, "2.3.4.RELEASE");
-        mojoProperties.put(ProjectKeys.SPRING_DEPENDENCY_MGMT_VERSION, "1.0.10.RELEASE");
-        mojoProperties.put(ProjectKeys.SPRING_CLOUD_VERSION, "2.2.5.RELEASE");
-        mojoProperties.put(ProjectKeys.PROBLEM_SPRING_VERSION, "0.26.2");
-        return mojoProperties;
+    public Configuration getConfiguration() {
+        return this.configuration;
     }
 
     /**
-     * Returns the value of {@code key} as a String
-     * @param key the key to find
-     * @return the value of {@code key}, as a String
+     * Returns the configuration found at the given filename or resource
+     * @return configuration values found in the mojo.properties file
      */
-    public String getString(@NonNull String key) {
-        return (String)this.get(key);
+    private Configuration readConfigurationFile() {
+        try {
+            Parameters params = new Parameters();
+            FileBasedConfigurationBuilder<PropertiesConfiguration> builder = new FileBasedConfigurationBuilder<>(PropertiesConfiguration.class)
+                    .configure(params.fileBased().setFileName(DEFAULT_FILE_NAME));
+            return builder.getConfiguration();
+        }
+        catch (ConfigurationException ex) {
+            // When the mojo.properties file does not exist, fall back to using
+            // environment variables. The motivation is to enable tests to
+            // consume mojo properties without having to conjure a temporary mojo.properties file.
+            Configuration config = new PropertiesConfiguration();
+            Configuration immutableEnv = new EnvironmentConfiguration();
+            ConfigurationUtils.copy(immutableEnv, config);
+            return config;
+        }
     }
 
-    public static MojoProperties toMojoProperties (Map<String,Object> map) {
-        MojoProperties properties = new MojoProperties();
-        map.forEach((key, value) -> {
-            if (value instanceof String) {
-                properties.put(key, value);
-            }
-        });
-        return properties;
-    }
-
-
-    /**
-     * The mojo.properties file contains the project-scope properties. There are some properties
-     * defined at create-project time that also need to be known at create-endpoint time, such
-     * as the base package name.  The mojo.properties thus encapsulates context information that
-     * needs to get passed down from the ProjectGenerator to the EndpointGenerator.
-     * @return the fully-qualified filename of the mojo.properties file.
-     */
-    @NonNull
-    public static String getMojoPropertiesFileName() {
-        return MojoUtils.currentDirectory() + "mojo.properties";
+    private static void writeConfiguration(PropertiesConfiguration configuration) throws Exception {
+        File file = new File(DEFAULT_FILE_NAME);
+        try (FileWriter fw = new FileWriter(file)) {
+            configuration.write(fw);
+            fw.flush();
+            fw.close();
+        }
     }
 }

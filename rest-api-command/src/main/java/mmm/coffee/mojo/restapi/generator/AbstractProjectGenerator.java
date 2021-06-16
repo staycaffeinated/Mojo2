@@ -131,8 +131,7 @@ public abstract class AbstractProjectGenerator implements Generator {
     public void tearDown() {
         // If this was -not- a dry run, write the mojo.properties file
         if (Boolean.FALSE.equals(lexicalScope.getOrDefault(DryRunOption.DRY_RUN_KEY, Boolean.FALSE))) {
-            MojoProperties props = MojoProperties.toMojoProperties(lexicalScope);
-            MojoProperties.saveMojoProperties(props);
+            MojoProperties.saveConfiguration (lexicalScope);
         }
     }
 

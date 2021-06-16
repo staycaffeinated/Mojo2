@@ -22,7 +22,6 @@ import mmm.coffee.mojo.api.TemplateWriter;
 import mmm.coffee.mojo.catalog.CatalogEntry;
 import mmm.coffee.mojo.catalog.TemplateCatalog;
 import mmm.coffee.mojo.mixin.DryRunOption;
-import mmm.coffee.mojo.restapi.shared.MojoProperties;
 import mmm.coffee.mojo.restapi.generator.helpers.MojoUtils;
 import mmm.coffee.mojo.restapi.generator.helpers.MustacheExpressionResolver;
 import mmm.coffee.mojo.restapi.generator.helpers.NamingRules;
@@ -60,6 +59,10 @@ public abstract class AbstractEndpointGenerator implements Generator {
         addCatalogEntries(templateCatalog.filterByContext(ENDPOINT_CONTEXT));
     }
 
+    public void setUpLexicalScope(@NonNull Map<String,Object> commandLineOptions) {
+        throw new RuntimeException("This method not supported when creating endpoints");
+    }
+
     public void setUpLexicalScope(@NonNull Map<String, Object> commandLineOptions,
                                   org.apache.commons.configuration2.Configuration mojoProps) {
         lexicalScope.put(ProjectKeys.BASE_PATH, mojoProps.getString(ProjectKeys.BASE_PATH));
@@ -75,7 +78,9 @@ public abstract class AbstractEndpointGenerator implements Generator {
         String basePath = NamingRules.toBasePathUrl((String) commandLineOptions.get("route"));
         String packageName = MojoUtils.getPackageNameForResource(basePackage, resourceName);
         String packagePath = MojoUtils.convertPackageNameToPath(packageName);
+        String basePackagePath = MojoUtils.convertPackageNameToPath(basePackage);
 
+        lexicalScope.put(ProjectKeys.BASE_PACKAGE_PATH, basePackagePath);
         lexicalScope.put(EndpointKeys.ENTITY_NAME, entityName);
         lexicalScope.put(EndpointKeys.BASE_PATH, basePath);
         lexicalScope.put(EndpointKeys.ENTITY_LOWER_CASE_NAME, entityName.toLowerCase());
@@ -84,40 +89,7 @@ public abstract class AbstractEndpointGenerator implements Generator {
         lexicalScope.put(EndpointKeys.PACKAGE_PATH, packagePath);
         lexicalScope.put(EndpointKeys.TABLE_NAME, entityName);
     }
-
-    /**
-     * Configuration phase
-     * @param commandLineOptions properties to be consumed by the template
-     */
-    @Override
-    public void setUpLexicalScope(@NonNull Map<String, Object> commandLineOptions) {
-        MojoProperties mojoProperties;
-        if ( isDryRun(commandLineOptions) ) {
-            mojoProperties = MojoProperties.loadMojoPropertiesForDryRun();
-        }
-        else {
-            mojoProperties = MojoProperties.loadMojoProperties();
-        }
-        mojoProperties.forEach((key, value) -> lexicalScope.put((String) key, value));
-        lexicalScope.putAll(commandLineOptions);
-
-        String basePackage = mojoProperties.getString(ProjectKeys.BASE_PACKAGE);
-        String resourceName = (String) commandLineOptions.get("resource");
-        String entityName = NamingRules.toEntityName(resourceName);
-        String entityVarName = NamingRules.toEntityVariableName(resourceName);
-        String basePath = NamingRules.toBasePathUrl((String) commandLineOptions.get("route"));
-        String packageName = MojoUtils.getPackageNameForResource(basePackage, resourceName);
-        String packagePath = MojoUtils.convertPackageNameToPath(packageName);
-
-        lexicalScope.put(EndpointKeys.ENTITY_NAME, entityName);
-        lexicalScope.put(EndpointKeys.BASE_PATH, basePath);
-        lexicalScope.put(EndpointKeys.ENTITY_LOWER_CASE_NAME, entityName.toLowerCase());
-        lexicalScope.put(EndpointKeys.ENTITY_VAR_NAME, entityVarName);
-        lexicalScope.put(EndpointKeys.PACKAGE_NAME, packageName);
-        lexicalScope.put(EndpointKeys.PACKAGE_PATH, packagePath);
-        lexicalScope.put(EndpointKeys.TABLE_NAME, entityName);
-    }
-
+    
     @Override
     public Map<String,Object> getLexicalScope() { return lexicalScope; }
 

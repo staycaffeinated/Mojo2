@@ -15,7 +15,10 @@
  */
 package mmm.coffee.mojo.restapi.generator.helpers;
 
+import mmm.coffee.mojo.restapi.generator.ProjectKeys;
 import mmm.coffee.mojo.restapi.shared.MojoProperties;
+import mmm.coffee.mojo.restapi.shared.SupportedFramework;
+import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.io.FileUtils;
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.SystemErrRule;
@@ -27,13 +30,15 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Unit tests of MojoUtils
  */
-class MojoUtilsTests {
+class MojoUtilsIT {
 
     @Rule
     public final SystemErrRule systemErrRule = new SystemErrRule().enableLog().muteForSuccessfulTests();
@@ -43,12 +48,12 @@ class MojoUtilsTests {
 
 
     /**
-     * Some tests write/read the mojo.properties file to ensure that code path works.
+     * Some tests write/read the mojo.properties file to ensure some code paths work.
      * We want to clean up any remnant mojo.properties files created by these tests.
      */
     @AfterEach
     void cleanUp() {
-        File file = new File (MojoProperties.getMojoPropertiesFileName());
+        File file = new File (MojoProperties.DEFAULT_FILE_NAME);
         if (file.exists())
             FileUtils.deleteQuietly(file);
     }
@@ -110,20 +115,4 @@ class MojoUtilsTests {
         }
     }
 
-    @Nested
-    class Test_loadContext {
-        @Test
-        void shouldSaveAndLoadMojoFile() {
-            final String key = "springBoot.version";
-            final String value = "2.2.4.RELEASE";
-
-            MojoProperties properties = new MojoProperties();
-            properties.put(key, value);
-            MojoProperties.saveMojoProperties(properties);
-            
-            MojoProperties results = MojoProperties.loadMojoProperties();
-            assertThat(results).isNotEmpty();
-            assertThat(results.get(key)).isEqualTo(value);
-        }
-    }
 }

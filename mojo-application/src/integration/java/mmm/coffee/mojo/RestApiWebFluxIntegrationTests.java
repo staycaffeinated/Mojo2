@@ -15,11 +15,15 @@
  */
 package mmm.coffee.mojo;
 
+import mmm.coffee.mojo.restapi.generator.ProjectKeys;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
 import picocli.CommandLine;
+
+import java.lang.reflect.Field;
+import java.util.Map;
 
 import static com.google.common.truth.Truth.assertThat;
 
@@ -48,8 +52,12 @@ class RestApiWebFluxIntegrationTests {
     @Nested
     class CreateEndpointTests {
         @Test
-        void shouldCreateWebFluxEndpoint() {
-            System.setProperty("mojo.framework", "WEBFLUX");
+        void shouldCreateWebFluxEndpoint() throws Exception {
+            // Define properties usually found in mojo.properties needed by the generator
+            updateEnv(ProjectKeys.BASE_PACKAGE, "org.example.webflux");
+            updateEnv(ProjectKeys.BASE_PATH, "/flux");
+            updateEnv(ProjectKeys.APPLICATION_NAME, "flux");
+
             int rc = cli.execute(toArgV("rest-api create-endpoint --dry-run --route /employee --resource Employee"));
             assertThat(rc).isEqualTo(0);
         }
@@ -63,4 +71,13 @@ class RestApiWebFluxIntegrationTests {
     private String[] toArgV(String s) {
         return s.split("\\s");
     }
+
+    @SuppressWarnings({ "unchecked" })
+    public static void updateEnv(String name, String val) throws ReflectiveOperationException {
+        Map<String, String> env = System.getenv();
+        Field field = env.getClass().getDeclaredField("m");
+        field.setAccessible(true);
+        ((Map<String, String>) field.get(env)).put(name, val);
+    }
+
 }

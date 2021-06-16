@@ -15,6 +15,8 @@
  */
 package mmm.coffee.mojo.restapi.shared;
 
+import mmm.coffee.mojo.restapi.generator.ProjectKeys;
+import org.apache.commons.configuration2.Configuration;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Field;
@@ -26,7 +28,7 @@ import static com.google.common.truth.Truth.assertThat;
 /**
  * Unit test MojoConfiguration
  */
-class MojoConfigurationTests {
+class MojoPropertiesTests {
 
     /**
      * Mojo allows project properties to be defined in env vars
@@ -34,12 +36,29 @@ class MojoConfigurationTests {
      * @throws Exception when things go wrong
      */
     @Test
-    void shouldSupportEnvVars() throws Exception {
+    void updateEnvMethodInsertsEnvVariables() throws Exception {
         updateEnv("mojo.basePath", "/dashboard");
         updateEnv("mojo.basePackage", "org.example.hello");
 
         // ensure the property made it to env var
         assertThat(System.getenv("mojo.basePath")).isNotNull();
+    }
+
+    @Test
+    void shouldFailOverToEnvVarsWhenNoMojoPropertiesFileExists() throws Exception {
+        String basePackage = "org.example.widgets";
+        String basePath = "/widgets/api/v3";
+
+        updateEnv(ProjectKeys.BASE_PACKAGE, basePackage);
+        updateEnv(ProjectKeys.BASE_PATH, basePath);
+
+        // Lets make sure those env vars are really set
+        assertThat(System.getenv(ProjectKeys.BASE_PACKAGE)).isEqualTo(basePackage);
+
+        Configuration config = new MojoProperties().getConfiguration();
+
+        assertThat(config.getString(ProjectKeys.BASE_PACKAGE)).isEqualTo(basePackage);
+        assertThat(config.getString(ProjectKeys.BASE_PATH)).isEqualTo(basePath);
     }
 
     /**
@@ -52,7 +71,7 @@ class MojoConfigurationTests {
         final String packageKey = "mojo.basePackage";
         final String packageValue = "org.example.hello";
 
-        MojoConfiguration configuration = new MojoConfiguration();
+        MojoProperties configuration = new MojoProperties();
         configuration.getConfiguration().addProperty(pathKey, pathValue);
         configuration.getConfiguration().addProperty(packageKey, packageValue);
 
@@ -62,7 +81,7 @@ class MojoConfigurationTests {
 
     @Test
     void shouldSupportOtherStuff() throws Exception {
-        MojoConfiguration config = new MojoConfiguration();
+        MojoProperties config = new MojoProperties();
         config.getConfiguration().addProperty("mojo.basePath", "/dashboard");
         config.getConfiguration().addProperty("mojo.basePackage", "org.example.hello");
     }

@@ -20,10 +20,14 @@ import mmm.coffee.mojo.mixin.DryRunOption;
 import mmm.coffee.mojo.restapi.cli.validator.ResourceNameValidator;
 import mmm.coffee.mojo.restapi.generator.EndpointGeneratorFactory;
 import mmm.coffee.mojo.restapi.generator.ProjectKeys;
-import mmm.coffee.mojo.restapi.shared.MojoConfiguration;
+import mmm.coffee.mojo.restapi.generator.helpers.MojoUtils;
+import mmm.coffee.mojo.restapi.shared.MojoProperties;
 import mmm.coffee.mojo.restapi.shared.SupportedFramework;
+import org.apache.commons.configuration2.Configuration;
+import org.apache.commons.configuration2.PropertiesConfiguration;
 import picocli.CommandLine;
 
+import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -74,10 +78,12 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
         if (dryRunOption.isDryRun()) {
             map.put(DryRunOption.DRY_RUN_KEY, Boolean.TRUE);
         }
+        // If a mojo.properties file is not found, env variables will be queried
+        Configuration configuration = new MojoProperties().getConfiguration();
 
         SupportedFramework framework = determineFramework(dryRunOption.isDryRun());
         Generator generator = EndpointGeneratorFactory.createGenerator(framework);
-        generator.run(map);
+        generator.run(map, configuration);
         return 0;
     }
 
@@ -107,7 +113,7 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
             return framework.orElse(SupportedFramework.WEBMVC);
         }
         else {
-            String stringValue = new MojoConfiguration().getConfiguration().getString(ProjectKeys.FRAMEWORK);
+            String stringValue = new MojoProperties().getConfiguration().getString(ProjectKeys.FRAMEWORK);
             return SupportedFramework.valueOf(stringValue);
         }
     }

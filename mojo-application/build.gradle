@@ -27,5 +27,6 @@ dependencies {
     testImplementation ( libs.junitJupiter )
     testImplementation ( libs.junitSystemRules )
     testImplementation ( libs.truth )
+    testImplementation ( libs.commonsBeanUtils )
 }
 
