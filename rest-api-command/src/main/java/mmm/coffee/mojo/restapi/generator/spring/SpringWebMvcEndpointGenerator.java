@@ -16,7 +16,8 @@
 package mmm.coffee.mojo.restapi.generator.spring;
 
 import mmm.coffee.mojo.catalog.TemplateCatalog;
-import mmm.coffee.mojo.restapi.generator.*;
+import mmm.coffee.mojo.restapi.generator.AbstractEndpointGenerator;
+import mmm.coffee.mojo.restapi.generator.Catalogs;
 
 
 /**
@@ -28,6 +29,7 @@ public class SpringWebMvcEndpointGenerator extends AbstractEndpointGenerator {
     /**
      * Loads the catalog of templates used for Spring WebMVC endpoint artifacts.
      */
+    @Override
     public void initialize() {
         super.initialize();
         templateCatalog = new TemplateCatalog(Catalogs.WEBMVC_CATALOG);

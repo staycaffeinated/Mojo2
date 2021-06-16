@@ -22,8 +22,8 @@ import mmm.coffee.mojo.restapi.cli.validator.PackageNameValidator;
 import mmm.coffee.mojo.restapi.generator.ProjectGeneratorFactory;
 import mmm.coffee.mojo.restapi.generator.ProjectKeys;
 import mmm.coffee.mojo.restapi.generator.helpers.NamingRules;
-import mmm.coffee.mojo.restapi.shared.SupportedFramework;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
+import mmm.coffee.mojo.restapi.shared.SupportedFramework;
 import picocli.CommandLine;
 
 import java.util.HashMap;
@@ -182,7 +182,6 @@ public class SubcommandCreateProject implements Callable<Integer> {
             return 0;
         }
         catch (Exception e) {
-            e.printStackTrace();
             throw new MojoException(e.getMessage());
         }
     }

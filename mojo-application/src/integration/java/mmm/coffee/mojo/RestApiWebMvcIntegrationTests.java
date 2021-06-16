@@ -16,9 +16,7 @@ package mmm.coffee.mojo;/*
 
 import mmm.coffee.mojo.restapi.generator.ProjectKeys;
 import mmm.coffee.mojo.restapi.generator.helpers.MojoUtils;
-import mmm.coffee.mojo.restapi.shared.MojoProperties;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import picocli.CommandLine;
 

@@ -19,7 +19,6 @@ import mmm.coffee.mojo.api.Generator;
 import mmm.coffee.mojo.api.NoOpTemplateWriter;
 import mmm.coffee.mojo.api.TemplateWriter;
 import mmm.coffee.mojo.mixin.DryRunOption;
-import mmm.coffee.mojo.restapi.generator.spring.SpringProjectGenerator;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
 import mmm.coffee.mojo.restapi.shared.SupportedFramework;
 import org.junit.Rule;

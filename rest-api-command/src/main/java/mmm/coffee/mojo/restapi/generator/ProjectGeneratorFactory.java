@@ -31,11 +31,14 @@ import mmm.coffee.mojo.restapi.shared.SupportedFramework;
  */
 public class ProjectGeneratorFactory {
 
+    private ProjectGeneratorFactory() {}
+
     /**
      * Returns a ProjectGenerator instance appropriate for the given {@code framework}.
      *
      * @param framework identifies the desired framework, such as 'webmvc' or 'webflux'
      */
+    @SuppressWarnings("java:S1301") // the switch will grow over time as micronaut and other frameworks are added
     public static Generator createProjectGenerator(@NonNull SupportedFramework framework) {
         switch (framework) {
             case WEBMVC:

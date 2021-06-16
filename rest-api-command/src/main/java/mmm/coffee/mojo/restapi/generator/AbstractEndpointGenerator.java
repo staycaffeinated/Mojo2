@@ -21,7 +21,7 @@ import mmm.coffee.mojo.api.Generator;
 import mmm.coffee.mojo.api.TemplateWriter;
 import mmm.coffee.mojo.catalog.CatalogEntry;
 import mmm.coffee.mojo.catalog.TemplateCatalog;
-import mmm.coffee.mojo.mixin.DryRunOption;
+import mmm.coffee.mojo.exception.MojoException;
 import mmm.coffee.mojo.restapi.generator.helpers.MojoUtils;
 import mmm.coffee.mojo.restapi.generator.helpers.MustacheExpressionResolver;
 import mmm.coffee.mojo.restapi.generator.helpers.NamingRules;
@@ -33,9 +33,6 @@ import java.util.*;
 /**
  * Generates the assets of a given endpoint, such as the controller,
  * service, and repository.
- *
- * TODO: Make this class a SpringWebMvcEndpointGenerator and add SpringWebFluxEndpointGenerator,
- * since we'll have two sets of templates for each style of endpoint.
  */
 public abstract class AbstractEndpointGenerator implements Generator {
 
@@ -47,6 +44,7 @@ public abstract class AbstractEndpointGenerator implements Generator {
     private TemplateWriter sourceSink;
     private Configuration configuration;
 
+    @Override
     public void initialize() {
         configuration = ConfigurationFactory.defaultConfiguration();
     }
@@ -60,7 +58,7 @@ public abstract class AbstractEndpointGenerator implements Generator {
     }
 
     public void setUpLexicalScope(@NonNull Map<String,Object> commandLineOptions) {
-        throw new RuntimeException("This method not supported when creating endpoints");
+        throw new MojoException("This method not supported when creating endpoints");
     }
 
     public void setUpLexicalScope(@NonNull Map<String, Object> commandLineOptions,
@@ -71,14 +69,14 @@ public abstract class AbstractEndpointGenerator implements Generator {
 
         lexicalScope.putAll(commandLineOptions);
 
-        String basePackage = mojoProps.getString(ProjectKeys.BASE_PACKAGE);
-        String resourceName = (String) commandLineOptions.get("resource");
-        String entityName = NamingRules.toEntityName(resourceName);
-        String entityVarName = NamingRules.toEntityVariableName(resourceName);
-        String basePath = NamingRules.toBasePathUrl((String) commandLineOptions.get("route"));
-        String packageName = MojoUtils.getPackageNameForResource(basePackage, resourceName);
-        String packagePath = MojoUtils.convertPackageNameToPath(packageName);
-        String basePackagePath = MojoUtils.convertPackageNameToPath(basePackage);
+        var basePackage = mojoProps.getString(ProjectKeys.BASE_PACKAGE);
+        var resourceName = (String) commandLineOptions.get("resource");
+        var entityName = NamingRules.toEntityName(resourceName);
+        var entityVarName = NamingRules.toEntityVariableName(resourceName);
+        var basePath = NamingRules.toBasePathUrl((String) commandLineOptions.get("route"));
+        var packageName = MojoUtils.getPackageNameForResource(basePackage, resourceName);
+        var packagePath = MojoUtils.convertPackageNameToPath(packageName);
+        var basePackagePath = MojoUtils.convertPackageNameToPath(basePackage);
 
         lexicalScope.put(ProjectKeys.BASE_PACKAGE_PATH, basePackagePath);
         lexicalScope.put(EndpointKeys.ENTITY_NAME, entityName);
@@ -120,8 +118,8 @@ public abstract class AbstractEndpointGenerator implements Generator {
                                     .properties(lexicalScope)
                                     .configuration(configuration)
                                     .build();
-        String content = template.render();
-        File outputFile = determineOutputFile(entry.getDestination());
+        var content = template.render();
+        var outputFile = determineOutputFile(entry.getDestination());
         sourceSink.writeStringToFile(outputFile, content);
     }
 
@@ -133,16 +131,7 @@ public abstract class AbstractEndpointGenerator implements Generator {
      * @return the resolved expression
      */
     private File determineOutputFile(String destinationAsMustacheExpression) {
-        String fileName = MustacheExpressionResolver.toString(destinationAsMustacheExpression, lexicalScope);
+        var fileName = MustacheExpressionResolver.toString(destinationAsMustacheExpression, lexicalScope);
         return new File(fileName);
-    }
-
-    /**
-     * Returns {@code true} if the --dry-run option was found
-     * @param commandLineOptions the options passed in from the command line
-     * @return {@code true} if --dry-run was found; {@code false} otherwise.
-     */
-    private boolean isDryRun(Map<String,Object> commandLineOptions) {
-        return (Boolean) commandLineOptions.getOrDefault(DryRunOption.DRY_RUN_KEY, Boolean.FALSE);
     }
 }

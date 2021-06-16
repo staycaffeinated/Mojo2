@@ -80,10 +80,10 @@ class MojoPropertiesTests {
     }
 
     @Test
-    void shouldSupportOtherStuff() throws Exception {
-        MojoProperties config = new MojoProperties();
-        config.getConfiguration().addProperty("mojo.basePath", "/dashboard");
-        config.getConfiguration().addProperty("mojo.basePackage", "org.example.hello");
+    void shouldAddAddingProperties() throws Exception {
+        var mojoProperties = new MojoProperties();
+        mojoProperties.getConfiguration().addProperty("mojo.basePath", "/dashboard");
+        assertThat(mojoProperties.getConfiguration().getProperty("mojo.basePath")).isEqualTo("/dashboard");
     }
     
     /**

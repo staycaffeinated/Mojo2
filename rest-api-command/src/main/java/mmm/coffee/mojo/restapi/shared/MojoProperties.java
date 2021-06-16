@@ -15,18 +15,19 @@
  */
 package mmm.coffee.mojo.restapi.shared;
 
+import mmm.coffee.mojo.exception.MojoException;
 import mmm.coffee.mojo.restapi.generator.ProjectKeys;
 import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.configuration2.ConfigurationUtils;
 import org.apache.commons.configuration2.EnvironmentConfiguration;
 import org.apache.commons.configuration2.PropertiesConfiguration;
-import org.apache.commons.configuration2.builder.BasicConfigurationBuilder;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -43,7 +44,7 @@ public class MojoProperties {
 
     public static void saveConfiguration(Map<String, Object> lexicalScope) {
         try {
-            PropertiesConfiguration config = new PropertiesConfiguration();
+            var config = new PropertiesConfiguration();
 
             // Only copy properties needed for endpoint generation
             config.setHeader("This property file was created by the Mojo code generator.\nThese values are consumed when creating endpoints");
@@ -54,7 +55,7 @@ public class MojoProperties {
             writeConfiguration(config);
         }
         catch (Exception ex) {
-            throw new RuntimeException(ex.getMessage(), ex);
+            throw new MojoException(ex.getMessage(), ex);
         }
     }
 
@@ -68,7 +69,7 @@ public class MojoProperties {
      */
     private Configuration readConfigurationFile() {
         try {
-            Parameters params = new Parameters();
+            var params = new Parameters();
             FileBasedConfigurationBuilder<PropertiesConfiguration> builder = new FileBasedConfigurationBuilder<>(PropertiesConfiguration.class)
                     .configure(params.fileBased().setFileName(DEFAULT_FILE_NAME));
             return builder.getConfiguration();
@@ -77,19 +78,21 @@ public class MojoProperties {
             // When the mojo.properties file does not exist, fall back to using
             // environment variables. The motivation is to enable tests to
             // consume mojo properties without having to conjure a temporary mojo.properties file.
-            Configuration config = new PropertiesConfiguration();
-            Configuration immutableEnv = new EnvironmentConfiguration();
+            var config = new PropertiesConfiguration();
+            var immutableEnv = new EnvironmentConfiguration();
             ConfigurationUtils.copy(immutableEnv, config);
             return config;
         }
     }
 
-    private static void writeConfiguration(PropertiesConfiguration configuration) throws Exception {
-        File file = new File(DEFAULT_FILE_NAME);
-        try (FileWriter fw = new FileWriter(file)) {
+    /**
+     * Write the the configuration to the mojo.properties file
+     */
+    private static void writeConfiguration(PropertiesConfiguration configuration) throws IOException, ConfigurationException {
+        var file = new File(DEFAULT_FILE_NAME);
+        try (var fw = new FileWriter(file)) {
             configuration.write(fw);
             fw.flush();
-            fw.close();
         }
     }
 }

@@ -27,14 +27,16 @@ import mmm.coffee.mojo.restapi.shared.SupportedFramework;
  */
 public class EndpointGeneratorFactory {
 
+    private EndpointGeneratorFactory() {}
+
     public static Generator createGenerator(@NonNull SupportedFramework framework) {
         switch(framework) {
             case WEBMVC:
                 return new SpringWebMvcEndpointGenerator();
             case WEBFLUX:
-                throw new RuntimeException("Not supported yet");
+                throw new UnsupportedOperationException("WebFlux endpoints are not supported yet");
             default:
-                throw new RuntimeException(String.format("Internal bug: the EndpointGeneratorFactory encountered an unsupported framework: '%s'", framework.toString()));
+                throw new UnsupportedOperationException(String.format("Internal bug: the EndpointGeneratorFactory encountered an unsupported framework: '%s'", framework.toString()));
         }
     }
 }

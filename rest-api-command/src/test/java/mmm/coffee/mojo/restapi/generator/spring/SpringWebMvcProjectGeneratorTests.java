@@ -34,12 +34,8 @@ class SpringWebMvcProjectGeneratorTests {
     void shouldLoadTemplates() {
         Generator generator = new SpringWebMvcProjectGenerator();
         generator.loadTemplates();
-        // List<?> templates = generator.getTemplates();
-        // assert templates isNotEmpty
-        // assert templates.contains ( GradleTemplates )
-        // assert templates.contains ( CommonTemplates )
-        // assert templates.contains ( SpringBootTemplates )
-        // assert templates.contains ( SpringWebMvcTemplates )
+        assertThat(generator.getCatalog()).isNotNull();
+        assertThat(generator.getCatalog().isPresent()).isTrue();
     }
 
     @Test
@@ -60,12 +56,11 @@ class SpringWebMvcProjectGeneratorTests {
         // auto-determined by our explict values
         var actualMap = generator.getLexicalScope();
         assertThat(actualMap).isNotEmpty();
-        assertThat(actualMap.containsKey(ProjectKeys.FRAMEWORK));
-        assertThat(actualMap.containsKey(ProjectKeys.BASE_PATH));
-        assertThat(actualMap.containsKey(ProjectKeys.BASE_PACKAGE));
-        assertThat(actualMap.containsKey(ProjectKeys.BASE_PACKAGE_PATH));
-        assertThat(actualMap.containsKey(ProjectKeys.APPLICATION_NAME));
-        assertThat(actualMap.containsKey(ProjectKeys.GROUP_ID));
-
+        assertThat(actualMap.containsKey(ProjectKeys.FRAMEWORK)).isTrue();
+        assertThat(actualMap.containsKey(ProjectKeys.BASE_PATH)).isTrue();
+        assertThat(actualMap.containsKey(ProjectKeys.BASE_PACKAGE)).isTrue();
+        assertThat(actualMap.containsKey(ProjectKeys.BASE_PACKAGE_PATH)).isTrue();
+        assertThat(actualMap.containsKey(ProjectKeys.APPLICATION_NAME)).isTrue();
+        assertThat(actualMap.containsKey(ProjectKeys.GROUP_ID)).isTrue();
     }
 }

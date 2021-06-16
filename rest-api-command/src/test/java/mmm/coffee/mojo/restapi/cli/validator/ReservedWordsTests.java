@@ -23,17 +23,17 @@ import static com.google.common.truth.Truth.assertThat;
 /**
  * Unit tests
  */
-public class ReservedWordsTests {
+class ReservedWordsTests {
 
     @ParameterizedTest
     @ValueSource( strings = { "Employee", "employee", "Test_Suite", "xyzzy" })
-    public void shouldRecognizeNonReservedWords(String identifier) {
+    void shouldRecognizeNonReservedWords(String identifier) {
         assertThat( ReservedWords.isReservedWord(identifier)).isFalse();
     }
 
     @ParameterizedTest
     @ValueSource( strings = { "abstract", "null", "const", "float" })
-    public void shouldRecognizeReservedWords(String identifier) {
+    void shouldRecognizeReservedWords(String identifier) {
         assertThat( ReservedWords.isReservedWord(identifier)).isTrue();
     }
 }

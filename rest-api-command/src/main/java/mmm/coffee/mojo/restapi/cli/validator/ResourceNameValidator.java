@@ -16,8 +16,6 @@
 package mmm.coffee.mojo.restapi.cli.validator;
 
 
-import static java.util.Arrays.binarySearch;
-
 /**
  * Validation of resourceName to ensure its not a reserved Java keyword
  *
@@ -63,7 +61,7 @@ public class ResourceNameValidator {
         if (!Character.isJavaIdentifierStart(token.charAt(0))) return false;
 
         // Are subsequent characters legal parts of an identifier
-        for (int i = 1; i < token.length(); i++) {
+        for (var i = 1; i < token.length(); i++) {
             if (!Character.isJavaIdentifierPart(token.charAt(i))) return false;
         }
         return true;

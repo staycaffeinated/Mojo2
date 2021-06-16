@@ -18,8 +18,6 @@ package mmm.coffee.mojo.restapi.cli.validator;
 
 import java.util.StringTokenizer;
 
-import static java.util.Arrays.binarySearch;
-
 /**
  * Validation of packageName to ensure its a legal Java package name
  *
@@ -53,7 +51,7 @@ public class PackageNameValidator {
      * @return if it can be used as a package name
      */
     private static boolean check (String candidate) {
-        StringTokenizer tokenizer = new StringTokenizer(candidate, ".");
+        var tokenizer = new StringTokenizer(candidate, ".");
 
         while (tokenizer.hasMoreTokens()) {
             String token = tokenizer.nextToken();
@@ -76,7 +74,7 @@ public class PackageNameValidator {
             return false;
 
         // subsequent letters can be a-z, 0-9, or underscore
-        for (int i = 1; i < token.length(); i++) {
+        for (var i = 1; i < token.length(); i++) {
             if (! ((token.charAt(i) >= 'a' && token.charAt(i) <= 'z')
                 || (token.charAt(i) >= '0' && token.charAt(i) <= '9')
                 || token.charAt(i) == '_'))
@@ -84,5 +82,4 @@ public class PackageNameValidator {
         }
         return true;
     }
-
 }

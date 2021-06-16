@@ -51,7 +51,7 @@ public class CatalogReader {
             Objects.requireNonNull(is, String.format("The catalog file, '%s', was not found. Verify the resource exists at the given path.", catalog));
 
             // Load the yaml content as CatalogEntry items
-            Yaml yaml = new Yaml();
+            var yaml = new Yaml();
             Map<String, Object> obj = yaml.load(is);
             List<Map<String, Object>> entries = (List<Map<String, Object>>) obj.get(CATALOG_KEY);
             return entries.stream().map(CatalogReader::readCatalogEntry).collect(Collectors.toList());
@@ -64,7 +64,7 @@ public class CatalogReader {
      * @param map these are the values from the yaml file
      */
     private static CatalogEntry readCatalogEntry (Map<String,Object> map) {
-        CatalogEntry catalogEntry = new CatalogEntry();
+        var catalogEntry = new CatalogEntry();
         Map<String,Object> values = (Map<String,Object>)map.get(CATALOG_ENTRY_KEY);
         catalogEntry.setContext((String)values.get(CONTEXT_KEY));
         catalogEntry.setDestination((String)values.get(DESTINATION_KEY));

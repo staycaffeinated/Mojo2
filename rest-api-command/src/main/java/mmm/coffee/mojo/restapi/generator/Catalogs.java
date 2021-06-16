@@ -19,6 +19,9 @@ package mmm.coffee.mojo.restapi.generator;
  * This class defines the resource paths of the various template catalogs.
  */
 public class Catalogs {
+    
+    private Catalogs() {}
+
     /**
      * Common-stuff contains general artifacts, such as the README template
      */

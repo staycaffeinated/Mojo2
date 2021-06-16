@@ -49,7 +49,7 @@ public class DependencyCatalogReader {
             Objects.requireNonNull(is, String.format("The file resource, '%s', was not found. Verify the resource exists in the classpath at the given path", resourcePathOfLibraryYaml));
 
             // Load the yaml content as Library elements
-            Yaml yaml = new Yaml();
+            var yaml = new Yaml();
             Map<String, Object> obj = yaml.load(is);
             List<Map<String, Object>> entries = (List<Map<String, Object>>) obj.get(LIBRARY_ROOT);
             return entries.stream().map(DependencyCatalogReader::readLibraryEntry).collect(Collectors.toList());
@@ -63,7 +63,7 @@ public class DependencyCatalogReader {
      */
     @SuppressWarnings("unchecked")
     private static Dependency readLibraryEntry (Map<String,Object> map) {
-        Dependency libraryEntry = new Dependency();
+        var libraryEntry = new Dependency();
         Map<String,Object> values = (Map<String,Object>)map.get(LIBRARY_ENTRY);
         libraryEntry.setName((String)values.get(LIBRARY_NAME));
         libraryEntry.setVersion((String)values.get(LIBRARY_VERSION));

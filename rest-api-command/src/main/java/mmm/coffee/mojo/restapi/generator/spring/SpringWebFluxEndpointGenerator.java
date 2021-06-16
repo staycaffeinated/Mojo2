@@ -29,6 +29,7 @@ public class SpringWebFluxEndpointGenerator extends AbstractEndpointGenerator {
     /**
      * Loads the catalog of templates used for Spring WebMVC endpoint artifacts.
      */
+    @Override
     public void initialize() {
         super.initialize();
         templateCatalog = new TemplateCatalog(Catalogs.WEBFLUX_CATALOG);

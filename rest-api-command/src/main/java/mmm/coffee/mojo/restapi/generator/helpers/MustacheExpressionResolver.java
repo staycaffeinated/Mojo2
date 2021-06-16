@@ -16,7 +16,6 @@
 package mmm.coffee.mojo.restapi.generator.helpers;
 
 import com.samskivert.mustache.Mustache;
-import com.samskivert.mustache.Template;
 import lombok.NonNull;
 
 import java.util.Map;
@@ -36,7 +35,7 @@ public class MustacheExpressionResolver {
      * the mustache expression "{{basePackage}}", this method returns {@code "org.example.projectx"}.
      */
     public static @NonNull String toString(@NonNull String mustacheExpression, Map<String,Object> values) {
-        Template template = Mustache.compiler().compile(mustacheExpression);
+        var template = Mustache.compiler().compile(mustacheExpression);
         return template.execute(values);
     }
 }

@@ -23,11 +23,11 @@ import mmm.coffee.mojo.catalog.CatalogEntry;
 import mmm.coffee.mojo.catalog.TemplateCatalog;
 import mmm.coffee.mojo.library.DependencyCatalog;
 import mmm.coffee.mojo.mixin.DryRunOption;
-import mmm.coffee.mojo.restapi.shared.MojoProperties;
 import mmm.coffee.mojo.restapi.generator.helpers.MojoUtils;
 import mmm.coffee.mojo.restapi.generator.helpers.MustacheExpressionResolver;
-import mmm.coffee.mojo.restapi.shared.SupportedFramework;
+import mmm.coffee.mojo.restapi.shared.MojoProperties;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
+import mmm.coffee.mojo.restapi.shared.SupportedFramework;
 
 import java.io.File;
 import java.util.*;
@@ -78,8 +78,8 @@ public abstract class AbstractProjectGenerator implements Generator {
     public void setUpLexicalScope(@NonNull Map<String, Object> commandLineOptions) {
         // Copy the library dependency versions into the lexicalScope.
         // These keys are used when dependency.gradle and build.gradle are generated
-        DependencyCatalog catalog = new DependencyCatalog(Catalogs.THIRD_PARTY_LIBRARY_CATALOG);
-        catalog.loadTemplateKeys(lexicalScope);
+        var dependencyCatalog = new DependencyCatalog(Catalogs.THIRD_PARTY_LIBRARY_CATALOG);
+        dependencyCatalog.loadTemplateKeys(lexicalScope);
 
         // The caller provides the basePackage, applicationName, groupId, basePath, etc.
         // The caller is usually the SubcommandCreateProject.
@@ -92,7 +92,7 @@ public abstract class AbstractProjectGenerator implements Generator {
 
         // Translate the base package value into the equivalent filesystem folder hierarchy
         // For example, the package 'org.example' translates to the folder 'org/example'
-        String basePackagePath = MojoUtils.convertPackageNameToPath((String)commandLineOptions.get(ProjectKeys.BASE_PACKAGE));
+        var basePackagePath = MojoUtils.convertPackageNameToPath((String)commandLineOptions.get(ProjectKeys.BASE_PACKAGE));
         lexicalScope.put(ProjectKeys.BASE_PACKAGE_PATH, basePackagePath);
 
         // Add the feature options into the lexical scope
@@ -151,8 +151,8 @@ public abstract class AbstractProjectGenerator implements Generator {
                                     .properties(lexicalScope)
                                     .configuration(configuration)
                                     .build();
-        String content = template.render();
-        File outputFile = determineOutputFile(entry.getDestination());
+        var content = template.render();
+        var outputFile = determineOutputFile(entry.getDestination());
         sourceSink.writeStringToFile(outputFile, content);
     }
     
@@ -164,8 +164,8 @@ public abstract class AbstractProjectGenerator implements Generator {
      * @return the handle of the file at the resolved location
      */
     private File determineOutputFile(String destinationAsMustacheExpression) {
-        String fileName = MustacheExpressionResolver.toString(destinationAsMustacheExpression, lexicalScope);
-        String fqFileName = MojoUtils.currentDirectory() + fileName;
+        var fileName = MustacheExpressionResolver.toString(destinationAsMustacheExpression, lexicalScope);
+        var fqFileName = MojoUtils.currentDirectory() + fileName;
         return new File(fqFileName);
     }
 

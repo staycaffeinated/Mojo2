@@ -15,19 +15,14 @@
  */
 package mmm.coffee.mojo.restapi.cli;
 
-import mmm.coffee.mojo.api.Generator;
 import mmm.coffee.mojo.mixin.DryRunOption;
 import mmm.coffee.mojo.restapi.cli.validator.ResourceNameValidator;
 import mmm.coffee.mojo.restapi.generator.EndpointGeneratorFactory;
 import mmm.coffee.mojo.restapi.generator.ProjectKeys;
-import mmm.coffee.mojo.restapi.generator.helpers.MojoUtils;
 import mmm.coffee.mojo.restapi.shared.MojoProperties;
 import mmm.coffee.mojo.restapi.shared.SupportedFramework;
-import org.apache.commons.configuration2.Configuration;
-import org.apache.commons.configuration2.PropertiesConfiguration;
 import picocli.CommandLine;
 
-import java.sql.Connection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -79,10 +74,10 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
             map.put(DryRunOption.DRY_RUN_KEY, Boolean.TRUE);
         }
         // If a mojo.properties file is not found, env variables will be queried
-        Configuration configuration = new MojoProperties().getConfiguration();
+        var configuration = new MojoProperties().getConfiguration();
 
         SupportedFramework framework = determineFramework(dryRunOption.isDryRun());
-        Generator generator = EndpointGeneratorFactory.createGenerator(framework);
+        var generator = EndpointGeneratorFactory.createGenerator(framework);
         generator.run(map, configuration);
         return 0;
     }
@@ -113,7 +108,7 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
             return framework.orElse(SupportedFramework.WEBMVC);
         }
         else {
-            String stringValue = new MojoProperties().getConfiguration().getString(ProjectKeys.FRAMEWORK);
+            var stringValue = new MojoProperties().getConfiguration().getString(ProjectKeys.FRAMEWORK);
             return SupportedFramework.valueOf(stringValue);
         }
     }
@@ -125,7 +120,7 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
      * @return an Optional that wraps the project's framework
      */
     private Optional<SupportedFramework> getFrameworkFromEnv() {
-        String s = System.getenv("mojo.framework");
+        var s = System.getenv("mojo.framework");
         if (isEmpty(s)) {
             return Optional.empty();
         }

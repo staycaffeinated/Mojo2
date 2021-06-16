@@ -16,7 +16,6 @@
 package mmm.coffee.mojo.restapi.generator;
 
 import freemarker.template.Configuration;
-import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import lombok.Builder;
 import lombok.NonNull;
@@ -26,7 +25,6 @@ import mmm.coffee.mojo.exception.MojoException;
 
 import java.io.IOException;
 import java.io.StringWriter;
-import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,14 +50,14 @@ public class TemplateHandler {
     @NonNull public String render() {
         try {
             // Read the template file, or get it from cache
-            Template template = configuration.getTemplate(catalogEntry.getTemplate(), "UTF-8");
+            var template = configuration.getTemplate(catalogEntry.getTemplate(), "UTF-8");
 
             // Set up the data model to be passed to the template
             Map<String,Object> map = new HashMap<>();
             map.put(catalogEntry.getContext(), properties);
 
             // Parse the template and write it to cache
-            Writer writer = new StringWriter();
+            var writer = new StringWriter();
             template.process(map, writer);
             return writer.toString();
         } catch (TemplateException | IOException e) {

@@ -15,10 +15,7 @@
  */
 package mmm.coffee.mojo.restapi.generator.helpers;
 
-import mmm.coffee.mojo.restapi.generator.ProjectKeys;
 import mmm.coffee.mojo.restapi.shared.MojoProperties;
-import mmm.coffee.mojo.restapi.shared.SupportedFramework;
-import org.apache.commons.configuration2.Configuration;
 import org.apache.commons.io.FileUtils;
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.SystemErrRule;
@@ -30,8 +27,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;

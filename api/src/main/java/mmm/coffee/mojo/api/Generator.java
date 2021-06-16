@@ -26,7 +26,7 @@ import java.util.Optional;
 /**
  * Defines the Generator stereotype
  */
-@SuppressWarnings("java:S1116")
+@SuppressWarnings({ "java:S1116", "java:S5411" })
 public interface Generator {
 
     /**
@@ -95,7 +95,7 @@ public interface Generator {
 
     default int run(@NonNull Map<String,Object> properties) {
         TemplateWriter sourceSink;
-        if ((Boolean) properties.getOrDefault(DryRunOption.DRY_RUN_KEY, Boolean.FALSE)) {
+        if ((Boolean)properties.getOrDefault(DryRunOption.DRY_RUN_KEY, Boolean.FALSE)) {
             sourceSink = new NoOpTemplateWriter();
         }
         else {

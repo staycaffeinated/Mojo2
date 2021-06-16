@@ -15,7 +15,6 @@
  */
 package mmm.coffee.mojo.restapi.generator.helpers;
 
-import mmm.coffee.mojo.restapi.generator.helpers.PackageNameConversion;
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.SystemErrRule;
 import org.junit.contrib.java.lang.system.SystemOutRule;

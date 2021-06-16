@@ -15,10 +15,9 @@
  */
 package mmm.coffee.mojo.restapi.generator.spring;
 
-import org.junit.jupiter.api.Test;
-
 /**
  * Unit tests
  */
+@SuppressWarnings("java:S2187") // tests are forthcoming
 class SpringWebFluxProjectGeneratorTests {
 }

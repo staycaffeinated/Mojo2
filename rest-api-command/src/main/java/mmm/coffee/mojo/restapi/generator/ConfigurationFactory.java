@@ -39,7 +39,7 @@ public class ConfigurationFactory {
      * @return a Configuration
      */
     @NonNull public static Configuration defaultConfiguration() {
-        Configuration configuration = new Configuration(Configuration.VERSION_2_3_30);
+        var configuration = new Configuration(Configuration.VERSION_2_3_30);
         configuration.setClassForTemplateLoading(ConfigurationFactory.class, TEMPLATE_PATH);
         configuration.setDefaultEncoding("UTF-8");
         configuration.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
