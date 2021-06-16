@@ -68,7 +68,7 @@ class ProjectGeneratorTests {
         TemplateWriter writer = new NoOpTemplateWriter();
         // The run method has a void return-type, so there's nothing to check
         // without scanning the file system for generated assets
-        projectGenerator.run(projectSpec, writer);
+        projectGenerator.run(projectSpec, null);
         assertThat(writer).isNotNull(); }
 
     /**

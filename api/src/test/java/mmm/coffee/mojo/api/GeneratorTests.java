@@ -16,7 +16,10 @@
 package mmm.coffee.mojo.api;
 
 import mmm.coffee.mojo.catalog.TemplateCatalog;
+import org.apache.commons.configuration2.BaseConfiguration;
+import org.apache.commons.configuration2.Configuration;
 import org.checkerframework.checker.nullness.Opt;
+import org.checkerframework.checker.nullness.qual.NonNull;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
@@ -41,12 +44,8 @@ class GeneratorTests {
 
     @Test
     public void shouldDisallowNullProperties() {
-        assertThrows(NullPointerException.class, () -> generatorUnderTest.run(null, new NoOpTemplateWriter()));
-    }
-
-    @Test
-    void shouldDisallowNullWriterArgument() {
-        assertThrows(NullPointerException.class, () ->  generatorUnderTest.run(new HashMap<>(), null));
+        Configuration config = new BaseConfiguration();
+        assertThrows(NullPointerException.class, () -> generatorUnderTest.run(null, config));
     }
 
     @Test
@@ -60,6 +59,17 @@ class GeneratorTests {
     class FakeGenerator implements Generator {
         @Override public void loadTemplates() {}
         @Override public void setUpLexicalScope(Map<String,Object> commandLineOptions) {}
+
+        /**
+         * Configure the lexical scope of the generator. This is where properties that are consumed
+         * by templates during rendering are defined.
+         *
+         * @param commandLineOptions the command line options and anything the CLI might need to pass to the generator
+         * @param configuration      properties acquired from a configuration file, such as the {@code mojo.properties} file
+         */
+        @Override
+        public void setUpLexicalScope(@NonNull Map<String, Object> commandLineOptions, Configuration configuration) {}
+
         @Override public Map<String, Object> getLexicalScope() { return new HashMap<String,Object>(); }
         @Override public void setOutputStrategy(TemplateWriter writer) {}
         @Override public void generate() {}

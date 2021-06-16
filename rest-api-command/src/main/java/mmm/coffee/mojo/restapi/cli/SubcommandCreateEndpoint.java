@@ -20,7 +20,7 @@ import mmm.coffee.mojo.mixin.DryRunOption;
 import mmm.coffee.mojo.restapi.cli.validator.ResourceNameValidator;
 import mmm.coffee.mojo.restapi.generator.EndpointGeneratorFactory;
 import mmm.coffee.mojo.restapi.generator.ProjectKeys;
-import mmm.coffee.mojo.restapi.shared.MojoProperties;
+import mmm.coffee.mojo.restapi.shared.MojoConfiguration;
 import mmm.coffee.mojo.restapi.shared.SupportedFramework;
 import picocli.CommandLine;
 
@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.Callable;
-import java.util.function.Supplier;
 
 /**
  * This subcommand generates the code assets for a specific resource.
@@ -105,13 +104,10 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
     private SupportedFramework determineFramework(boolean isDryRun) {
         if (isDryRun) {
             Optional<SupportedFramework> framework = getFrameworkFromEnv();
-            if (framework.isPresent())
-                return framework.get();
-            else
-                return SupportedFramework.WEBMVC;
+            return framework.orElse(SupportedFramework.WEBMVC);
         }
         else {
-            String stringValue = MojoProperties.loadMojoProperties().getProperty(ProjectKeys.FRAMEWORK);
+            String stringValue = new MojoConfiguration().getConfiguration().getString(ProjectKeys.FRAMEWORK);
             return SupportedFramework.valueOf(stringValue);
         }
     }
@@ -138,5 +134,4 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
     private boolean isEmpty(String s) {
         return s == null || s.trim().length() == 0;
     }
-
 }

@@ -34,7 +34,7 @@ public class SpringProjectGenerator extends AbstractProjectGenerator {
         catalog().append( loadCommonTemplates() )
                .append( loadSpringGradleTemplates() );
     }
-    
+
     private TemplateCatalog loadCommonTemplates() {
         return new TemplateCatalog(Catalogs.COMMON_CATALOG);
     }

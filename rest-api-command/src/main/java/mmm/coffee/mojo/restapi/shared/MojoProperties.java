@@ -20,6 +20,8 @@ import mmm.coffee.mojo.exception.MojoException;
 import mmm.coffee.mojo.restapi.generator.ProjectKeys;
 import mmm.coffee.mojo.restapi.generator.helpers.MojoUtils;
 
+import org.apache.commons.configuration2.CombinedConfiguration;
+import org.apache.commons.configuration2.Configuration;
 import java.io.*;
 import java.util.Map;
 import java.util.Properties;

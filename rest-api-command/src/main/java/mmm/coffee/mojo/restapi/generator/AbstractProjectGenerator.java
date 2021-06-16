@@ -38,7 +38,7 @@ import java.util.*;
 public abstract class AbstractProjectGenerator implements Generator {
 
     // This contains the collection of templates to be rendered
-    private TemplateCatalog catalog = new TemplateCatalog();
+    private final TemplateCatalog catalog = new TemplateCatalog();
 
     // The lexicalScope contains key/values consumed by the templates when rendering source files
     private final Map<String,Object> lexicalScope = new HashMap<>();
@@ -97,6 +97,11 @@ public abstract class AbstractProjectGenerator implements Generator {
 
         // Add the feature options into the lexical scope
         copyFeatures((SupportedFeatures[]) commandLineOptions.get("features"));
+    }
+
+    @Override
+    public void setUpLexicalScope(@NonNull Map<String, Object> commandLineOptions, org.apache.commons.configuration2.Configuration ignored) {
+        this.setUpLexicalScope(commandLineOptions);
     }
 
     @Override
