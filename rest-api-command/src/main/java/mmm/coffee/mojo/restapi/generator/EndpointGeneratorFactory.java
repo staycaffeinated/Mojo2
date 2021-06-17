@@ -17,6 +17,7 @@ package mmm.coffee.mojo.restapi.generator;
 
 import lombok.NonNull;
 import mmm.coffee.mojo.api.Generator;
+import mmm.coffee.mojo.restapi.generator.spring.SpringWebFluxEndpointGenerator;
 import mmm.coffee.mojo.restapi.generator.spring.SpringWebMvcEndpointGenerator;
 import mmm.coffee.mojo.restapi.shared.SupportedFramework;
 
@@ -34,7 +35,7 @@ public class EndpointGeneratorFactory {
             case WEBMVC:
                 return new SpringWebMvcEndpointGenerator();
             case WEBFLUX:
-                throw new UnsupportedOperationException("WebFlux endpoints are not supported yet");
+                return new SpringWebFluxEndpointGenerator();
             default:
                 throw new UnsupportedOperationException(String.format("Internal bug: the EndpointGeneratorFactory encountered an unsupported framework: '%s'", framework.toString()));
         }

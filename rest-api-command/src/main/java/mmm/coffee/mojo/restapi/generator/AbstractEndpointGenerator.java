@@ -70,7 +70,7 @@ public abstract class AbstractEndpointGenerator implements Generator {
         lexicalScope.putAll(commandLineOptions);
 
         var basePackage = mojoProps.getString(ProjectKeys.BASE_PACKAGE);
-        var resourceName = (String) commandLineOptions.get("resource");
+        var resourceName = (String) commandLineOptions.get(EndpointKeys.CMDLINE_RESOURCE_ARG);
         var entityName = NamingRules.toEntityName(resourceName);
         var entityVarName = NamingRules.toEntityVariableName(resourceName);
         var basePath = NamingRules.toBasePathUrl((String) commandLineOptions.get("route"));

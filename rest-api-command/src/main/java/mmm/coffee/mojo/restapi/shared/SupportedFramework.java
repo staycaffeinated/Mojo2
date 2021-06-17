@@ -23,7 +23,9 @@ package mmm.coffee.mojo.restapi.shared;
  */
 public enum SupportedFramework {
     WEBMVC("webmvc"),
-    WEBFLUX("webflux");
+    WEBFLUX("webflux"),
+    UNDEFINED ("undefined");    // this is for testing
+
 
     // This is the value an end-user enters on the command line.
     private final String modelName;

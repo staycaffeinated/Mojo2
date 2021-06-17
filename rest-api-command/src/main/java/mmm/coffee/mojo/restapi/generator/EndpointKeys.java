@@ -31,4 +31,7 @@ public class EndpointKeys {
     public static final String PACKAGE_PATH = "packagePath";
     public static final String BASE_PATH = "basePath";
     public static final String TABLE_NAME = "tableName";
+
+    public static final String CMDLINE_RESOURCE_ARG = "resource";
+    public static final String CMDLINE_ROUTE_ARG = "route";
 }
