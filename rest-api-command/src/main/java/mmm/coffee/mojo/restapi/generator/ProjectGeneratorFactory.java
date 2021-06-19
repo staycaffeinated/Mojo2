@@ -45,7 +45,8 @@ public class ProjectGeneratorFactory {
                 return new SpringWebMvcProjectGenerator();
             case WEBFLUX:
                 return new SpringWebFluxProjectGenerator();
+            default:
+                throw new IllegalArgumentException(String.format("Internal bug: missing ProjectGenerator for this framework: %s", framework.toString()));
         }
-        throw new IllegalArgumentException(String.format("Internal bug: missing ProjectGenerator for this framework: %s", framework.toString()));
     }
 }

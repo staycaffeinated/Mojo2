@@ -9,7 +9,6 @@ dependencies {
     implementation libs.springBootStarterActuator
     implementation libs.springBootStarterWebFlux
     implementation libs.springBootStarterValidation
-    implementation libs.problemSpringWeb
     implementation libs.problemSpringWebFlux
     implementation libs.problemJacksonDataType
 
