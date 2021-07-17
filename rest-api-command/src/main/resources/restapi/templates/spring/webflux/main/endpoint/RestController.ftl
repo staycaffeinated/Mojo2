@@ -1,6 +1,8 @@
 <#include "/common/Copyright.ftl">
 package ${endpoint.packageName};
 
+import ${endpoint.basePackage}.common.ResourceIdentity;
+import ${endpoint.basePackage}.exception.ResourceNotFoundException;
 import ${endpoint.basePackage}.validation.OnCreate;
 import ${endpoint.basePackage}.validation.OnUpdate;
 
@@ -11,14 +13,21 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.net.URI;
+import java.time.Duration;
 
 @RestController
-@RequestMapping
+<#noparse>
+@RequestMapping("${spring.webflux.base-path}/")
+</#noparse>
 @Slf4j
 public class ${endpoint.entityName}Controller {
 
@@ -36,7 +45,7 @@ public class ${endpoint.entityName}Controller {
      * Get all
      */
     @GetMapping (value=${endpoint.entityName}Routes.GET_ALL, produces = MediaType.APPLICATION_JSON_VALUE )
-    public List<${endpoint.entityName}Resource> getAll${endpoint.entityName}s() {
+    public Flux<${endpoint.entityName}Resource> getAll${endpoint.entityName}s() {
         return ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s();
     }
 
@@ -44,59 +53,56 @@ public class ${endpoint.entityName}Controller {
      * Get one by resourceId
      *
      */
-    @GetMapping(value=${endpoint.entityName}Routes.EXACTLY_ONE, produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<${endpoint.entityName}Resource> get${endpoint.entityName}ById(@PathVariable Long id) {
-        return ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping(value=${endpoint.entityName}Routes.GET_ONE, produces = MediaType.APPLICATION_JSON_VALUE )
+    public Mono<${endpoint.entityName}Resource> get${endpoint.entityName}ById(@PathVariable Long id) {
+        return ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(id);
     }
+    
+    /**
+	   * If api needs to push items as Streams to ensure Backpressure is applied, we
+	   * need to set produces to MediaType.TEXT_EVENT_STREAM_VALUE
+	   *
+	   * MediaType.TEXT_EVENT_STREAM_VALUE is the official media type for Server Sent
+	   * Events (SSE) MediaType.APPLICATION_STREAM_JSON_VALUE is for server to
+	   * server/http client communications.
+	   *
+	   * https://stackoverflow.com/questions/52098863/whats-the-difference-between-text-event-stream-and-application-streamjson
+	   * 
+	   */
+	  @GetMapping(value = ${endpoint.entityName}Routes.GET_STREAM, produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+	  @ResponseStatus(value = HttpStatus.OK)
+	  public Flux<${endpoint.entityName}Resource> get${endpoint.entityName}Stream() {
+	      // This is only an example implementation. Modify this line as needed.
+		    return ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s().delayElements(Duration.ofMillis(250));
+	  }
 
     /*
-     * Create one
+     * Create
      */
-    @PostMapping (value=${endpoint.entityName}Routes.CREATE_ONE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping (value=${endpoint.entityName}Routes.CREATE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<${endpoint.entityName}Resource> create${endpoint.entityName}(@RequestBody @Validated(OnCreate.class) ${endpoint.entityName}Resource resource ) {
-        ${endpoint.entityName}Resource savedResource = ${endpoint.entityVarName}Service.create${endpoint.entityName} ( resource );
-        URI uri = ServletUriComponentsBuilder
-                        .fromCurrentRequest()
-                        .path("/{id}")
-                        .buildAndExpand(savedResource.getResourceId())
-                        .toUri();
-        return ResponseEntity.created(uri).body(savedResource);
+    public Mono<ResponseEntity<ResourceIdentity>> create${endpoint.entityName}(@RequestBody @Validated(OnCreate.class) ${endpoint.entityName}Resource resource ) {
+        Mono<Long> id = ${endpoint.entityVarName}Service.create${endpoint.entityName}(resource);
+        return id.map(value -> ResponseEntity.status(HttpStatus.CREATED).body(new ResourceIdentity(value)));
     }
     
     /*
-     * Update one
+     * Update by resourceId
      */
-    @PutMapping(value=${endpoint.entityName}Routes.EXACTLY_ONE, produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<${endpoint.entityName}Resource> update${endpoint.entityName}(@PathVariable Long id, @RequestBody @Validated(OnUpdate.class) ${endpoint.entityName}Resource ${endpoint.entityVarName}) {
-        Optional<${endpoint.entityName}Resource> optional = ${endpoint.entityVarName}Service.update${endpoint.entityName}( ${endpoint.entityVarName} );
-        return optional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    @PutMapping(value=${endpoint.entityName}Routes.UPDATE, produces = MediaType.APPLICATION_JSON_VALUE )
+    public void update${endpoint.entityName}(@PathVariable Long id, @RequestBody @Validated(OnUpdate.class) ${endpoint.entityName}Resource ${endpoint.entityVarName}) {
+        if (!Objects.equals(id, ${endpoint.entityVarName}.getResourceId())) {
+            log.error("Update declined: mismatch between query string identifier, {}, and resource identifier, {}", id, ${endpoint.entityVarName}.getResourceId());
+        }
+        ${endpoint.entityVarName}Service.update${endpoint.entityName}(${endpoint.entityVarName});
     }
 
     /*
      * Delete one
      */
-    @DeleteMapping(value=${endpoint.entityName}Routes.EXACTLY_ONE)
-    public ResponseEntity<${endpoint.entityName}Resource> delete${endpoint.entityName}(@PathVariable Long id) {
-        return ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(id)
-                .map(${endpoint.entityVarName} -> {
-                    ${endpoint.entityVarName}Service.delete${endpoint.entityName}ByResourceId(id);
-                    return ResponseEntity.ok(${endpoint.entityVarName});
-                })
-                .orElseGet(() -> ResponseEntity.notFound().build());
-    }
-
-    /*
-     * Find by text
-     */
-    @GetMapping(value=${endpoint.entityName}Routes.SEARCH, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<${endpoint.entityName}Resource>> searchByText (
-                                         @RequestParam(name="text", required = true) String text,
-                                         @RequestParam(name="page", required = false, defaultValue = "1") int pageNumber,
-                                         @RequestParam(name="size", required = false, defaultValue = "20") Integer pageSize)
-    {
-        return ResponseEntity.ok(${endpoint.entityVarName}Service.findByText(text, pageNumber, pageSize));
+    @DeleteMapping(value=${endpoint.entityName}Routes.DELETE)
+    public void delete${endpoint.entityName}(@PathVariable Long id) {
+        Mono<${endpoint.entityName}Resource> resource = ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(id);
+        resource.subscribe(value -> ${endpoint.entityVarName}Service.delete${endpoint.entityName}ByResourceId(id));
     }
 }
