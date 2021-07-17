@@ -130,3 +130,11 @@ catalog:
       template: "/spring/webflux/main/endpoint/EntityRoutes.ftl"
       destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}Routes.java"
       context: "endpoint"
+  - entry:
+      template: "/spring/webflux/integrationTest/main/endpoint/ControllerTest.ftl"
+      destination: "src/integration/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ControllerTest.java"
+      context: "endpoint"
+  - entry:
+      template: "/spring/webflux/integrationTest/main/endpoint/EntityGenerator.ftl"
+      destination: "src/integration/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}Generator.java"
+      context: "endpoint"
