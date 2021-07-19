@@ -33,6 +33,9 @@ dependencies:
       name: "mockito"
       version: "3.10.0"
   - dependency:
+      name: "r2dbc_h2"
+      version: "0.8.4.RELEASE"
+  - dependency:
       name: "sonarqube"
       version: "3.3"
   - dependency:

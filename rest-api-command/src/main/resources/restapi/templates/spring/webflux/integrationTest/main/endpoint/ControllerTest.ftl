@@ -2,8 +2,9 @@
 
 package ${endpoint.packageName};
 
-f4j.Slf4j;
-import org.example.flux1.common.ResourceIdentity;
+import ${endpoint.basePackage}.common.ResourceIdentity;
+
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +81,7 @@ class ${endpoint.entityName}ControllerTest {
                       .returnResult(${endpoint.entityName}Resource.class);
 
 
-        Flux<Book> events = result.getResponseBody();
+        Flux<${endpoint.entityName}Resource> events = result.getResponseBody();
 
         StepVerifier.create(events)
                     .expectSubscription()
@@ -93,7 +94,7 @@ class ${endpoint.entityName}ControllerTest {
 
 	@Test
 	void testCreate${endpoint.entityName}() {
-		${endpoint.entityName} ${endpoint.entityVarName} = ${endpoint.entityName}Generator.generate${endpoint.entityName}();
+		${endpoint.entityName}Resource ${endpoint.entityVarName} = ${endpoint.entityName}Generator.generate${endpoint.entityName}();
 		${endpoint.entityVarName}.setResourceId(null);
 
 		this.client.post().uri(${endpoint.entityName}Routes.CREATE)
@@ -154,6 +155,6 @@ class ${endpoint.entityName}ControllerTest {
      * with the resourceId from the instance variable, ${endpoint.entityVarName}
      */
 	String replaceId(String path) {
-		return path.replaceAll("\\{id\\}" ${endpoint.entityVarName}.getResourceId().toString());
+		return path.replaceAll("\\{id\\}", ${endpoint.entityVarName}.getResourceId().toString());
 	}
 }
