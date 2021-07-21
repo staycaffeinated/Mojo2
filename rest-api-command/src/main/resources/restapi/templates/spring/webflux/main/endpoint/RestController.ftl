@@ -101,6 +101,7 @@ public class ${endpoint.entityName}Controller {
      * Delete one
      */
     @DeleteMapping(value=${endpoint.entityName}Routes.DELETE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete${endpoint.entityName}(@PathVariable Long id) {
         Mono<${endpoint.entityName}Resource> resource = ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(id);
         resource.subscribe(value -> ${endpoint.entityVarName}Service.delete${endpoint.entityName}ByResourceId(id));

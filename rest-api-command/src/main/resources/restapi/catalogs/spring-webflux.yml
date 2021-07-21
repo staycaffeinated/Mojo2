@@ -87,6 +87,10 @@ catalog:
       destination: "src/test/java/{{basePackagePath}}/endpoint/root/RootControllerTest.java"
       context: "project"
   - entry:
+      template: "/spring/webflux/main/config/DatabaseTableInitializer.ftl"
+      destination: "src/main/java/{{basePackagePath}}/config/{{entityName}}TableInitializer.java"
+      context: "endpoint"
+  - entry:
       template: "/spring/webflux/main/endpoint/EndpointConfig.ftl"
       destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/EndpointConfig.java"
       context: "endpoint"
@@ -138,3 +142,12 @@ catalog:
       template: "/spring/webflux/integrationTest/main/endpoint/EntityGenerator.ftl"
       destination: "src/integration/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}Generator.java"
       context: "endpoint"
+  - entry:
+      template: "/spring/webflux/main/resources/database/EntitySchema.ftl"
+      destination: "src/main/resources/database/{{lowerCaseEntityName}}-schema.sql"
+      context: "endpoint"
+  - entry:
+      template: "/spring/webflux/main/resources/database/EntityData.ftl"
+      destination: "src/main/resources/database/{{lowerCaseEntityName}}-data.sql"
+      context: "endpoint"
+      
