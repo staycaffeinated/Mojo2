@@ -93,7 +93,7 @@ public class ${endpoint.entityName}Service {
      * Delete
      */
     public void delete${endpoint.entityName}ByResourceId(@NonNull Long id) {
-        repository.deleteByResourceId(id).subscribe();
+        repository.deleteByResourceId(id).doOnSuccess(item -> publishDeleteEvent(${endpoint.entityName}Event.DELETED, id)).subscribe();
     }
 
     /**
@@ -111,4 +111,8 @@ public class ${endpoint.entityName}Service {
 	    log.debug("publishEvent: {}, resourceId: {}", event, entity.getResourceId());
 		this.publisher.publishEvent(new ${endpoint.entityName}Event(event, conversionService.convert(entity, ${endpoint.entityName}Resource.class)));
 	}
+
+    private void publishDeleteEvent(String event, Long resourceId) {
+        this.publisher.publishEvent(new ${endpoint.entityName}Event(event, ${endpoint.entityName}Resource.builder().resourceId(resourceId).build()));
+    }
 }

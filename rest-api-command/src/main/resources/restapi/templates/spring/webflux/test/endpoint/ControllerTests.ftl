@@ -1,0 +1,130 @@
+<#include "/common/Copyright.ftl">
+package ${endpoint.packageName};
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mockito;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.reactive.server.WebTestClient;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.when;
+
+/**
+ * Unit test the ${endpoint.entityName}Controller
+ */
+@ExtendWith(SpringExtension.class)
+@WebFluxTest(controllers = ${endpoint.entityName}Controller.class)
+class ${endpoint.entityName}ControllerTests {
+
+    @MockBean
+    private ${endpoint.entityName}Service mock${endpoint.entityName}Service;
+
+    @Autowired
+    private WebTestClient webClient;
+<#noparse>
+    @Value("${spring.webflux.base-path}")
+</#noparse>
+    String applicationBasePath;
+
+    @Autowired
+    public void setApplicationContext(ApplicationContext context) {
+        webClient = WebTestClient.bindToApplicationContext(context).configureClient().baseUrl(applicationBasePath).build();
+    }
+
+
+    @Test
+    void testGetOne${endpoint.entityName}() {
+        final Long expectedResourceID = 1000L;
+        ${endpoint.entityName}Resource pojo = ${endpoint.entityName}Resource.builder().text("testGetOne").resourceId(expectedResourceID).build();
+        ${endpoint.entityName} ejb = ${endpoint.entityName}.builder().resourceId(expectedResourceID).text("testGetOne").build();
+
+        when(mock${endpoint.entityName}Service.findByResourceId(expectedResourceID)).thenReturn(Mono.just(ejb));
+        when(mock${endpoint.entityName}Service.find${endpoint.entityName}ByResourceId(expectedResourceID)).thenReturn(Mono.just(pojo));
+
+        webClient.get().uri(${endpoint.entityName}Routes.GET_ONE, expectedResourceID)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.resourceId").isNotEmpty().jsonPath("$.text").isNotEmpty();
+
+        Mockito.verify(mock${endpoint.entityName}Service, times(1)).find${endpoint.entityName}ByResourceId(expectedResourceID);
+    }
+
+    @Test
+    void testGetAll${endpoint.entityName}s() {
+        List<${endpoint.entityName}Resource> list = create${endpoint.entityName}List();
+        Flux<${endpoint.entityName}Resource> flux = Flux.fromIterable(list);
+
+        when(mock${endpoint.entityName}Service.findAll${endpoint.entityName}s()).thenReturn(flux);
+
+        webClient.get().uri(${endpoint.entityName}Routes.GET_ALL).accept(MediaType.APPLICATION_JSON).exchange().expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON).expectBody().jsonPath("$.[0].text").isNotEmpty()
+                .jsonPath("$.[0].resourceId").isNotEmpty();
+    }
+
+    @Test
+    void testCreate${endpoint.entityName}() {
+        ${endpoint.entityName}Resource pojo = create${endpoint.entityName}();
+        pojo.setResourceId(null);
+        Long expectedId = 5000L;
+
+        when(mock${endpoint.entityName}Service.create${endpoint.entityName}(any(${endpoint.entityName}Resource.class))).thenReturn(Mono.just(expectedId));
+
+        webClient.post().uri(${endpoint.entityName}Routes.CREATE).contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(pojo), ${endpoint.entityName}Resource.class).exchange().expectStatus().isCreated().expectHeader()
+                .contentType(MediaType.APPLICATION_JSON);
+    }
+
+    @Test
+    void testUpdate${endpoint.entityName}() {
+        ${endpoint.entityName}Resource pojo = create${endpoint.entityName}();
+        webClient.put().uri(${endpoint.entityName}Routes.UPDATE, pojo.getResourceId())
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(Mono.just(pojo), ${endpoint.entityName}Resource.class).exchange().expectStatus().isOk();
+    }
+
+    @Test
+    void testDelete${endpoint.entityName}() {
+        ${endpoint.entityName}Resource pojo = create${endpoint.entityName}();
+        when(mock${endpoint.entityName}Service.find${endpoint.entityName}ByResourceId(pojo.getResourceId())).thenReturn(Mono.just(pojo));
+
+        webClient.delete().uri(${endpoint.entityName}Routes.DELETE, pojo.getResourceId()).exchange().expectStatus().isNoContent();
+    }
+
+    /**
+     * Generates a list of sample test data
+     */
+    private List<${endpoint.entityName}Resource> create${endpoint.entityName}List() {
+        ${endpoint.entityName}Resource w1 = ${endpoint.entityName}Resource.builder().resourceId(1000L).text("Lorim ipsum dolor imit").build();
+        ${endpoint.entityName}Resource w2 = ${endpoint.entityName}Resource.builder().resourceId(2000L).text("Hodor Hodor Hodor Hodor").build();
+        ${endpoint.entityName}Resource w3 = ${endpoint.entityName}Resource.builder().resourceId(3000L).text("Now is the time to fly").build();
+
+        ArrayList<${endpoint.entityName}Resource> list = new ArrayList<>();
+        list.add(w1);
+        list.add(w2);
+        list.add(w3);
+
+        return list;
+    }
+
+    /**
+     * Generates a single test item
+     */
+    private ${endpoint.entityName}Resource create${endpoint.entityName}() {
+        return ${endpoint.entityName}Resource.builder().resourceId(5000L).text("Duis aute irure dolor in reprehenderit.").build();
+    }
+}

@@ -150,4 +150,15 @@ catalog:
       template: "/spring/webflux/main/resources/database/EntityData.ftl"
       destination: "src/main/resources/database/{{lowerCaseEntityName}}-data.sql"
       context: "endpoint"
-      
+  - entry:
+      template: "/spring/webflux/test/endpoint/ControllerTests.ftl"
+      destination: "src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ControllerTests.java"
+      context: "endpoint"
+  - entry:
+      template: "/spring/webflux/test/endpoint/FakeConversionService.ftl"
+      destination: "src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/FakeConversionService.java"
+      context: "endpoint"
+  - entry:
+      template: "/spring/webflux/test/endpoint/ServiceTests.ftl"
+      destination: "src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ServiceTests.java"
+      context: "endpoint"
