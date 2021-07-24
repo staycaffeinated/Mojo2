@@ -18,6 +18,9 @@
 # For instance, ``rest-api create-project --package org.example --support postgres``
 #
 catalog:
+  #
+  # Project entries
+  #
   - entry:
       template: "/spring/webflux/main/Application.ftl"
       destination: "src/main/java/{{basePackagePath}}/Application.java"
@@ -86,6 +89,17 @@ catalog:
       template: "/spring/webflux/test/endpoint/root/RootControllerTest.ftl"
       destination: "src/test/java/{{basePackagePath}}/endpoint/root/RootControllerTest.java"
       context: "project"
+  - entry:
+      template: "/spring/common/test/math/SecureRandomSeriesTests.ftl"
+      destination: "src/test/java/{{basePackagePath}}/math/SecureRandomSeriesTests.java"
+      context: "project"
+  - entry:
+      template: "/spring/common/test/validation/AlphabeticValidationTests.ftl"
+      destination: "src/test/java/{{basePackagePath}}/validation/AlphabeticValidationTests.java"
+      context: "project"
+  #
+  # Endpoint entries
+  # 
   - entry:
       template: "/spring/webflux/main/config/DatabaseTableInitializer.ftl"
       destination: "src/main/java/{{basePackagePath}}/config/{{entityName}}TableInitializer.java"
