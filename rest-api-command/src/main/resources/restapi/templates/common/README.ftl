@@ -60,7 +60,7 @@ The code generator does not create a Gradle wrapper, so create one:
 
 #### Compile and get code coverage
 
-```./gradlew clean build jacocoTestRepeort sonarqube```
+```./gradlew clean build jacocoTestReport sonarqube```
 
 #### Build Docker Image
 
