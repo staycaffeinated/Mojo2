@@ -9,6 +9,5 @@ jib {
         format = 'OCI'
     }
 }
-// This next line causes the Docker image to be rebuilt after every `gradlew build` command.
-// Its safe to comment out this line if you do not want this behavior.
-tasks.build.dependsOn tasks.jibDockerBuild
+// If you want successful builds to automatically create a docker image, uncomment the next line
+// tasks.build.dependsOn tasks.jibDockerBuild
