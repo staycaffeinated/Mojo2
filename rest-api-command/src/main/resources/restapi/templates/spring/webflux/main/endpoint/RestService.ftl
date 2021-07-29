@@ -8,6 +8,7 @@ import ${endpoint.basePackage}.math.SecureRandomSeries;
 import ${endpoint.basePackage}.validation.OnCreate;
 import ${endpoint.basePackage}.validation.OnUpdate;
 import ${endpoint.basePackage}.exception.ResourceNotFoundException;
+import ${endpoint.basePackage}.exception.UnprocessableEntityException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
@@ -17,12 +18,6 @@ import org.springframework.validation.annotation.Validated;
 
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import javax.validation.constraints.Min;
-import java.util.List;
-import java.util.Optional;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -70,7 +65,11 @@ public class ${endpoint.entityName}Service {
      */
     public Mono<Long> create${endpoint.entityName}( @NonNull @Validated(OnCreate.class) ${endpoint.entityName}Resource resource ) {
 	    ${endpoint.entityName} entity = conversionService.convert(resource, ${endpoint.entityName}.class);
-		entity.setResourceId(SecureRandomSeries.nextLong());
+		if (entity == null) {
+            log.error("This POJO yielded a null value when converted to an entity bean: {}", resource);
+            throw new UnprocessableEntityException();
+        }
+        entity.setResourceId(SecureRandomSeries.nextLong());
 		return repository.save(entity)
                          .doOnSuccess(item -> publishEvent(${endpoint.entityName}Event.CREATED, item))
 				         .flatMap(item -> Mono.just(item.getResourceId()));

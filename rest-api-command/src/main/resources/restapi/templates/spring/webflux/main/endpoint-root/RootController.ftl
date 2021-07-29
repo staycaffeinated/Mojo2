@@ -40,7 +40,7 @@ public class RootController {
         return Mono.just("OK").log();
     }
     
-    	/**
+    /**
 	 * An example Flux stream
 	 */
 	@GetMapping(value="/flux", produces = MediaType.APPLICATION_JSON_VALUE)

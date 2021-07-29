@@ -11,6 +11,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.web.reactive.server.FluxExchangeResult;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -18,9 +19,12 @@ import reactor.core.publisher.Mono;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
+
 
 /**
  * Unit test the ${endpoint.entityName}Controller
@@ -97,6 +101,17 @@ class ${endpoint.entityName}ControllerTests {
                 .body(Mono.just(pojo), ${endpoint.entityName}Resource.class).exchange().expectStatus().isOk();
     }
 
+	@Test
+	void whenMismatchOfResourceIds_expectUnprocessableEntityException() {
+		// Given
+		${endpoint.entityName}Resource pojo = create${endpoint.entityName}();
+		pojo.setResourceId(5000L);
+
+		// when the ID in the URL is a mismatch to the ID in the POJO, the request should fail
+		webClient.put().uri(${endpoint.entityName}Routes.UPDATE, 1000L).contentType(MediaType.APPLICATION_JSON)
+				.body(Mono.just(pojo), ${endpoint.entityName}Resource.class).exchange().expectStatus().is4xxClientError();
+	}
+
     @Test
     void testDelete${endpoint.entityName}() {
         ${endpoint.entityName}Resource pojo = create${endpoint.entityName}();
@@ -104,6 +119,29 @@ class ${endpoint.entityName}ControllerTests {
 
         webClient.delete().uri(${endpoint.entityName}Routes.DELETE, pojo.getResourceId()).exchange().expectStatus().isNoContent();
     }
+
+ 	@Test
+	void testGet${endpoint.entityName}sAsStream() throws Exception {
+		// Given
+		List<${endpoint.entityName}Resource> resourceList = create${endpoint.entityName}List();
+		given(mock${endpoint.entityName}Service.findAll${endpoint.entityName}s()).willReturn(Flux.fromIterable(resourceList));
+
+		// When
+		FluxExchangeResult<${endpoint.entityName}Resource> result = webClient.get().uri(${endpoint.entityName}Routes.GET_STREAM)
+				.accept(MediaType.TEXT_EVENT_STREAM).exchange().expectStatus().isOk()
+				.returnResult(${endpoint.entityName}Resource.class);
+
+		// Then
+		Flux<${endpoint.entityName}Resource> events = result.getResponseBody();
+		StepVerifier.create(events).expectSubscription().consumeNextWith(p -> {
+			assertThat(p.getResourceId()).isNotNull();
+			assertThat(p.getText()).isNotEmpty();
+		}).consumeNextWith(p -> {
+			assertThat(p.getResourceId()).isNotNull();
+			assertThat(p.getText()).isNotEmpty();
+		}).thenCancel().verify();
+	}
+
 
     /**
      * Generates a list of sample test data

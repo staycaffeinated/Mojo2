@@ -20,7 +20,7 @@ public class EndpointConfig {
 
 	  @Bean
     ConversionService conversionService() {
-		    ConversionServiceFactoryBean factory = new ConversionServiceFactoryBean();
+		    var factory = new ConversionServiceFactoryBean();
 		    Set<Converter<?, ?>> convSet = new HashSet<Converter<?, ?>>();
 		    convSet.add(new ${endpoint.entityName}BeanToResourceConverter());
 		    convSet.add(new ${endpoint.entityName}ResourceToBeanConverter());

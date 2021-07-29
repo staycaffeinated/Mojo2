@@ -1,6 +1,9 @@
 <#include "/common/Copyright.ftl">
 package ${endpoint.packageName};
 
+import ${endpoint.basePackage}.exception.ResourceNotFoundException;
+import ${endpoint.basePackage}.exception.UnprocessableEntityException;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -31,6 +34,7 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.*;
@@ -156,6 +160,55 @@ class ${endpoint.entityName}ServiceTests {
 
         verify(publisher, times(1)).publishEvent(any());
     }
+
+
+	@Test
+	void whenDeleteNull${endpoint.entityName}_expectNullPointerException() {
+		assertThrows(NullPointerException.class, () -> serviceUnderTest.delete${endpoint.entityName}ByResourceId((Long) null));
+	}
+
+	@Test
+	void whenFindNonExistingEntity_expectResourceNotFoundException() {
+		given(mockRepository.findByResourceId(any())).willReturn(Mono.empty());
+
+		Mono<${endpoint.entityName}> publisher = serviceUnderTest.findByResourceId(100L);
+
+		StepVerifier.create(publisher).expectSubscription().expectError(ResourceNotFoundException.class).verify();
+	}
+
+	@Test
+	void whenUpdateOfNull${endpoint.entityName}_expectNullPointerException() {
+		assertThrows(NullPointerException.class, () -> serviceUnderTest.update${endpoint.entityName}(null));
+	}
+
+	@Test
+	void whenFindAllByNullText_expectNullPointerException() {
+		assertThrows(NullPointerException.class, () -> serviceUnderTest.findAllByText(null));
+	}
+
+	@Test
+	void whenCreateNull${endpoint.entityName}_expectNullPointerException() {
+		assertThrows(NullPointerException.class, () -> serviceUnderTest.create${endpoint.entityName}(null));
+	}
+
+    /**
+     * Per its API, a ConversionService::convert method _could_ return null.
+     * The scope of this test case is to verify our own code's behavior should a null be returned.
+     * In this case, an UnprocessableEntityException is thrown.
+     */
+	@Test
+	void whenConversionToEjbFails_expectUnprocessableEntityException() {
+		ConversionService mockConversionService = Mockito.mock(ConversionService.class);
+		${endpoint.entityName}Service localService = new ${endpoint.entityName}Service(mockRepository, mockConversionService, publisher);
+		given(mockConversionService.convert(any(${endpoint.entityName}Resource.class), eq(${endpoint.entityName}.class))).willReturn((${endpoint.entityName}) null);
+
+		${endpoint.entityName}Resource sample = ${endpoint.entityName}Resource.builder().text("sample").build();
+		assertThrows(UnprocessableEntityException.class, () -> localService.create${endpoint.entityName}(sample));
+	}
+
+    // -----------------------------------------------------------
+    // Helper methods
+    // -----------------------------------------------------------
 
     private Flux<${endpoint.entityName}> convertToFlux (List<${endpoint.entityName}> list) { return Flux.fromIterable(create${endpoint.entityName}List()); }
 

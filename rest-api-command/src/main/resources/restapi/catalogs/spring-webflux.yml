@@ -90,12 +90,20 @@ catalog:
       destination: "src/test/java/{{basePackagePath}}/endpoint/root/RootControllerTest.java"
       context: "project"
   - entry:
+      template: "/spring/webflux/test/endpoint/root/RootServiceTests.ftl"
+      destination: "src/test/java/{{basePackagePath}}/endpoint/root/RootServiceTests.java"
+      context: "project"
+  - entry:
       template: "/spring/common/test/math/SecureRandomSeriesTests.ftl"
       destination: "src/test/java/{{basePackagePath}}/math/SecureRandomSeriesTests.java"
       context: "project"
   - entry:
       template: "/spring/common/test/validation/AlphabeticValidationTests.ftl"
       destination: "src/test/java/{{basePackagePath}}/validation/AlphabeticValidationTests.java"
+      context: "project"
+  - entry:
+      template: "/spring/webflux/test/advice/GlobalExceptionHandlerTests.ftl"
+      destination: "src/test/java/{{basePackagePath}}/advice/GlobalExceptionHandlerTests.java"
       context: "project"
   #
   # Endpoint entries
@@ -175,4 +183,8 @@ catalog:
   - entry:
       template: "/spring/webflux/test/endpoint/ServiceTests.ftl"
       destination: "src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ServiceTests.java"
+      context: "endpoint"
+  - entry:
+      template: "/spring/webflux/test/endpoint/EntityEventTests.ftl"
+      destination: "src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}EventTests.java"
       context: "endpoint"

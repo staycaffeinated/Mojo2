@@ -23,7 +23,7 @@ public class ${endpoint.entityName}ResourceToBeanConverter implements Converter<
      */
     @Override
     public ${endpoint.entityName} convert (@NonNull ${endpoint.entityName}Resource resource) {
-        ${endpoint.entityName} target = new ${endpoint.entityName}();
+        var target = new ${endpoint.entityName}();
         target.setResourceId ( resource.getResourceId() );
         target.setText ( resource.getText() );
         return target;

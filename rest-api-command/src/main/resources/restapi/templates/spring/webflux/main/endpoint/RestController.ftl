@@ -1,8 +1,8 @@
 <#include "/common/Copyright.ftl">
 package ${endpoint.packageName};
 
+import ${endpoint.basePackage}.exception.*;
 import ${endpoint.basePackage}.common.ResourceIdentity;
-import ${endpoint.basePackage}.exception.ResourceNotFoundException;
 import ${endpoint.basePackage}.validation.OnCreate;
 import ${endpoint.basePackage}.validation.OnUpdate;
 
@@ -18,15 +18,12 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
-import java.net.URI;
 import java.time.Duration;
 
 @RestController
 <#noparse>
-@RequestMapping("${spring.webflux.base-path}/")
+@RequestMapping("${spring.webflux.base-path}")
 </#noparse>
 @Slf4j
 public class ${endpoint.entityName}Controller {
@@ -59,22 +56,22 @@ public class ${endpoint.entityName}Controller {
     }
     
     /**
-	   * If api needs to push items as Streams to ensure Backpressure is applied, we
-	   * need to set produces to MediaType.TEXT_EVENT_STREAM_VALUE
-	   *
-	   * MediaType.TEXT_EVENT_STREAM_VALUE is the official media type for Server Sent
-	   * Events (SSE) MediaType.APPLICATION_STREAM_JSON_VALUE is for server to
-	   * server/http client communications.
-	   *
-	   * https://stackoverflow.com/questions/52098863/whats-the-difference-between-text-event-stream-and-application-streamjson
-	   * 
-	   */
-	  @GetMapping(value = ${endpoint.entityName}Routes.GET_STREAM, produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-	  @ResponseStatus(value = HttpStatus.OK)
-	  public Flux<${endpoint.entityName}Resource> get${endpoint.entityName}Stream() {
-	      // This is only an example implementation. Modify this line as needed.
-		    return ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s().delayElements(Duration.ofMillis(250));
-	  }
+     * If api needs to push items as Streams to ensure Backpressure is applied, we
+     * need to set produces to MediaType.TEXT_EVENT_STREAM_VALUE
+     *
+     * MediaType.TEXT_EVENT_STREAM_VALUE is the official media type for Server Sent
+     * Events (SSE) MediaType.APPLICATION_STREAM_JSON_VALUE is for server to
+     * server/http client communications.
+     *
+	 * https://stackoverflow.com/questions/52098863/whats-the-difference-between-text-event-stream-and-application-streamjson
+	 *
+	 */
+    @GetMapping(value = ${endpoint.entityName}Routes.GET_STREAM, produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @ResponseStatus(value = HttpStatus.OK)
+    public Flux<${endpoint.entityName}Resource> get${endpoint.entityName}Stream() {
+	    // This is only an example implementation. Modify this line as needed.
+        return ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s().delayElements(Duration.ofMillis(250));
+    }
 
     /*
      * Create
@@ -93,6 +90,7 @@ public class ${endpoint.entityName}Controller {
     public void update${endpoint.entityName}(@PathVariable Long id, @RequestBody @Validated(OnUpdate.class) ${endpoint.entityName}Resource ${endpoint.entityVarName}) {
         if (!Objects.equals(id, ${endpoint.entityVarName}.getResourceId())) {
             log.error("Update declined: mismatch between query string identifier, {}, and resource identifier, {}", id, ${endpoint.entityVarName}.getResourceId());
+            throw new UnprocessableEntityException("Mismatch between the identifiers in the URI and the payload");
         }
         ${endpoint.entityVarName}Service.update${endpoint.entityName}(${endpoint.entityVarName});
     }

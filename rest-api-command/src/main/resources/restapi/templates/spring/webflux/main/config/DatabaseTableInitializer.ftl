@@ -2,7 +2,6 @@
 package ${endpoint.basePackage}.config;
 
 import io.r2dbc.spi.ConnectionFactory;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -23,10 +22,10 @@ public class ${endpoint.entityName}TableInitializer {
 
 	@Bean
 	public ConnectionFactoryInitializer databaseInitializer(ConnectionFactory connectionFactory) {
-		ConnectionFactoryInitializer initializer = new ConnectionFactoryInitializer();
+		var initializer = new ConnectionFactoryInitializer();
 		initializer.setConnectionFactory(connectionFactory);
 
-		CompositeDatabasePopulator populator = new CompositeDatabasePopulator();
+		var populator = new CompositeDatabasePopulator();
 		populator.addPopulators(new ResourceDatabasePopulator(new ClassPathResource("database/${endpoint.entityVarName}-schema.sql")));
 		populator.addPopulators(new ResourceDatabasePopulator(new ClassPathResource("database/${endpoint.entityVarName}-data.sql")));
 		initializer.setDatabasePopulator(populator);
