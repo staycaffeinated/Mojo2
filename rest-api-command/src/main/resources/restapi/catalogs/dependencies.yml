@@ -13,7 +13,7 @@ dependencies:
       version: "0.26.0"
   - dependency:
       name: "jibPlugin"
-      version: "3.1.1"
+      version: "3.1.2"
   - dependency:
       name: "junitSystemRules"
       version: "1.19.0"
@@ -40,10 +40,10 @@ dependencies:
       version: "3.3"
   - dependency:
       name: "spotless"
-      version: "5.14.0"
+      version: "5.14.2"
   - dependency:
       name: "springBoot"
-      version: "2.5.1"
+      version: "2.5.3"
   - dependency:
       name: "springCloud"
       version: "3.0.2"
@@ -55,7 +55,7 @@ dependencies:
       version: "0.26.2"
   - dependency:
       name: "reactorTest"
-      version: "3.4.6" 
+      version: "3.4.8"
   - dependency:
       name: "testContainers"
       version: "1.15.3"
