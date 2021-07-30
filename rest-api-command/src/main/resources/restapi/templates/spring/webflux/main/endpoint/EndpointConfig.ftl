@@ -16,9 +16,9 @@ import java.util.Set;
  * Configures of the converters, since WebFlux does not automatically do this.
  */
 @Configuration
-public class EndpointConfig {
+public class ${endpoint.entityName}Config {
 
-	  @Bean
+	  @Bean("${endpoint.entityVarName}Converter")
     ConversionService conversionService() {
 		    var factory = new ConversionServiceFactoryBean();
 		    Set<Converter<?, ?>> convSet = new HashSet<Converter<?, ?>>();

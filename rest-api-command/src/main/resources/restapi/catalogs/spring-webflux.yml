@@ -114,7 +114,7 @@ catalog:
       context: "endpoint"
   - entry:
       template: "/spring/webflux/main/endpoint/EndpointConfig.ftl"
-      destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/EndpointConfig.java"
+      destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}Config.java"
       context: "endpoint"
   - entry:
       template: "/spring/webflux/main/endpoint/Entity.ftl"

@@ -10,6 +10,7 @@ import ${endpoint.basePackage}.validation.OnUpdate;
 import ${endpoint.basePackage}.exception.ResourceNotFoundException;
 import ${endpoint.basePackage}.exception.UnprocessableEntityException;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.convert.ConversionService;
@@ -32,7 +33,7 @@ public class ${endpoint.entityName}Service {
      */
     @Autowired
     public ${endpoint.entityName}Service(${endpoint.entityName}Repository ${endpoint.entityVarName}Repository,
-                                        ConversionService conversionService, ApplicationEventPublisher publisher) {
+                                        @Qualifier("${endpoint.entityVarName}Converter")ConversionService conversionService, ApplicationEventPublisher publisher) {
         this.repository = ${endpoint.entityVarName}Repository;
         this.conversionService = conversionService;
         this.publisher = publisher;
