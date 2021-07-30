@@ -35,7 +35,7 @@ public class SecureRandomSeries {
      * @return a secure random value
      */
     public static String nextString() {
-        byte[] buffer = randomBytes();
+        var buffer = randomBytes();
         return encoder.encodeToString(buffer);
     }
 
@@ -44,7 +44,7 @@ public class SecureRandomSeries {
      * @return a secure random value
      */
     public static Long nextLong() {
-        byte[] buffer = randomBytes();
+        var buffer = randomBytes();
         return ByteBuffer.wrap(buffer).getLong();
     }
 
@@ -55,7 +55,7 @@ public class SecureRandomSeries {
      * @return a random series of bytes
      */
     private static byte[] randomBytes() {
-        byte[] buffer = new byte[20]; // 20x8 = 160 = bits of entropy
+        var buffer = new byte[20]; // 20x8 = 160 = bits of entropy
         random.nextBytes(buffer);
         return buffer;
     }

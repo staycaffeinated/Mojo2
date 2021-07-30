@@ -4,14 +4,16 @@ package ${endpoint.packageName};
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ${endpoint.entityName}BeanToResourceConverterTests {
 
-    ${endpoint.entityName}BeanToResourceConverter converter = new ${endpoint.entityName}BeanToResourceConverter();
+    ${endpoint.entityName}BeanToResourceConverter converterUnderTest = new ${endpoint.entityName}BeanToResourceConverter();
 
 	@Test
 	void whenDataToConvertIsWellFormed_expectSuccessfulConversion() {
@@ -48,7 +50,7 @@ class ${endpoint.entityName}BeanToResourceConverterTests {
 		${endpoint.entityName} itemThree = ${endpoint.entityName}.builder().resourceId(itemThree_expectedPublicId).text(itemThree_expectedText)
 				.id(itemThree_expectedDatabaseId).build();
 
-		ArrayList<Driver> list = new ArrayList<>();
+		ArrayList<${endpoint.entityName}> list = new ArrayList<>();
 		list.add(itemOne);
 		list.add(itemTwo);
 		list.add(itemThree);
@@ -65,12 +67,12 @@ class ${endpoint.entityName}BeanToResourceConverterTests {
 
 	@Test
 	void whenBeanIsNull_expectNullPointerException() {
-		Assertions.assertThrows(NullPointerException.class, () -> converterUnderTest.convert((${endpoint.entityName}) null));
+		assertThrows(NullPointerException.class, () -> converterUnderTest.convert((${endpoint.entityName}) null));
 	}
 
 	@Test
 	void whenListIsNull_expectNullPointerException() {
-		Assertions.assertThrows(NullPointerException.class, () -> converterUnderTest.convert((List<${endpoint.entityName}>) null));
+		assertThrows(NullPointerException.class, () -> converterUnderTest.convert((List<${endpoint.entityName}>) null));
 	}
 
     /**
@@ -88,7 +90,7 @@ class ${endpoint.entityName}BeanToResourceConverterTests {
         bean.setText("hello, world");
         bean.setId(100L);
 
-        ${endpoint.entityName}Resource pojo = converter.convert(bean);
+        ${endpoint.entityName}Resource pojo = converterUnderTest.convert(bean);
         assertThat(pojo.getResourceId()).isEqualTo(bean.getResourceId());
         assertThat(pojo.getText()).isEqualTo(bean.getText());
     }

@@ -188,3 +188,11 @@ catalog:
       template: "/spring/webflux/test/endpoint/EntityEventTests.ftl"
       destination: "src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}EventTests.java"
       context: "endpoint"
+  - entry:
+      template: "/spring/webflux/test/endpoint/BeanToResourceConverterTests.ftl"
+      destination: "src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}BeanToResourceConverterTests.java"
+      context: "endpoint"
+  - entry:
+      template: "/spring/webflux/test/endpoint/ResourceToBeanConverterTests.ftl"
+      destination: "src/test/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}ResourceToBeanConverterTests.java"
+      context: "endpoint"

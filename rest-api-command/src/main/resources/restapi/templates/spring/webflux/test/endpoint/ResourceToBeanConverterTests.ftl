@@ -4,14 +4,16 @@ package ${endpoint.packageName};
 
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class ${endpoint.entityName}ResourceToBeanConverterTests {
 
-    ${endpoint.entityName}ResourceToBeanConverter converter = new ${endpoint.entityName}ResourceToBeanConverter();
+    ${endpoint.entityName}ResourceToBeanConverter converterUnderTest = new ${endpoint.entityName}ResourceToBeanConverter();
 
 
 	@Test
@@ -63,13 +65,13 @@ class ${endpoint.entityName}ResourceToBeanConverterTests {
 
 	@Test
 	void whenConvertingNullObject_expectNullPointerException() {
-		Assertions.assertThrows(NullPointerException.class,
+		assertThrows(NullPointerException.class,
             () -> converterUnderTest.convert((${endpoint.entityName}Resource) null));
 	}
 
 	@Test
 	void whenConvertingNullList_expectNullPointerException() {
-		Assertions.assertThrows(NullPointerException.class,
+		assertThrows(NullPointerException.class,
 			() -> converterUnderTest.convert((List<${endpoint.entityName}Resource>) null));
 	}
 
@@ -77,7 +79,7 @@ class ${endpoint.entityName}ResourceToBeanConverterTests {
     void shouldPopulateAllFields() {
         ${endpoint.entityName}Resource resource = ${endpoint.entityName}Resource.builder().resourceId(100L).text("hello world").build();
 
-        ${endpoint.entityName} bean = converter.convert(resource);
+        ${endpoint.entityName} bean = converterUnderTest.convert(resource);
         assertThat(bean.getResourceId()).isEqualTo(resource.getResourceId());
         assertThat(bean.getText()).isEqualTo(resource.getText());
     }

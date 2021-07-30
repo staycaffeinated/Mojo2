@@ -32,19 +32,19 @@ class RootControllerTest {
     private RootService mockRootService;
 
     @Test
-    public void testMonoStream() {
+    void testMonoStream() {
         webClient.get().uri("${project.basePath}/mono").accept(MediaType.APPLICATION_JSON).exchange().expectStatus().isOk();
     }
 
     @Test
-    public void testMonoResponse() {
+    void testMonoResponse() {
         Flux<String> msg = webClient.get().uri("${project.basePath}/mono").exchange().expectStatus().isOk()
             .returnResult(String.class).getResponseBody().log();
         StepVerifier.create(msg).expectSubscription().expectNext("OK").verifyComplete();
     }
 
     @Test
-    public void testFluxStream() {
+    void testFluxStream() {
         webClient.get().uri("${project.basePath}/flux").accept(MediaType.APPLICATION_JSON).exchange().expectStatus().isOk();
     }
 
@@ -92,7 +92,7 @@ class RootControllerTest {
      * This example illustrates the technique and does not exercise the root controller.
      */
     @Test
-    public void testFluxErrorHandling_OnErrorMap() {
+    void testFluxErrorHandling_OnErrorMap() {
 
    	    Flux<String> stringFlux = Flux.just("A", "B", "C")
    			.concatWith(Flux.error(new RuntimeException("Exception Occurred")))

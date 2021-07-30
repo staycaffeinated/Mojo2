@@ -21,7 +21,7 @@ public class ${endpoint.entityName}Config {
 	  @Bean("${endpoint.entityVarName}Converter")
     ConversionService conversionService() {
 		    var factory = new ConversionServiceFactoryBean();
-		    Set<Converter<?, ?>> convSet = new HashSet<Converter<?, ?>>();
+		    Set<Converter<?, ?>> convSet = new HashSet<>();
 		    convSet.add(new ${endpoint.entityName}BeanToResourceConverter());
 		    convSet.add(new ${endpoint.entityName}ResourceToBeanConverter());
 		    factory.setConverters(convSet);
