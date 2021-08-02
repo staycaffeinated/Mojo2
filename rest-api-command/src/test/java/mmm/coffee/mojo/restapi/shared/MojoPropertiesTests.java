@@ -15,7 +15,7 @@
  */
 package mmm.coffee.mojo.restapi.shared;
 
-import mmm.coffee.mojo.restapi.generator.ProjectKeys;
+import mmm.coffee.mojo.restapi.generator.project.ProjectKeys;
 import org.apache.commons.configuration2.Configuration;
 import org.junit.jupiter.api.Test;
 

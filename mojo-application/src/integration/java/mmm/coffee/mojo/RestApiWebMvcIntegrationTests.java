@@ -14,7 +14,7 @@ package mmm.coffee.mojo;/*
  * limitations under the License.
  */
 
-import mmm.coffee.mojo.restapi.generator.ProjectKeys;
+import mmm.coffee.mojo.restapi.generator.project.ProjectKeys;
 import mmm.coffee.mojo.restapi.generator.helpers.MojoUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package mmm.coffee.mojo.restapi.generator;
+package mmm.coffee.mojo.restapi.generator.endpoint;
 
 import freemarker.template.Configuration;
 import lombok.NonNull;
@@ -22,6 +22,9 @@ import mmm.coffee.mojo.api.TemplateWriter;
 import mmm.coffee.mojo.catalog.CatalogEntry;
 import mmm.coffee.mojo.catalog.TemplateCatalog;
 import mmm.coffee.mojo.exception.MojoException;
+import mmm.coffee.mojo.restapi.generator.ConfigurationFactory;
+import mmm.coffee.mojo.restapi.generator.project.ProjectKeys;
+import mmm.coffee.mojo.restapi.generator.TemplateHandler;
 import mmm.coffee.mojo.restapi.generator.helpers.MojoUtils;
 import mmm.coffee.mojo.restapi.generator.helpers.MustacheExpressionResolver;
 import mmm.coffee.mojo.restapi.generator.helpers.NamingRules;
@@ -61,6 +64,10 @@ public abstract class AbstractEndpointGenerator implements Generator {
         throw new MojoException("This method not supported when creating endpoints");
     }
 
+    // IDEA: can this logic be implemented in an EndpointLexicalScopeBuilder?
+    // Something like:
+    //   ScopeBuilder.builder().configuration(mojoProps).commandLineOptions(commandLineOptions).build();
+    //
     public void setUpLexicalScope(@NonNull Map<String, Object> commandLineOptions,
                                   org.apache.commons.configuration2.Configuration mojoProps) {
         lexicalScope.put(ProjectKeys.BASE_PATH, mojoProps.getString(ProjectKeys.BASE_PATH));
@@ -77,6 +84,8 @@ public abstract class AbstractEndpointGenerator implements Generator {
         var packageName = MojoUtils.getPackageNameForResource(basePackage, resourceName);
         var packagePath = MojoUtils.convertPackageNameToPath(packageName);
         var basePackagePath = MojoUtils.convertPackageNameToPath(basePackage);
+        var entityPojoName = NamingRules.toPojoClassName(resourceName);
+        var entityEjbName = NamingRules.toEjbClassName(resourceName);
 
         lexicalScope.put(ProjectKeys.BASE_PACKAGE_PATH, basePackagePath);
         lexicalScope.put(EndpointKeys.ENTITY_NAME, entityName);

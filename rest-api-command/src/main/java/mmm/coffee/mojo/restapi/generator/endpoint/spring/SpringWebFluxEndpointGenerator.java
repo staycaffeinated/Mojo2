@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package mmm.coffee.mojo.restapi.generator.spring;
+package mmm.coffee.mojo.restapi.generator.endpoint.spring;
 
 import mmm.coffee.mojo.catalog.TemplateCatalog;
-import mmm.coffee.mojo.restapi.generator.AbstractEndpointGenerator;
+import mmm.coffee.mojo.restapi.generator.endpoint.AbstractEndpointGenerator;
 import mmm.coffee.mojo.restapi.generator.Catalogs;
 
 

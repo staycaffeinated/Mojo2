@@ -26,6 +26,8 @@ public class NamingRules {
 
     private NamingRules() {}
 
+    private static final String EJB_SUFFIX = "EntityBean";
+
     /**
      * Returns the syntax convention for the given resource value
      * @param resource the name of some resource or entity
@@ -62,5 +64,13 @@ public class NamingRules {
      */
     public static @NonNull String toDatabaseSchemaName(@NonNull String projectName) {
         return StringUtils.toRootLowerCase(projectName);
+    }
+
+    public static String toPojoClassName(String resourceName) {
+        return StringUtils.capitalize(resourceName);
+    }
+
+    public static String toEjbClassName(String resourceName) {
+        return StringUtils.capitalize(resourceName) + EJB_SUFFIX;
     }
 }

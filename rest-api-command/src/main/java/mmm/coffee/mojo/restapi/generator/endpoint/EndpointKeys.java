@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package mmm.coffee.mojo.restapi.generator;
+package mmm.coffee.mojo.restapi.generator.endpoint;
 
 /**
  * These are properties used by endpoint-level templates
@@ -25,12 +25,12 @@ public class EndpointKeys {
 
     public static final String ROOT_KEY = "endpoint";
     public static final String ENTITY_NAME = "entityName";
-    public static final String ENTITY_VAR_NAME = "entityVarName";
+    public static final String ENTITY_VAR_NAME = "entityVarName";   // used when a variable name is wanted
     public static final String ENTITY_LOWER_CASE_NAME = "lowerCaseEntityName";
-    public static final String PACKAGE_NAME = "packageName";
-    public static final String PACKAGE_PATH = "packagePath";
-    public static final String BASE_PATH = "basePath";
-    public static final String TABLE_NAME = "tableName";
+    public static final String PACKAGE_NAME = "packageName";        // the endpoints package name
+    public static final String PACKAGE_PATH = "packagePath";        // the endpoint package name as a file system path
+    public static final String BASE_PATH = "basePath";              // the project's base path
+    public static final String TABLE_NAME = "tableName";            // the database table name
 
     public static final String CMDLINE_RESOURCE_ARG = "resource";
     public static final String CMDLINE_ROUTE_ARG = "route";

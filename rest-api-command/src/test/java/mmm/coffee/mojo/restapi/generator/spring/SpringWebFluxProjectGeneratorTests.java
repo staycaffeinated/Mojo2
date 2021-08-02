@@ -16,7 +16,8 @@
 package mmm.coffee.mojo.restapi.generator.spring;
 
 import mmm.coffee.mojo.api.Generator;
-import mmm.coffee.mojo.restapi.generator.ProjectKeys;
+import mmm.coffee.mojo.restapi.generator.project.ProjectKeys;
+import mmm.coffee.mojo.restapi.generator.project.spring.SpringWebFluxProjectGenerator;
 import mmm.coffee.mojo.restapi.shared.SupportedFramework;
 import org.junit.jupiter.api.Test;
 

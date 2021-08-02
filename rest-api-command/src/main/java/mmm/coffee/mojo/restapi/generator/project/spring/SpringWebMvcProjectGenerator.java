@@ -13,29 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package mmm.coffee.mojo.restapi.generator.spring;
+package mmm.coffee.mojo.restapi.generator.project.spring;
 
 import mmm.coffee.mojo.catalog.TemplateCatalog;
 import mmm.coffee.mojo.restapi.generator.Catalogs;
 
 /**
- * A project generator for a Spring WebFlux-based project. This class
- * generates the essential project assets for a Spring WebFlux-based application.
+ * A project generator for a Spring WebMvc project. This class
+ * generates the essential project assets for a Spring WebMvc-based application.
  * The assets generated include the Gradle files, a README, the main application class,
- * and a base controller (to handle the '/' path).
+ * and a base controller (to handle the starting path, '/' ).
  */
-public class SpringWebFluxProjectGenerator extends SpringProjectGenerator {
+public class SpringWebMvcProjectGenerator extends SpringProjectGenerator {
 
+    /**
+     * Loads templates that are exclusive to WebMvc projects.
+     * The end result is both common templates and WebMvc templates are loaded and cached in the catalog
+     */
     @Override
     public void loadTemplates() {
         super.loadTemplates();
-        catalog().append ( loadWebFluxTemplates() );
+        catalog().append ( loadWebMvcTemplates() );
     }
 
-    /**
-     * Returns the Catalog of Spring WebFlux templates
-     */
-    private TemplateCatalog loadWebFluxTemplates() {
-        return new TemplateCatalog(Catalogs.WEBFLUX_CATALOG);
+    private TemplateCatalog loadWebMvcTemplates() {
+        return new TemplateCatalog(Catalogs.WEBMVC_CATALOG);
     }
 }

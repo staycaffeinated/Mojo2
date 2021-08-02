@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package mmm.coffee.mojo.restapi.generator;
+package mmm.coffee.mojo.restapi.generator.project;
 
 import freemarker.template.Configuration;
 import lombok.NonNull;
@@ -23,6 +23,9 @@ import mmm.coffee.mojo.catalog.CatalogEntry;
 import mmm.coffee.mojo.catalog.TemplateCatalog;
 import mmm.coffee.mojo.library.DependencyCatalog;
 import mmm.coffee.mojo.mixin.DryRunOption;
+import mmm.coffee.mojo.restapi.generator.Catalogs;
+import mmm.coffee.mojo.restapi.generator.ConfigurationFactory;
+import mmm.coffee.mojo.restapi.generator.TemplateHandler;
 import mmm.coffee.mojo.restapi.generator.helpers.MojoUtils;
 import mmm.coffee.mojo.restapi.generator.helpers.MustacheExpressionResolver;
 import mmm.coffee.mojo.restapi.shared.MojoProperties;

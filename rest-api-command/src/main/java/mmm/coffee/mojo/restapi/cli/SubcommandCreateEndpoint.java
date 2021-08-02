@@ -17,8 +17,8 @@ package mmm.coffee.mojo.restapi.cli;
 
 import mmm.coffee.mojo.mixin.DryRunOption;
 import mmm.coffee.mojo.restapi.cli.validator.ResourceNameValidator;
-import mmm.coffee.mojo.restapi.generator.EndpointGeneratorFactory;
-import mmm.coffee.mojo.restapi.generator.ProjectKeys;
+import mmm.coffee.mojo.restapi.generator.endpoint.EndpointGeneratorFactory;
+import mmm.coffee.mojo.restapi.generator.project.ProjectKeys;
 import mmm.coffee.mojo.restapi.shared.MojoProperties;
 import mmm.coffee.mojo.restapi.shared.SupportedFramework;
 import picocli.CommandLine;

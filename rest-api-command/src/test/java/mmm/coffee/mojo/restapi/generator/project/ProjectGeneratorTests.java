@@ -13,12 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package mmm.coffee.mojo.restapi.generator;
+package mmm.coffee.mojo.restapi.generator.project;
 
 import mmm.coffee.mojo.api.Generator;
 import mmm.coffee.mojo.api.NoOpTemplateWriter;
 import mmm.coffee.mojo.api.TemplateWriter;
 import mmm.coffee.mojo.mixin.DryRunOption;
+import mmm.coffee.mojo.restapi.generator.project.ProjectGeneratorFactory;
+import mmm.coffee.mojo.restapi.generator.project.ProjectKeys;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
 import mmm.coffee.mojo.restapi.shared.SupportedFramework;
 import org.junit.Rule;

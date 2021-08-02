@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package mmm.coffee.mojo.restapi.generator;
+package mmm.coffee.mojo.restapi.generator.project;
 
 
 import lombok.NonNull;
 import mmm.coffee.mojo.api.Generator;
-import mmm.coffee.mojo.restapi.generator.spring.SpringWebFluxProjectGenerator;
-import mmm.coffee.mojo.restapi.generator.spring.SpringWebMvcProjectGenerator;
+import mmm.coffee.mojo.restapi.generator.project.spring.SpringWebFluxProjectGenerator;
+import mmm.coffee.mojo.restapi.generator.project.spring.SpringWebMvcProjectGenerator;
 import mmm.coffee.mojo.restapi.shared.SupportedFramework;
 
 /**

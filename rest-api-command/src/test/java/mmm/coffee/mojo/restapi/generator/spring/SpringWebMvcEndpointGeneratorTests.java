@@ -18,12 +18,12 @@ package mmm.coffee.mojo.restapi.generator.spring;
 import mmm.coffee.mojo.api.Generator;
 import mmm.coffee.mojo.api.NoOpTemplateWriter;
 import mmm.coffee.mojo.mixin.DryRunOption;
-import mmm.coffee.mojo.restapi.generator.EndpointKeys;
-import mmm.coffee.mojo.restapi.generator.ProjectKeys;
+import mmm.coffee.mojo.restapi.generator.endpoint.EndpointKeys;
+import mmm.coffee.mojo.restapi.generator.endpoint.spring.SpringWebMvcEndpointGenerator;
+import mmm.coffee.mojo.restapi.generator.project.ProjectKeys;
 import mmm.coffee.mojo.restapi.shared.MojoProperties;
 import mmm.coffee.mojo.restapi.shared.SupportedFramework;
 import org.apache.commons.configuration2.Configuration;
-import org.apache.commons.configuration2.PropertiesConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

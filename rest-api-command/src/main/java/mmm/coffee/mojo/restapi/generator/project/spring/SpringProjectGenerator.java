@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package mmm.coffee.mojo.restapi.generator.spring;
+package mmm.coffee.mojo.restapi.generator.project.spring;
 
 import mmm.coffee.mojo.catalog.TemplateCatalog;
-import mmm.coffee.mojo.restapi.generator.AbstractProjectGenerator;
+import mmm.coffee.mojo.restapi.generator.project.AbstractProjectGenerator;
 import mmm.coffee.mojo.restapi.generator.Catalogs;
 
 /**
@@ -27,7 +27,7 @@ import mmm.coffee.mojo.restapi.generator.Catalogs;
 public class SpringProjectGenerator extends AbstractProjectGenerator {
 
     /**
-     * Loads the templates commong to Spring WebMvc and Spring WebFlux
+     * Loads the templates common to both Spring WebMvc and Spring WebFlux
      */
     @Override
     public void loadTemplates() {

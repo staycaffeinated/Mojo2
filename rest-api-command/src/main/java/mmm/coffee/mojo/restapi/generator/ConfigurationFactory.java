@@ -26,7 +26,7 @@ import lombok.NonNull;
  *  https://freemarker.apache.org/docs/pgui_quickstart_createconfiguration.html
  *  https://www.vogella.com/tutorials/FreeMarker/article.html
  */
-@SuppressWarnings({"squid:S1075" })
+@SuppressWarnings({"squid:S1075" })  // the template path is intentionally hard-coded and not a variable
 public class ConfigurationFactory {
 
     public static final String TEMPLATE_PATH = "/restapi/templates/";

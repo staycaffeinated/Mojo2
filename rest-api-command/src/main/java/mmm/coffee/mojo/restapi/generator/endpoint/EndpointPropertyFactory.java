@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package mmm.coffee.mojo.restapi.generator;
+package mmm.coffee.mojo.restapi.generator.endpoint;
 
 import lombok.NonNull;
 import mmm.coffee.mojo.restapi.generator.helpers.NamingRules;
