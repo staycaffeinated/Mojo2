@@ -64,37 +64,14 @@ public abstract class AbstractEndpointGenerator implements Generator {
         throw new MojoException("This method not supported when creating endpoints");
     }
 
-    // IDEA: can this logic be implemented in an EndpointLexicalScopeBuilder?
-    // Something like:
-    //   ScopeBuilder.builder().configuration(mojoProps).commandLineOptions(commandLineOptions).build();
-    //
-    public void setUpLexicalScope(@NonNull Map<String, Object> commandLineOptions,
+    public void setUpLexicalScope(@NonNull Map<String,Object> commandLineOptions,
                                   org.apache.commons.configuration2.Configuration mojoProps) {
-        lexicalScope.put(ProjectKeys.BASE_PATH, mojoProps.getString(ProjectKeys.BASE_PATH));
-        lexicalScope.put(ProjectKeys.BASE_PACKAGE, mojoProps.getString(ProjectKeys.BASE_PACKAGE));
-        lexicalScope.put(ProjectKeys.FRAMEWORK, mojoProps.getString(ProjectKeys.FRAMEWORK));
 
-        lexicalScope.putAll(commandLineOptions);
-
-        var basePackage = mojoProps.getString(ProjectKeys.BASE_PACKAGE);
-        var resourceName = (String) commandLineOptions.get(EndpointKeys.CMDLINE_RESOURCE_ARG);
-        var entityName = NamingRules.toEntityName(resourceName);
-        var entityVarName = NamingRules.toEntityVariableName(resourceName);
-        var basePath = NamingRules.toBasePathUrl((String) commandLineOptions.get("route"));
-        var packageName = MojoUtils.getPackageNameForResource(basePackage, resourceName);
-        var packagePath = MojoUtils.convertPackageNameToPath(packageName);
-        var basePackagePath = MojoUtils.convertPackageNameToPath(basePackage);
-        var entityPojoName = NamingRules.toPojoClassName(resourceName);
-        var entityEjbName = NamingRules.toEjbClassName(resourceName);
-
-        lexicalScope.put(ProjectKeys.BASE_PACKAGE_PATH, basePackagePath);
-        lexicalScope.put(EndpointKeys.ENTITY_NAME, entityName);
-        lexicalScope.put(EndpointKeys.BASE_PATH, basePath);
-        lexicalScope.put(EndpointKeys.ENTITY_LOWER_CASE_NAME, entityName.toLowerCase());
-        lexicalScope.put(EndpointKeys.ENTITY_VAR_NAME, entityVarName);
-        lexicalScope.put(EndpointKeys.PACKAGE_NAME, packageName);
-        lexicalScope.put(EndpointKeys.PACKAGE_PATH, packagePath);
-        lexicalScope.put(EndpointKeys.TABLE_NAME, entityName);
+        EndpointLexicalScopeFactory factory = new EndpointLexicalScopeFactory();
+        factory.setCommandLineOptions(commandLineOptions);
+        factory.setMojoProps(mojoProps);
+        var map = factory.create();
+        map.forEach((K,V) -> { lexicalScope.put(K,V); });
     }
     
     @Override

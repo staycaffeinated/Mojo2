@@ -132,4 +132,25 @@ public class NamingRulesTests {
             assertThat(NamingRules.toDatabaseSchemaName("lower-case")).isEqualTo("lower-case");
         }
     }
+
+    @Nested
+    class Test_getPackageNameForResource {
+        @Test
+        void shouldTranslatePackageNameToItsEquivalentFilePath() {
+            String value = NamingRules.toEndpointPackageName("org.example", "Account");
+            assertThat(value).isNotEmpty();
+
+            // per the naming convention, it should be this:
+            assertThat(value).isEqualTo("org.example.endpoint.account");
+        }
+
+        @Test
+        void shouldDisallowNullBasePackage() {
+            assertThrows(NullPointerException.class, () -> NamingRules.toEndpointPackageName(null, "widget"));
+        }
+        @Test
+        void shouldDisallowNullResourceName() {
+            assertThrows(NullPointerException.class, () -> NamingRules.toEndpointPackageName("org.example", null));
+        }
+    }
 }

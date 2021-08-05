@@ -89,25 +89,6 @@ class MojoUtilsIT {
         }
     }
 
-    @Nested
-    class Test_getPackageNameForResource {
-        @Test
-        void shouldTranslatePackageNameToItsEquivalentFilePath() {
-            String value = MojoUtils.getPackageNameForResource("org.example", "Account");
-            assertThat(value).isNotEmpty();
 
-            // per the naming convention, it should be this:
-            assertThat(value).isEqualTo("org.example.endpoint.account");
-        }
-
-        @Test
-        void shouldDisallowNullBasePackage() {
-            assertThrows(NullPointerException.class, () -> MojoUtils.getPackageNameForResource(null, "widget"));
-        }
-        @Test
-        void shouldDisallowNullResourceName() {
-            assertThrows(NullPointerException.class, () -> MojoUtils.getPackageNameForResource("org.example", null));
-        }
-    }
 
 }

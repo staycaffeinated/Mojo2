@@ -37,8 +37,8 @@ class MojoPropertiesTests {
      */
     @Test
     void updateEnvMethodInsertsEnvVariables() throws Exception {
-        updateEnv("mojo.basePath", "/dashboard");
-        updateEnv("mojo.basePackage", "org.example.hello");
+        Environment.addVariable("mojo.basePath", "/dashboard");
+        Environment.addVariable("mojo.basePackage", "org.example.hello");
 
         // ensure the property made it to env var
         assertThat(System.getenv("mojo.basePath")).isNotNull();
@@ -49,8 +49,8 @@ class MojoPropertiesTests {
         String basePackage = "org.example.widgets";
         String basePath = "/widgets/api/v3";
 
-        updateEnv(ProjectKeys.BASE_PACKAGE, basePackage);
-        updateEnv(ProjectKeys.BASE_PATH, basePath);
+        Environment.addVariable(ProjectKeys.BASE_PACKAGE, basePackage);
+        Environment.addVariable(ProjectKeys.BASE_PATH, basePath);
 
         // Lets make sure those env vars are really set
         assertThat(System.getenv(ProjectKeys.BASE_PACKAGE)).isEqualTo(basePackage);
@@ -85,45 +85,5 @@ class MojoPropertiesTests {
         mojoProperties.getConfiguration().addProperty("mojo.basePath", "/dashboard");
         assertThat(mojoProperties.getConfiguration().getProperty("mojo.basePath")).isEqualTo("/dashboard");
     }
-    
-    /**
-     * Adds {@code newenv} as environment variables; suitable for unit testing.
-     * Borrowed from StackOverflow as a way to set env vars for unit testing:
-     * See: https://stackoverflow.com/questions/318239/how-do-i-set-environment-variables-from-java
-     */
-    @SuppressWarnings("unchecked")
-    protected static void setEnv(Map<String, String> newenv) throws Exception {
-        try {
-            Class<?> processEnvironmentClass = Class.forName("java.lang.ProcessEnvironment");
-            Field theEnvironmentField = processEnvironmentClass.getDeclaredField("theEnvironment");
-            theEnvironmentField.setAccessible(true);
-            Map<String, String> env = (Map<String, String>) theEnvironmentField.get(null);
-            env.putAll(newenv);
-            Field theCaseInsensitiveEnvironmentField = processEnvironmentClass.getDeclaredField("theCaseInsensitiveEnvironment");
-            theCaseInsensitiveEnvironmentField.setAccessible(true);
-            Map<String, String> cienv = (Map<String, String>)     theCaseInsensitiveEnvironmentField.get(null);
-            cienv.putAll(newenv);
-        } catch (NoSuchFieldException e) {
-            Class[] classes = Collections.class.getDeclaredClasses();
-            Map<String, String> env = System.getenv();
-            for(Class cl : classes) {
-                if("java.util.Collections$UnmodifiableMap".equals(cl.getName())) {
-                    Field field = cl.getDeclaredField("m");
-                    field.setAccessible(true);
-                    Object obj = field.get(env);
-                    Map<String, String> map = (Map<String, String>) obj;
-                    map.clear();
-                    map.putAll(newenv);
-                }
-            }
-        }
-    }
 
-    @SuppressWarnings({ "unchecked" })
-    public static void updateEnv(String name, String val) throws ReflectiveOperationException {
-        Map<String, String> env = System.getenv();
-        Field field = env.getClass().getDeclaredField("m");
-        field.setAccessible(true);
-        ((Map<String, String>) field.get(env)).put(name, val);
-    }
 }
