@@ -60,10 +60,10 @@ class ${endpoint.entityName}ServiceTests {
 
     @Test
     void testFindAll${endpoint.entityName}s() {
-        Flux<${endpoint.entityName}> pojoList = convertToFlux(create${endpoint.entityName}List());
-        given(mockRepository.findAll()).willReturn(pojoList);
+        Flux<${endpoint.ejbName}> ejbList = convertToFlux(create${endpoint.entityName}List());
+        given(mockRepository.findAll()).willReturn(ejbList);
 
-        Flux<${endpoint.entityName}Resource> stream = serviceUnderTest.findAll${endpoint.entityName}s();
+        Flux<${endpoint.pojoName}> stream = serviceUnderTest.findAll${endpoint.entityName}s();
 
         StepVerifier.create(stream).expectSubscription().expectNextCount(3).verifyComplete();
     }
@@ -72,14 +72,14 @@ class ${endpoint.entityName}ServiceTests {
     @Test
     void testFind${endpoint.entityName}ByResourceId() {
         // Given
-        ${endpoint.entityName} expectedEJB = create${endpoint.entityName}();
+        ${endpoint.ejbName} expectedEJB = create${endpoint.entityName}();
         Long expectedId = 1000L;
         expectedEJB.setResourceId(expectedId);
-        Mono<${endpoint.entityName}> rs = Mono.just(expectedEJB);
+        Mono<${endpoint.ejbName}> rs = Mono.just(expectedEJB);
         given(mockRepository.findByResourceId(any(Long.class))).willReturn(rs);
 
         // When
-        Mono<${endpoint.entityName}Resource> publisher = serviceUnderTest.find${endpoint.entityName}ByResourceId(expectedId);
+        Mono<${endpoint.pojoName}> publisher = serviceUnderTest.find${endpoint.entityName}ByResourceId(expectedId);
 
         // Then
         StepVerifier.create(publisher)
@@ -93,11 +93,11 @@ class ${endpoint.entityName}ServiceTests {
     void testFindAllByText() {
         // Given
         final String expectedText = "Lorim ipsum";
-        List<${endpoint.entityName}> expectedRows = create${endpoint.entityName}ListHavingSameTextValue(expectedText);
+        List<${endpoint.ejbName}> expectedRows = create${endpoint.entityName}ListHavingSameTextValue(expectedText);
         given(mockRepository.findAllByText(expectedText)).willReturn(Flux.fromIterable(expectedRows));
 
         // When
-        Flux<${endpoint.entityName}Resource> publisher = serviceUnderTest.findAllByText(expectedText);
+        Flux<${endpoint.pojoName}> publisher = serviceUnderTest.findAllByText(expectedText);
 
         // Then
         StepVerifier.create(publisher)
@@ -114,12 +114,12 @@ class ${endpoint.entityName}ServiceTests {
         // Given
         Long expectedResourceId = 123456789L;
         // what the client submits to the service
-        ${endpoint.entityName}Resource expectedPOJO = ${endpoint.entityName}Resource.builder().text("Lorim ipsum dolor amount").build();
+        ${endpoint.pojoName} expectedPOJO = ${endpoint.pojoName}.builder().text("Lorim ipsum dolor amount").build();
         // what the persisted version looks like
-        ${endpoint.entityName} persistedObj = conversionService.convert(expectedPOJO, ${endpoint.entityName}.class);
+        ${endpoint.ejbName} persistedObj = conversionService.convert(expectedPOJO, ${endpoint.ejbName}.class);
         persistedObj.setResourceId(expectedResourceId);
         persistedObj.setId(1L);
-        given(mockRepository.save(any(${endpoint.entityName}.class))).willReturn(Mono.just(persistedObj));
+        given(mockRepository.save(any(${endpoint.ejbName}.class))).willReturn(Mono.just(persistedObj));
 
         // When
         Mono<Long> publisher = serviceUnderTest.create${endpoint.entityName}(expectedPOJO);
@@ -135,10 +135,10 @@ class ${endpoint.entityName}ServiceTests {
     void testUpdate${endpoint.entityName}() {
         // Given
         // what the client submits
-        ${endpoint.entityName}Resource submittedPOJO = ${endpoint.entityName}Resource.builder().text("Updated value").resourceId(1000L).build();
+        ${endpoint.pojoName} submittedPOJO = ${endpoint.pojoName}.builder().text("Updated value").resourceId(1000L).build();
         // what the new persisted value looks like
-        ${endpoint.entityName} persistedObj = conversionService.convert(submittedPOJO, ${endpoint.entityName}.class);
-        Mono<${endpoint.entityName}> dataStream = Mono.just(persistedObj);
+        ${endpoint.ejbName} persistedObj = conversionService.convert(submittedPOJO, ${endpoint.ejbName}.class);
+        Mono<${endpoint.ejbName}> dataStream = Mono.just(persistedObj);
         given(mockRepository.findByResourceId(any(Long.class))).willReturn(dataStream);
         given(mockRepository.save(persistedObj)).willReturn(dataStream);
 
@@ -171,7 +171,7 @@ class ${endpoint.entityName}ServiceTests {
 	void whenFindNonExistingEntity_expectResourceNotFoundException() {
 		given(mockRepository.findByResourceId(any())).willReturn(Mono.empty());
 
-		Mono<${endpoint.entityName}> publisher = serviceUnderTest.findByResourceId(100L);
+		Mono<${endpoint.ejbName}> publisher = serviceUnderTest.findByResourceId(100L);
 
 		StepVerifier.create(publisher).expectSubscription().expectError(ResourceNotFoundException.class).verify();
 	}
@@ -200,9 +200,8 @@ class ${endpoint.entityName}ServiceTests {
 	void whenConversionToEjbFails_expectUnprocessableEntityException() {
 		ConversionService mockConversionService = Mockito.mock(ConversionService.class);
 		${endpoint.entityName}Service localService = new ${endpoint.entityName}Service(mockRepository, mockConversionService, publisher);
-		given(mockConversionService.convert(any(${endpoint.entityName}Resource.class), eq(${endpoint.entityName}.class))).willReturn((${endpoint.entityName}) null);
 
-		${endpoint.entityName}Resource sample = ${endpoint.entityName}Resource.builder().text("sample").build();
+		${endpoint.pojoName} sample = ${endpoint.pojoName}.builder().text("sample").build();
 		assertThrows(UnprocessableEntityException.class, () -> localService.create${endpoint.entityName}(sample));
 	}
 
@@ -210,18 +209,18 @@ class ${endpoint.entityName}ServiceTests {
     // Helper methods
     // -----------------------------------------------------------
 
-    private Flux<${endpoint.entityName}> convertToFlux (List<${endpoint.entityName}> list) { return Flux.fromIterable(create${endpoint.entityName}List()); }
+    private Flux<${endpoint.ejbName}> convertToFlux (List<${endpoint.ejbName}> list) { return Flux.fromIterable(create${endpoint.entityName}List()); }
 
-    private List<${endpoint.entityName}Resource> convertToPojo(List<${endpoint.entityName}> list) {
-        return list.stream().map(item -> conversionService.convert(item, ${endpoint.entityName}Resource.class)).collect(Collectors.toList());
+    private List<${endpoint.pojoName}> convertToPojo(List<${endpoint.ejbName}> list) {
+        return list.stream().map(item -> conversionService.convert(item, ${endpoint.pojoName}.class)).collect(Collectors.toList());
     }
 
-    private List<${endpoint.entityName}> create${endpoint.entityName}List() {
-        ${endpoint.entityName} w1 = ${endpoint.entityName}.builder().resourceId(1000L).text("Lorim ipsum dolor imit").build();
-        ${endpoint.entityName} w2 = ${endpoint.entityName}.builder().resourceId(2000L).text("Duis aute irure dolor in reprehenderit").build();
-        ${endpoint.entityName} w3 = ${endpoint.entityName}.builder().resourceId(3000L).text("Excepteur sint occaecat cupidatat non proident").build();
+    private List<${endpoint.ejbName}> create${endpoint.entityName}List() {
+        ${endpoint.ejbName} w1 = ${endpoint.ejbName}.builder().resourceId(1000L).text("Lorim ipsum dolor imit").build();
+        ${endpoint.ejbName} w2 = ${endpoint.ejbName}.builder().resourceId(2000L).text("Duis aute irure dolor in reprehenderit").build();
+        ${endpoint.ejbName} w3 = ${endpoint.ejbName}.builder().resourceId(3000L).text("Excepteur sint occaecat cupidatat non proident").build();
 
-        ArrayList<${endpoint.entityName}> dataList = new ArrayList<>();
+        ArrayList<${endpoint.ejbName}> dataList = new ArrayList<>();
         dataList.add(w1);
         dataList.add(w2);
         dataList.add(w3);
@@ -229,12 +228,12 @@ class ${endpoint.entityName}ServiceTests {
         return dataList;
     }
 
-    private List<${endpoint.entityName}> create${endpoint.entityName}ListHavingSameTextValue(final String value) {
-        ${endpoint.entityName} w1 = ${endpoint.entityName}.builder().resourceId(1010L).text(value).build();
-        ${endpoint.entityName} w2 = ${endpoint.entityName}.builder().resourceId(2020L).text(value).build();
-        ${endpoint.entityName} w3 = ${endpoint.entityName}.builder().resourceId(3030L).text(value).build();
+    private List<${endpoint.ejbName}> create${endpoint.entityName}ListHavingSameTextValue(final String value) {
+        ${endpoint.ejbName} w1 = ${endpoint.ejbName}.builder().resourceId(1010L).text(value).build();
+        ${endpoint.ejbName} w2 = ${endpoint.ejbName}.builder().resourceId(2020L).text(value).build();
+        ${endpoint.ejbName} w3 = ${endpoint.ejbName}.builder().resourceId(3030L).text(value).build();
 
-        ArrayList<${endpoint.entityName}> dataList = new ArrayList<>();
+        ArrayList<${endpoint.ejbName}> dataList = new ArrayList<>();
         dataList.add(w1);
         dataList.add(w2);
         dataList.add(w3);
@@ -242,7 +241,7 @@ class ${endpoint.entityName}ServiceTests {
         return dataList;
     }
 
-    private ${endpoint.entityName} create${endpoint.entityName}() {
-        return ${endpoint.entityName}.builder().resourceId(1000L).text("Lorim ipsum dolor imit").build();
+    private ${endpoint.ejbName} create${endpoint.entityName}() {
+        return ${endpoint.ejbName}.builder().resourceId(1000L).text("Lorim ipsum dolor imit").build();
     }
 }

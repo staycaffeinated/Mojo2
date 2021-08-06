@@ -20,8 +20,11 @@ import mmm.coffee.mojo.api.Generator;
 import mmm.coffee.mojo.catalog.CatalogEntry;
 import mmm.coffee.mojo.catalog.TemplateCatalog;
 import mmm.coffee.mojo.library.DependencyCatalog;
+import mmm.coffee.mojo.restapi.generator.endpoint.EndpointLexicalScopeFactory;
 import mmm.coffee.mojo.restapi.generator.project.ProjectKeys;
 import mmm.coffee.mojo.restapi.generator.project.spring.SpringWebFluxProjectGenerator;
+import mmm.coffee.mojo.restapi.shared.Environment;
+import mmm.coffee.mojo.restapi.shared.MojoProperties;
 import mmm.coffee.mojo.restapi.shared.SupportedFeatures;
 import mmm.coffee.mojo.restapi.shared.SupportedFramework;
 import org.junit.jupiter.api.BeforeEach;
@@ -62,12 +65,12 @@ class WebFluxCatalogIT {
     private TemplateCatalog catalog;
 
     final private Map<String,Object> projectProperties = new HashMap<>();
-    final private Map<String,Object> endpointProperties = new HashMap<>();
+    private Map<String,Object> endpointProperties = new HashMap<>();
 
     final private Configuration freemarkerConfiguration = ConfigurationFactory.defaultConfiguration();
 
     @BeforeEach
-    public void setUpEachTime() {
+    public void setUpEachTime() throws Exception {
         catalog = loadWebFluxCatalog();
 
         projectProperties.clear();
@@ -88,15 +91,23 @@ class WebFluxCatalogIT {
 
         populateDependencyKeys();
 
-        // These are the properties in the lexical scope of the endpoint-scope templates
-        endpointProperties.putAll(projectProperties);
-        endpointProperties.put("entityName", "Widget");
-        endpointProperties.put("entityVarName", "widget");
-        endpointProperties.put("entityLowerCaseName", "Widget".toLowerCase());
-        endpointProperties.put("packageName", BASE_PACKAGE + ".endpoint.widget");
-        endpointProperties.put("packagePath", BASE_PACKAGE_PATH + "/endpoint/widget");
-        endpointProperties.put("basePath", "/widget");
-        endpointProperties.put("tableName", "Widget");
+        // -----------------------------------------------------------
+        // Define the lexical scope consumed by the endpoint templates
+        // -----------------------------------------------------------
+
+        // the (hypothetical) command line options when constructing an endpoint
+        final String resource = "Widget";
+        final String route = "/widget";
+        Map<String,Object> cmdLineOptions = toCommandLineOptions("--resource " + resource + " --route " + route);
+
+        // The (fake) content of the mojo.properties file
+        org.apache.commons.configuration2.Configuration mojoProps = buildFakeMojoProperties(BASE_PACKAGE, BASE_PACKAGE_PATH);
+
+        // Now build the lexical scope
+        EndpointLexicalScopeFactory factory = new EndpointLexicalScopeFactory();
+        factory.setMojoProps(mojoProps);
+        factory.setCommandLineOptions(cmdLineOptions);
+        endpointProperties = factory.createLexicalScope();
     }
 
     /**
@@ -366,7 +377,10 @@ class WebFluxCatalogIT {
 
     }
 
-
+    // ---------------------------------------------------------------------------------
+    // Helper methods
+    // ---------------------------------------------------------------------------------
+    
     /**
      * Fetches the template that produces the build.gradle file
      */
@@ -381,5 +395,49 @@ class WebFluxCatalogIT {
     private Optional<CatalogEntry> getApplicationDotPropertiesTemplate() {
         List<CatalogEntry> entries = catalog.filterByNameLike("ApplicationDotProperties");
         return entries.stream().findFirst();
+    }
+
+    /**
+     * Converts the command line string into a Map equivalent to the one produced by SubcommandCreateEndpoint
+     * and passed to the concrete EndpointGenerator.
+     *
+     * @param commandLine a string containing values equivalent to what a user enters on the command line
+     * @return a Map representation of those command line arguments
+     */
+    private Map<String,Object> toCommandLineOptions(String commandLine) {
+        String[] inputs = toArgV(commandLine);
+
+        Map<String,Object> map = new HashMap<>();
+
+        for (int i = 0; i < inputs.length; i++) {
+            if (inputs[i].equals("--resource")) {
+                map.put("resource", inputs[i+1]);
+                i++;
+            }
+            if (inputs[i].equals("--route")) {
+                map.put("route", inputs[i+1]);
+                i++;
+            }
+        }
+        return map;
+    }
+
+    /**
+     * Converts a String into an array of tokens, using spaces as the token delimiter
+     */
+    private String[] toArgV(String s) {
+        return s.split("\\s");
+    }
+
+    /**
+     * Returns a org.apache.commons.configuration2.Configuration equivalent to what is found in a mojo.properties file
+     * (Not to be confused with a FreeMarker Configuration)
+     */
+    private org.apache.commons.configuration2.Configuration buildFakeMojoProperties(String basePackage, String basePath) throws Exception {
+        Environment.addVariable(ProjectKeys.BASE_PACKAGE, basePackage);
+        Environment.addVariable(ProjectKeys.BASE_PATH, basePath);
+        Environment.addVariable(ProjectKeys.FRAMEWORK, SupportedFramework.WEBFLUX.toString());
+
+        return new MojoProperties().getConfiguration();
     }
 }

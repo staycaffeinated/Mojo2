@@ -23,11 +23,8 @@ import mmm.coffee.mojo.catalog.CatalogEntry;
 import mmm.coffee.mojo.catalog.TemplateCatalog;
 import mmm.coffee.mojo.exception.MojoException;
 import mmm.coffee.mojo.restapi.generator.ConfigurationFactory;
-import mmm.coffee.mojo.restapi.generator.project.ProjectKeys;
 import mmm.coffee.mojo.restapi.generator.TemplateHandler;
-import mmm.coffee.mojo.restapi.generator.helpers.MojoUtils;
 import mmm.coffee.mojo.restapi.generator.helpers.MustacheExpressionResolver;
-import mmm.coffee.mojo.restapi.generator.helpers.NamingRules;
 
 import java.io.File;
 import java.util.*;
@@ -70,7 +67,7 @@ public abstract class AbstractEndpointGenerator implements Generator {
         EndpointLexicalScopeFactory factory = new EndpointLexicalScopeFactory();
         factory.setCommandLineOptions(commandLineOptions);
         factory.setMojoProps(mojoProps);
-        var map = factory.create();
+        var map = factory.createLexicalScope();
         map.forEach((K,V) -> { lexicalScope.put(K,V); });
     }
     

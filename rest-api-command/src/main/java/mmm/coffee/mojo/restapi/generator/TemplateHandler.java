@@ -34,7 +34,7 @@ import java.util.Map;
 @Builder
 @RequiredArgsConstructor
 public class TemplateHandler {
-    // The CatalogEntry tells us which ST template to load
+    // The CatalogEntry tells us which template to load
     // and where to write the output of the rendered template
     private final CatalogEntry catalogEntry;
 

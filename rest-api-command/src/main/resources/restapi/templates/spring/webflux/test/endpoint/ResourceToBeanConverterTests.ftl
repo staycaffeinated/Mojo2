@@ -21,8 +21,8 @@ class ${endpoint.entityName}ResourceToBeanConverterTests {
 		final Long expectedPublicId = 12345L;
 		final String expectedText = "hello world";
 
-		${endpoint.entityName}Resource pojo = ${endpoint.entityName}Resource.builder().resourceId(expectedPublicId).text(expectedText).build();
-		${endpoint.entityName} ejb = converterUnderTest.convert(pojo);
+		${endpoint.pojoName} pojo = ${endpoint.pojoName}.builder().resourceId(expectedPublicId).text(expectedText).build();
+		${endpoint.ejbName} ejb = converterUnderTest.convert(pojo);
 
 		assertThat(ejb).isNotNull();
 		assertThat(ejb.getResourceId()).isEqualTo(expectedPublicId);
@@ -41,20 +41,20 @@ class ${endpoint.entityName}ResourceToBeanConverterTests {
 		final Long itemThree_expectedPublicId = 5000L;
 		final String itemThree_expectedText = "sgt pepper";
 
-		${endpoint.entityName}Resource itemOne = ${endpoint.entityName}Resource.builder().resourceId(itemOne_expectedPublicId)
+		${endpoint.pojoName} itemOne = ${endpoint.pojoName}.builder().resourceId(itemOne_expectedPublicId)
 				.text(itemOne_expectedText).build();
-		${endpoint.entityName}Resource itemTwo = ${endpoint.entityName}Resource.builder().resourceId(itemTwo_expectedPublicId)
+		${endpoint.pojoName} itemTwo = ${endpoint.pojoName}.builder().resourceId(itemTwo_expectedPublicId)
 				.text(itemTwo_expectedText).build();
-		${endpoint.entityName}Resource itemThree = ${endpoint.entityName}Resource.builder().resourceId(itemThree_expectedPublicId)
+		${endpoint.pojoName} itemThree = ${endpoint.pojoName}.builder().resourceId(itemThree_expectedPublicId)
 				.text(itemThree_expectedText).build();
 
-		ArrayList<${endpoint.entityName}Resource> list = new ArrayList<>();
+		ArrayList<${endpoint.pojoName}> list = new ArrayList<>();
 		list.add(itemOne);
 		list.add(itemTwo);
 		list.add(itemThree);
 
 		// When
-		List<${endpoint.entityName}> results = converterUnderTest.convert(list);
+		List<${endpoint.ejbName}> results = converterUnderTest.convert(list);
 
 		// Then expect the fields of the converted items to match the original items
 		assertThat(results.size()).isEqualTo(list.size());
@@ -66,20 +66,20 @@ class ${endpoint.entityName}ResourceToBeanConverterTests {
 	@Test
 	void whenConvertingNullObject_expectNullPointerException() {
 		assertThrows(NullPointerException.class,
-            () -> converterUnderTest.convert((${endpoint.entityName}Resource) null));
+            () -> converterUnderTest.convert((${endpoint.pojoName}) null));
 	}
 
 	@Test
 	void whenConvertingNullList_expectNullPointerException() {
 		assertThrows(NullPointerException.class,
-			() -> converterUnderTest.convert((List<${endpoint.entityName}Resource>) null));
+			() -> converterUnderTest.convert((List<${endpoint.pojoName}>) null));
 	}
 
     @Test
     void shouldPopulateAllFields() {
-        ${endpoint.entityName}Resource resource = ${endpoint.entityName}Resource.builder().resourceId(100L).text("hello world").build();
+        ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(100L).text("hello world").build();
 
-        ${endpoint.entityName} bean = converterUnderTest.convert(resource);
+        ${endpoint.ejbName} bean = converterUnderTest.convert(resource);
         assertThat(bean.getResourceId()).isEqualTo(resource.getResourceId());
         assertThat(bean.getText()).isEqualTo(resource.getText());
     }
@@ -87,7 +87,7 @@ class ${endpoint.entityName}ResourceToBeanConverterTests {
 	// ------------------------------------------------------------------
 	// Helper methods
 	// ------------------------------------------------------------------
-	private boolean fieldsMatch(${endpoint.entityName}Resource expected, ${endpoint.entityName} actual) {
+	private boolean fieldsMatch(${endpoint.pojoName} expected, ${endpoint.ejbName} actual) {
 		if (!Objects.equals(expected.getResourceId(), actual.getResourceId()))
 			return false;
 		if (!Objects.equals(expected.getText(), actual.getText()))

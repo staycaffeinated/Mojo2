@@ -13,7 +13,7 @@ class ${endpoint.entityName}EventTests {
 
     @Test
     void shouldReturnEventTypeOfCreated() {
-        ${endpoint.entityName}Resource resource = ${endpoint.entityName}Resource.builder().resourceId(1000L).text("Hello world").build();
+        ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(1000L).text("Hello world").build();
         ${endpoint.entityName}Event event = new ${endpoint.entityName}Event(${endpoint.entityName}Event.CREATED, resource);
 
    	    assertThat(event.getEventType()).isEqualTo(${endpoint.entityName}Event.CREATED);
@@ -21,7 +21,7 @@ class ${endpoint.entityName}EventTests {
 
     @Test
     void shouldReturnEventTypeOfUpdated() {
-        ${endpoint.entityName}Resource resource = ${endpoint.entityName}Resource.builder().resourceId(1000L).text("Hello world").build();
+        ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(1000L).text("Hello world").build();
         ${endpoint.entityName}Event event = new ${endpoint.entityName}Event(${endpoint.entityName}Event.UPDATED, resource);
 
    	    assertThat(event.getEventType()).isEqualTo(${endpoint.entityName}Event.UPDATED);
@@ -29,7 +29,7 @@ class ${endpoint.entityName}EventTests {
 
     @Test
     void shouldReturnEventTypeOfDeleted() {
-        ${endpoint.entityName}Resource resource = ${endpoint.entityName}Resource.builder().resourceId(1000L).text("Hello world").build();
+        ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(1000L).text("Hello world").build();
         ${endpoint.entityName}Event event = new ${endpoint.entityName}Event(${endpoint.entityName}Event.DELETED, resource);
 
    	    assertThat(event.getEventType()).isEqualTo(${endpoint.entityName}Event.DELETED);

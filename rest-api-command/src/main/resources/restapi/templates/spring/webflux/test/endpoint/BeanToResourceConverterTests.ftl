@@ -20,8 +20,8 @@ class ${endpoint.entityName}BeanToResourceConverterTests {
 		final Long expectedPublicId = 12345L;
 		final String expectedText = "hello world";
 
-		${endpoint.entityName} ejb = ${endpoint.entityName}.builder().resourceId(expectedPublicId).id(0L).text(expectedText).build();
-		${endpoint.entityName}Resource pojo = converterUnderTest.convert(ejb);
+		${endpoint.ejbName} ejb = ${endpoint.ejbName}.builder().resourceId(expectedPublicId).id(0L).text(expectedText).build();
+		${endpoint.pojoName} pojo = converterUnderTest.convert(ejb);
 
 		assertThat(pojo).isNotNull();
 		assertThat(pojo.getResourceId()).isEqualTo(expectedPublicId);
@@ -43,20 +43,20 @@ class ${endpoint.entityName}BeanToResourceConverterTests {
 		final Long itemThree_expectedDatabaseId = 9341L;
 		final String itemThree_expectedText = "sgt pepper";
 
-		${endpoint.entityName} itemOne = ${endpoint.entityName}.builder().resourceId(itemOne_expectedPublicId).text(itemOne_expectedText)
+		${endpoint.ejbName} itemOne = ${endpoint.ejbName}.builder().resourceId(itemOne_expectedPublicId).text(itemOne_expectedText)
 				.id(itemOne_expectedDatabaseId).build();
-		${endpoint.entityName} itemTwo = ${endpoint.entityName}.builder().resourceId(itemTwo_expectedPublicId).text(itemTwo_expectedText)
+		${endpoint.ejbName} itemTwo = ${endpoint.ejbName}.builder().resourceId(itemTwo_expectedPublicId).text(itemTwo_expectedText)
 				.id(itemTwo_expectedDatabaseId).build();
-		${endpoint.entityName} itemThree = ${endpoint.entityName}.builder().resourceId(itemThree_expectedPublicId).text(itemThree_expectedText)
+		${endpoint.ejbName} itemThree = ${endpoint.ejbName}.builder().resourceId(itemThree_expectedPublicId).text(itemThree_expectedText)
 				.id(itemThree_expectedDatabaseId).build();
 
-		ArrayList<${endpoint.entityName}> list = new ArrayList<>();
+		ArrayList<${endpoint.ejbName}> list = new ArrayList<>();
 		list.add(itemOne);
 		list.add(itemTwo);
 		list.add(itemThree);
 
 		// When
-		List<${endpoint.entityName}Resource> results = converterUnderTest.convert(list);
+		List<${endpoint.pojoName}> results = converterUnderTest.convert(list);
 
 		// Then expect the fields of the converted items to match the original items
 		assertThat(results.size()).isEqualTo(list.size());
@@ -67,12 +67,12 @@ class ${endpoint.entityName}BeanToResourceConverterTests {
 
 	@Test
 	void whenBeanIsNull_expectNullPointerException() {
-		assertThrows(NullPointerException.class, () -> converterUnderTest.convert((${endpoint.entityName}) null));
+		assertThrows(NullPointerException.class, () -> converterUnderTest.convert((${endpoint.ejbName}) null));
 	}
 
 	@Test
 	void whenListIsNull_expectNullPointerException() {
-		assertThrows(NullPointerException.class, () -> converterUnderTest.convert((List<${endpoint.entityName}>) null));
+		assertThrows(NullPointerException.class, () -> converterUnderTest.convert((List<${endpoint.ejbName}>) null));
 	}
 
     /**
@@ -85,12 +85,12 @@ class ${endpoint.entityName}BeanToResourceConverterTests {
      */
     @Test
     void shouldCopyOnlyExposedProperties() {
-        ${endpoint.entityName} bean = new ${endpoint.entityName}();
+        ${endpoint.ejbName} bean = new ${endpoint.ejbName}();
         bean.setResourceId(12345L);
         bean.setText("hello, world");
         bean.setId(100L);
 
-        ${endpoint.entityName}Resource pojo = converterUnderTest.convert(bean);
+        ${endpoint.pojoName} pojo = converterUnderTest.convert(bean);
         assertThat(pojo.getResourceId()).isEqualTo(bean.getResourceId());
         assertThat(pojo.getText()).isEqualTo(bean.getText());
     }
@@ -98,7 +98,7 @@ class ${endpoint.entityName}BeanToResourceConverterTests {
 	// ------------------------------------------------------------------
 	// Helper methods
 	// ------------------------------------------------------------------
-	private boolean fieldsMatch(${endpoint.entityName} expected, ${endpoint.entityName}Resource actual) {
+	private boolean fieldsMatch(${endpoint.ejbName} expected, ${endpoint.pojoName} actual) {
 		if (!Objects.equals(expected.getResourceId(), actual.getResourceId()))
 			return false;
 		if (!Objects.equals(expected.getText(), actual.getText()))

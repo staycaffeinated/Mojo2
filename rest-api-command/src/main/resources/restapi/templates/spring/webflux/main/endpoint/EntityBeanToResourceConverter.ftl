@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class ${endpoint.entityName}BeanToResourceConverter implements Converter<${endpoint.entityName}, ${endpoint.entityName}Resource> {
+public class ${endpoint.entityName}BeanToResourceConverter implements Converter<${endpoint.ejbName}, ${endpoint.pojoName}> {
 
     /**
      * Convert the source object of type {@code ${endpoint.entityName}} to target type {@code ${endpoint.entityName}Resource}.
@@ -19,17 +19,14 @@ public class ${endpoint.entityName}BeanToResourceConverter implements Converter<
      * @throws IllegalArgumentException if the source cannot be converted to the desired target type
      */
     @Override
-    public ${endpoint.entityName}Resource convert(@NonNull ${endpoint.entityName} source) {
-        return ${endpoint.entityName}Resource.builder()
-                        .resourceId( source.getResourceId() )
-                        .text( source.getText() )
-                        .build();
+    public ${endpoint.pojoName} convert(@NonNull ${endpoint.ejbName} source) {
+        return ${endpoint.pojoName}.builder().resourceId(source.getResourceId()).text(source.getText()).build();
     }
 
     /**
      * Convert a list of EJBs into RestfulResource objects
      */
-    public List<${endpoint.entityName}Resource> convert (@NonNull List<${endpoint.entityName}> sourceList) {
+    public List<${endpoint.pojoName}> convert (@NonNull List<${endpoint.ejbName}> sourceList) {
         return sourceList.stream().map(this::convert).collect(Collectors.toList());
     }
 }

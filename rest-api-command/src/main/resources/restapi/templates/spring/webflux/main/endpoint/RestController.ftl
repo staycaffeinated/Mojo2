@@ -40,7 +40,7 @@ public class ${endpoint.entityName}Controller {
      * Get all
      */
     @GetMapping (value=${endpoint.entityName}Routes.GET_ALL, produces = MediaType.APPLICATION_JSON_VALUE )
-    public Flux<${endpoint.entityName}Resource> getAll${endpoint.entityName}s() {
+    public Flux<${endpoint.pojoName}> getAll${endpoint.entityName}s() {
         return ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s();
     }
 
@@ -49,7 +49,7 @@ public class ${endpoint.entityName}Controller {
      *
      */
     @GetMapping(value=${endpoint.entityName}Routes.GET_ONE, produces = MediaType.APPLICATION_JSON_VALUE )
-    public Mono<${endpoint.entityName}Resource> get${endpoint.entityName}ById(@PathVariable Long id) {
+    public Mono<${endpoint.pojoName}> get${endpoint.entityName}ById(@PathVariable Long id) {
         return ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(id);
     }
     
@@ -66,7 +66,7 @@ public class ${endpoint.entityName}Controller {
 	 */
     @GetMapping(value = ${endpoint.entityName}Routes.GET_STREAM, produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     @ResponseStatus(value = HttpStatus.OK)
-    public Flux<${endpoint.entityName}Resource> get${endpoint.entityName}Stream() {
+    public Flux<${endpoint.pojoName}> get${endpoint.entityName}Stream() {
 	    // This is only an example implementation. Modify this line as needed.
         return ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s().delayElements(Duration.ofMillis(250));
     }
@@ -76,7 +76,7 @@ public class ${endpoint.entityName}Controller {
      */
     @PostMapping (value=${endpoint.entityName}Routes.CREATE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public Mono<ResponseEntity<ResourceIdentity>> create${endpoint.entityName}(@RequestBody @Validated(OnCreate.class) ${endpoint.entityName}Resource resource ) {
+    public Mono<ResponseEntity<ResourceIdentity>> create${endpoint.entityName}(@RequestBody @Validated(OnCreate.class) ${endpoint.pojoName} resource ) {
         Mono<Long> id = ${endpoint.entityVarName}Service.create${endpoint.entityName}(resource);
         return id.map(value -> ResponseEntity.status(HttpStatus.CREATED).body(new ResourceIdentity(value)));
     }
@@ -85,7 +85,7 @@ public class ${endpoint.entityName}Controller {
      * Update by resourceId
      */
     @PutMapping(value=${endpoint.entityName}Routes.UPDATE, produces = MediaType.APPLICATION_JSON_VALUE )
-    public void update${endpoint.entityName}(@PathVariable Long id, @RequestBody @Validated(OnUpdate.class) ${endpoint.entityName}Resource ${endpoint.entityVarName}) {
+    public void update${endpoint.entityName}(@PathVariable Long id, @RequestBody @Validated(OnUpdate.class) ${endpoint.pojoName} ${endpoint.entityVarName}) {
         if (!Objects.equals(id, ${endpoint.entityVarName}.getResourceId())) {
             log.error("Update declined: mismatch between query string identifier, {}, and resource identifier, {}", id, ${endpoint.entityVarName}.getResourceId());
             throw new UnprocessableEntityException("Mismatch between the identifiers in the URI and the payload");
@@ -99,7 +99,7 @@ public class ${endpoint.entityName}Controller {
     @DeleteMapping(value=${endpoint.entityName}Routes.DELETE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete${endpoint.entityName}(@PathVariable Long id) {
-        Mono<${endpoint.entityName}Resource> resource = ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(id);
+        Mono<${endpoint.pojoName}> resource = ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(id);
         resource.subscribe(value -> ${endpoint.entityVarName}Service.delete${endpoint.entityName}ByResourceId(id));
     }
 }

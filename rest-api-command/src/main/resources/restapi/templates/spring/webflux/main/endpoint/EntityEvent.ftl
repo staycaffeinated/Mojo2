@@ -17,7 +17,7 @@ public class ${endpoint.entityName}Event extends ApplicationEvent {
 
 	private final String eventType;
 
-	public ${endpoint.entityName}Event(String eventType, ${endpoint.entityName}Resource resource) {
+	public ${endpoint.entityName}Event(String eventType, ${endpoint.pojoName} resource) {
 		super(resource);
 		this.eventType = eventType;
 	}

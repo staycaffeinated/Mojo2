@@ -58,7 +58,7 @@ class EndpointLexicalScopeFactoryTests {
 
         factoryUnderTest.setCommandLineOptions(cmdLineOptions);
 
-        Map<String,Object> lexicalContext = factoryUnderTest.create();
+        Map<String,Object> lexicalContext = factoryUnderTest.createLexicalScope();
 
         final String expectedEjbName = NamingRules.toEjbClassName(resource);
         final String expectedPojoName = NamingRules.toPojoClassName(resource);

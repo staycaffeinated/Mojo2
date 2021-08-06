@@ -38,7 +38,7 @@ class ${endpoint.entityName}ControllerTest {
 </#noparse>
    String applicationBasePath;
    private WebTestClient client;
-   private ${endpoint.entityName}Resource ${endpoint.entityVarName};
+   private ${endpoint.pojoName} ${endpoint.entityVarName};
 
    @Autowired
    private ${endpoint.entityName}Service ${endpoint.entityVarName}Service;
@@ -72,16 +72,16 @@ class ${endpoint.entityName}ControllerTest {
 
     @Test
     void testGetCatalogItemsStream() throws Exception {
-        FluxExchangeResult<${endpoint.entityName}Resource> result
+        FluxExchangeResult<${endpoint.pojoName}> result
                 = this.client.get()
                       .uri(${endpoint.entityName}Routes.GET_STREAM)
                       .accept(MediaType.TEXT_EVENT_STREAM)
                       .exchange()
                       .expectStatus().isOk()
-                      .returnResult(${endpoint.entityName}Resource.class);
+                      .returnResult(${endpoint.pojoName}.class);
 
 
-        Flux<${endpoint.entityName}Resource> events = result.getResponseBody();
+        Flux<${endpoint.pojoName}> events = result.getResponseBody();
 
         StepVerifier.create(events)
                     .expectSubscription()
@@ -94,12 +94,12 @@ class ${endpoint.entityName}ControllerTest {
 
 	@Test
 	void testCreate${endpoint.entityName}() {
-		${endpoint.entityName}Resource ${endpoint.entityVarName} = ${endpoint.entityName}Generator.generate${endpoint.entityName}();
+		${endpoint.pojoName} ${endpoint.entityVarName} = ${endpoint.entityName}Generator.generate${endpoint.entityName}();
 		${endpoint.entityVarName}.setResourceId(null);
 
 		this.client.post().uri(${endpoint.entityName}Routes.CREATE)
                     .contentType(MediaType.APPLICATION_JSON)
-				    .body(Mono.just( ${endpoint.entityVarName} ), ${endpoint.entityName}Resource.class)
+				    .body(Mono.just( ${endpoint.entityVarName} ), ${endpoint.pojoName}.class)
                     .exchange()
                     .expectStatus().isCreated()
                     .expectHeader().contentType(MediaType.APPLICATION_JSON);
@@ -113,7 +113,7 @@ class ${endpoint.entityName}ControllerTest {
 
 		this.client.put().uri(replaceId(${endpoint.entityName}Routes.UPDATE))
                     .contentType(MediaType.APPLICATION_JSON)
-				    .body(Mono.just(${endpoint.entityVarName}), ${endpoint.entityName}Resource.class)
+				    .body(Mono.just(${endpoint.entityVarName}), ${endpoint.pojoName}.class)
                     .exchange()
                     .expectStatus().isOk();
 	}
@@ -140,7 +140,7 @@ class ${endpoint.entityName}ControllerTest {
 		${endpoint.entityVarName}.setResourceId(null);
 
 		EntityExchangeResult<ResourceIdentity> result = this.client.post().uri(${endpoint.entityName}Routes.CREATE)
-				.contentType(MediaType.APPLICATION_JSON).body(Mono.just(${endpoint.entityVarName}), ${endpoint.entityName}Resource.class).exchange().expectStatus()
+				.contentType(MediaType.APPLICATION_JSON).body(Mono.just(${endpoint.entityVarName}), ${endpoint.pojoName}.class).exchange().expectStatus()
 				.isCreated().expectBody(ResourceIdentity.class).returnResult();
 
 		// After the ${endpoint.entityVarName} is created, the endpoint returns the resourceId of the

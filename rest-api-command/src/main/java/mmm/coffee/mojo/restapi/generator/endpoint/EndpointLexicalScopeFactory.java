@@ -44,7 +44,7 @@ public class EndpointLexicalScopeFactory {
         this.mojoProps = configuration;
     }
 
-    public Map<String,Object> create() {
+    public Map<String,Object> createLexicalScope() {
         lexicalScope.put(ProjectKeys.BASE_PATH, mojoProps.getString(ProjectKeys.BASE_PATH));
         lexicalScope.put(ProjectKeys.BASE_PACKAGE, mojoProps.getString(ProjectKeys.BASE_PACKAGE));
         lexicalScope.put(ProjectKeys.FRAMEWORK, mojoProps.getString(ProjectKeys.FRAMEWORK));

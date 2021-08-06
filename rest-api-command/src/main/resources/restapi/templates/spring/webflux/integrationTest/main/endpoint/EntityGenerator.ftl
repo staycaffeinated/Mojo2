@@ -2,8 +2,8 @@
 
 package ${endpoint.packageName};
 
-class ${endpoint.entityName}Generator {
-    static ${endpoint.entityName}Resource generate${endpoint.entityName}() {
-        return ${endpoint.entityName}Resource.builder().text("sample text").build();
+class ${endpoint.pojoName}Generator {
+    static ${endpoint.pojoName} generate${endpoint.entityName}() {
+        return ${endpoint.pojoName}.builder().text("sample text").build();
     }
 }

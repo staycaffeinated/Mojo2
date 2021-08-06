@@ -18,9 +18,9 @@ import javax.validation.constraints.Null;
 // These 2 lines specifically resolve this exception:
 //    com.fasterxml.jackson.databind.exc.InvalidDefinitionException: Cannot construct instance...
 // See https://www.thecuriousdev.org/lombok-builder-with-jackson/
-@JsonDeserialize(builder = ${endpoint.entityName}Resource.DefaultBuilder.class)
+@JsonDeserialize(builder = ${endpoint.pojoName}.DefaultBuilder.class)
 @Builder(builderClassName = "DefaultBuilder", toBuilder = true)
-public class ${endpoint.entityName}Resource implements RestfulResource<Long> {
+public class ${endpoint.pojoName} implements RestfulResource<Long> {
 
     @Null(groups = OnCreate.class)
     @NotNull(groups = OnUpdate.class)
