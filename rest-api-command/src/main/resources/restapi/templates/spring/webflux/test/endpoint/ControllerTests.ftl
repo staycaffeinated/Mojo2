@@ -52,7 +52,7 @@ class ${endpoint.entityName}ControllerTests {
 
 
     @Test
-    void testGetOne${endpoint.entityName}() {
+    void shouldGetOne${endpoint.entityName}() {
         final Long expectedResourceID = 1000L;
         ${endpoint.pojoName} pojo = ${endpoint.pojoName}.builder().text("testGetOne").resourceId(expectedResourceID).build();
         ${endpoint.ejbName} ejb = ${endpoint.ejbName}.builder().resourceId(expectedResourceID).text("testGetOne").build();
@@ -71,7 +71,7 @@ class ${endpoint.entityName}ControllerTests {
     }
 
     @Test
-    void testGetAll${endpoint.entityName}s() {
+    void shouldGetAll${endpoint.entityName}s() {
         List<${endpoint.pojoName}> list = create${endpoint.entityName}List();
         Flux<${endpoint.pojoName}> flux = Flux.fromIterable(list);
 
@@ -83,7 +83,7 @@ class ${endpoint.entityName}ControllerTests {
     }
 
     @Test
-    void testCreate${endpoint.entityName}() {
+    void shouldCreate${endpoint.entityName}() {
         ${endpoint.pojoName} pojo = create${endpoint.entityName}();
         pojo.setResourceId(null);
         Long expectedId = 5000L;
@@ -96,7 +96,7 @@ class ${endpoint.entityName}ControllerTests {
     }
 
     @Test
-    void testUpdate${endpoint.entityName}() {
+    void shouldUpdate${endpoint.entityName}() {
         ${endpoint.pojoName} pojo = create${endpoint.entityName}();
         webClient.put().uri(${endpoint.entityName}Routes.UPDATE, pojo.getResourceId())
                 .contentType(MediaType.APPLICATION_JSON)
@@ -115,7 +115,7 @@ class ${endpoint.entityName}ControllerTests {
 	}
 
     @Test
-    void testDelete${endpoint.entityName}() {
+    void shouldDelete${endpoint.entityName}() {
         ${endpoint.pojoName} pojo = create${endpoint.entityName}();
         when(mock${endpoint.entityName}Service.find${endpoint.entityName}ByResourceId(pojo.getResourceId())).thenReturn(Mono.just(pojo));
 
@@ -123,7 +123,7 @@ class ${endpoint.entityName}ControllerTests {
     }
 
  	@Test
-	void testGet${endpoint.entityName}sAsStream() throws Exception {
+	void shouldGet${endpoint.entityName}sAsStream() throws Exception {
 		// Given
 		List<${endpoint.pojoName}> resourceList = create${endpoint.entityName}List();
 		given(mock${endpoint.entityName}Service.findAll${endpoint.entityName}s()).willReturn(Flux.fromIterable(resourceList));

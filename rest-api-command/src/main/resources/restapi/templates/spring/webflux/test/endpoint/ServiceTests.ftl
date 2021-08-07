@@ -59,7 +59,7 @@ class ${endpoint.entityName}ServiceTests {
 
 
     @Test
-    void testFindAll${endpoint.entityName}s() {
+    void shouldFindAll${endpoint.entityName}s() {
         Flux<${endpoint.ejbName}> ejbList = convertToFlux(create${endpoint.entityName}List());
         given(mockRepository.findAll()).willReturn(ejbList);
 
@@ -70,7 +70,7 @@ class ${endpoint.entityName}ServiceTests {
 
 
     @Test
-    void testFind${endpoint.entityName}ByResourceId() {
+    void shouldFind${endpoint.entityName}ByResourceId() {
         // Given
         ${endpoint.ejbName} expectedEJB = create${endpoint.entityName}();
         Long expectedId = 1000L;
@@ -90,7 +90,7 @@ class ${endpoint.entityName}ServiceTests {
 
 
     @Test
-    void testFindAllByText() {
+    void shouldFindAllByText() {
         // Given
         final String expectedText = "Lorim ipsum";
         List<${endpoint.ejbName}> expectedRows = create${endpoint.entityName}ListHavingSameTextValue(expectedText);
@@ -110,7 +110,7 @@ class ${endpoint.entityName}ServiceTests {
 
 
     @Test
-    void testCreate${endpoint.entityName}() {
+    void shouldCreate${endpoint.entityName}() {
         // Given
         Long expectedResourceId = 123456789L;
         // what the client submits to the service
@@ -132,7 +132,7 @@ class ${endpoint.entityName}ServiceTests {
 
 
     @Test
-    void testUpdate${endpoint.entityName}() {
+    void shouldUpdate${endpoint.entityName}() {
         // Given
         // what the client submits
         ${endpoint.pojoName} submittedPOJO = ${endpoint.pojoName}.builder().text("Updated value").resourceId(1000L).build();
@@ -152,7 +152,7 @@ class ${endpoint.entityName}ServiceTests {
 
 
     @Test
-    void testDelete${endpoint.entityName}() {
+    void shouldDelete${endpoint.entityName}() {
         Long deletedId = 1000L;
         given(mockRepository.deleteByResourceId(deletedId)).willReturn(Mono.just(deletedId));
 
