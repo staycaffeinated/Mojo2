@@ -34,4 +34,6 @@ public class SpringWebMvcEndpointGenerator extends AbstractEndpointGenerator {
         super.initialize();
         templateCatalog = new TemplateCatalog(Catalogs.WEBMVC_CATALOG);
     }
+
+    public String toString() { return this.getClass().getSimpleName(); }
 }

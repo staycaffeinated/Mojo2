@@ -7,13 +7,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ${endpoint.entityName}Repository extends JpaRepository<${endpoint.entityName}, Long> {
+public interface ${endpoint.entityName}Repository extends JpaRepository<${endpoint.ejbName}, Long> {
 
-    Optional<${endpoint.entityName}> findByResourceId ( Long id );
+    Optional<${endpoint.ejbName}> findByResourceId ( Long id );
 
     /* returns the number of entities deleted */
     Long deleteByResourceId( Long id );
 
-    Page<${endpoint.entityName}> findByText(String text, Pageable pageable);
+    Page<${endpoint.ejbName}> findByText(String text, Pageable pageable);
 }
 

@@ -65,7 +65,7 @@ class WebFluxCatalogIT {
     private TemplateCatalog catalog;
 
     final private Map<String,Object> projectProperties = new HashMap<>();
-    private Map<String,Object> endpointProperties = new HashMap<>();
+    private Map<String,Object> endpointProperties;
 
     final private Configuration freemarkerConfiguration = ConfigurationFactory.defaultConfiguration();
 
@@ -74,7 +74,6 @@ class WebFluxCatalogIT {
         catalog = loadWebFluxCatalog();
 
         projectProperties.clear();
-        endpointProperties.clear();
 
         // These are the properties in the lexical scope of the project-scope templates
         projectProperties.put("basePackage", BASE_PACKAGE);

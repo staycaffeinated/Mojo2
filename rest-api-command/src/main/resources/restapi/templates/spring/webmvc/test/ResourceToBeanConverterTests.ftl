@@ -15,23 +15,19 @@ class ${endpoint.entityName}ResourceToBeanConverterTests {
 
     @Test
     void shouldReturnNullWhenResourceIsNull() {
-        assertThrows (NullPointerException.class, () ->  {
-            converter.convert((${endpoint.entityName}Resource) null);
-        });
+        assertThrows (NullPointerException.class, () ->  { converter.convert((${endpoint.pojoName}) null); });
     }
 
     @Test
     void shouldReturnNullWhenListIsNull() {
-        assertThrows (NullPointerException.class, () -> {
-            converter.convert((List<${endpoint.entityName}Resource>)null);
-        });
+        assertThrows (NullPointerException.class, () -> { converter.convert((List<${endpoint.pojoName}>)null); });
     }
 
     @Test
     void shouldPopulateAllFields() {
-        ${endpoint.entityName}Resource resource = ${endpoint.entityName}Resource.builder().resourceId(100L).text("hello world").build();
+        ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(100L).text("hello world").build();
 
-        ${endpoint.entityName} bean = converter.convert(resource);
+        ${endpoint.ejbName} bean = converter.convert(resource);
         assertThat(bean.getResourceId()).isEqualTo(resource.getResourceId());
         assertThat(bean.getText()).isEqualTo(resource.getText());
     }

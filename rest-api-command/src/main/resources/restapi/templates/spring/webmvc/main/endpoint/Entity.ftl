@@ -17,7 +17,7 @@ import javax.validation.constraints.NotEmpty;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ${endpoint.entityName} {
+public class ${endpoint.ejbName} {
 
     /*
      * This identifier is never exposed to the outside world because

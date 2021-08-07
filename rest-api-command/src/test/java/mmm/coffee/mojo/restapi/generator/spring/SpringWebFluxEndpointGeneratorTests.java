@@ -78,6 +78,8 @@ class SpringWebFluxEndpointGeneratorTests {
 
         // when
         generatorUnderTest.setUpLexicalScope(lexicalScope, configuration);
+        
+        System.out.printf(String.format("===> Framework: %s%n", configuration.getString(ProjectKeys.FRAMEWORK)));
 
         // We test for the presence of properties set here, plus properties
         // auto-determined by our explict values

@@ -34,4 +34,6 @@ public class SpringWebFluxEndpointGenerator extends AbstractEndpointGenerator {
         super.initialize();
         templateCatalog = new TemplateCatalog(Catalogs.WEBFLUX_CATALOG);
     }
+
+    public String toString() { return this.getClass().getSimpleName(); }
 }

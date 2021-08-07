@@ -15,6 +15,11 @@
  */
 package mmm.coffee.mojo.restapi.shared;
 
+import lombok.NonNull;
+
+import java.util.Locale;
+import java.util.function.Supplier;
+
 /**
  * This indicates whether the generated project will
  * use the spring-mvc libraries or spring-webflux libraries.
@@ -34,4 +39,10 @@ public enum SupportedFramework {
 
     @Override
     public String toString() { return modelName; }
+    
+    public static SupportedFramework convert(@NonNull String s) {
+        if (s.toLowerCase(Locale.ROOT).equals(WEBMVC.modelName)) return WEBMVC;
+        if (s.toLowerCase(Locale.ROOT).equals(WEBFLUX.modelName)) return WEBFLUX;
+        return UNDEFINED;
+    }
 }

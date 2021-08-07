@@ -56,9 +56,9 @@ class ${endpoint.entityName}ServiceTests {
 
     @BeforeEach
     void setUpEachTime() {
-        ${endpoint.entityName} item1 = new ${endpoint.entityName}(1L, 100L, "text 1");
-        ${endpoint.entityName} item2 = new ${endpoint.entityName}(2L, 200L, "text 2");
-        ${endpoint.entityName} item3 = new ${endpoint.entityName}(3L, 300L, "text 3");
+        ${endpoint.ejbName} item1 = new ${endpoint.ejbName}(1L, 100L, "text 1");
+        ${endpoint.ejbName} item2 = new ${endpoint.ejbName}(2L, 200L, "text 2");
+        ${endpoint.ejbName} item3 = new ${endpoint.ejbName}(3L, 300L, "text 3");
 
         ${endpoint.entityVarName}List = new LinkedList<>();
         ${endpoint.entityVarName}List.add( item1 );
@@ -76,7 +76,7 @@ class ${endpoint.entityName}ServiceTests {
         void shouldReturnAllRowsWhenRepositoryIsNotEmpty() {
             given(${endpoint.entityVarName}Repository.findAll() ).willReturn( ${endpoint.entityVarName}List );
 
-            List<${endpoint.entityName}Resource> result = ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s();
+            List<${endpoint.pojoName}> result = ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s();
 
             then(result).isNotNull();       // must never return null
             then(result.size()).isEqualTo( ${endpoint.entityVarName}List.size()); // must return all rows
@@ -86,7 +86,7 @@ class ${endpoint.entityName}ServiceTests {
         void shouldReturnEmptyListWhenRepositoryIsEmpty() {
             given( ${endpoint.entityVarName}Repository.findAll() ).willReturn( new ArrayList<>() );
 
-            List<${endpoint.entityName}Resource> result = ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s();
+            List<${endpoint.pojoName}> result = ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s();
 
             then(result).isNotNull();       // must never get null back
             then(result.size()).isZero();   // must have no content for this edge case
@@ -104,13 +104,13 @@ class ${endpoint.entityName}ServiceTests {
             Pageable pageable = PageRequest.of(1,20);
             int start = (int) pageable.getOffset();
             int end = (Math.min((start + pageable.getPageSize()), ${endpoint.entityVarName}List.size()));
-            Page<${endpoint.entityName}> page = new PageImpl<>(${endpoint.entityVarName}List, pageable, ${endpoint.entityVarName}List.size());
+            Page<${endpoint.ejbName}> page = new PageImpl<>(${endpoint.entityVarName}List, pageable, ${endpoint.entityVarName}List.size());
 
             // we're not validating what text gets passed to the repo, only that a result set comes back
             given(${endpoint.entityVarName}Repository.findByText(any(), any(Pageable.class))).willReturn(page);
 
             // when/then
-            List<${endpoint.entityName}Resource> result = ${endpoint.entityVarName}Service.findByText("text", 1, 20);
+            List<${endpoint.pojoName}> result = ${endpoint.entityVarName}Service.findByText("text", 1, 20);
 
             then(result).isNotNull();       // must never return null
 
@@ -122,7 +122,7 @@ class ${endpoint.entityName}ServiceTests {
         void shouldReturnEmptyListWhenNoDataFound() {
             given( ${endpoint.entityVarName}Repository.findByText(any(), any(Pageable.class))).willReturn( Page.empty() );
 
-            List<${endpoint.entityName}Resource> result = ${endpoint.entityVarName}Service.findByText("foo", 1, 100);
+            List<${endpoint.pojoName}Resource> result = ${endpoint.entityVarName}Service.findByText("foo", 1, 100);
 
             then(result).isNotNull();       // must never get null back
             then(result.size()).isZero();   // must have no content for this edge case
@@ -138,11 +138,11 @@ class ${endpoint.entityName}ServiceTests {
         void shouldReturnOneWhenRepositoryContainsMatch() {
             // given
             Long expectedId = 100L;
-            Optional<${endpoint.entityName}> expected = Optional.of(new ${endpoint.entityName}(1L, expectedId, "sample"));
+            Optional<${endpoint.ejbName}> expected = Optional.of(new ${endpoint.ejbName}(1L, expectedId, "sample"));
             given(${endpoint.entityVarName}Repository.findByResourceId(any())).willReturn(expected);
 
             // when/then
-            Optional<${endpoint.entityName}Resource> actual = ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(expectedId);
+            Optional<${endpoint.pojoName}> actual = ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(expectedId);
 
             assertThat(actual).isNotNull().isPresent();
             assertThat(actual.get().getResourceId()).isEqualTo(expectedId);
@@ -156,7 +156,7 @@ class ${endpoint.entityName}ServiceTests {
             given(${endpoint.entityVarName}Repository.findByResourceId(any())).willReturn(Optional.empty());
 
             // when/then
-            Optional<${endpoint.entityName}Resource> actual = ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(100L);
+            Optional<${endpoint.pojoName}> actual = ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(100L);
 
             assertThat(actual).isNotNull().isNotPresent();
         }
@@ -172,12 +172,12 @@ class ${endpoint.entityName}ServiceTests {
         void shouldCreateOneWhen${endpoint.entityName}ResourceIsWellFormed() {
             // given
             final String sampleText = "sample text";
-            final ${endpoint.entityName} expectedEJB = new ${endpoint.entityName}(1L, 100L, sampleText);
+            final ${endpoint.ejbName} expectedEJB = new ${endpoint.ejbName}(1L, 100L, sampleText);
             given(${endpoint.entityVarName}Repository.save(any())).willReturn(expectedEJB);
 
             // when/then
-            ${endpoint.entityName}Resource sampleData = ${endpoint.entityName}Resource.builder().text(sampleText).build();
-            ${endpoint.entityName}Resource actual = ${endpoint.entityVarName}Service.create${endpoint.entityName}(sampleData);
+            ${endpoint.pojoName} sampleData = ${endpoint.entityName}Resource.builder().text(sampleText).build();
+            ${endpoint.pojoName} actual = ${endpoint.entityVarName}Service.create${endpoint.entityName}(sampleData);
 
             assertThat(actual).isNotNull();
             assertThat(actual.getResourceId()).isNotNull();
@@ -186,8 +186,7 @@ class ${endpoint.entityName}ServiceTests {
 
         @Test
         void shouldThrowNullPointerExceptionWhen${endpoint.entityName}IsNull() {
-            Exception exception = assertThrows (NullPointerException.class,
-                    () ->  ${endpoint.entityVarName}Service.create${endpoint.entityName}(null));
+            Exception exception = assertThrows (NullPointerException.class, () ->  ${endpoint.entityVarName}Service.create${endpoint.entityName}(null));
         }
     }
 
@@ -200,14 +199,14 @@ class ${endpoint.entityName}ServiceTests {
         void shouldUpdateWhenEntityIsFound() {
             // given
             Long resourceId = 100L;
-            ${endpoint.entityName}Resource changedVersion = ${endpoint.entityName}Resource.builder().resourceId(resourceId).text("new text").build();
-            ${endpoint.entityName} originalEJB = new ${endpoint.entityName} (1L, resourceId, "old text");
-            ${endpoint.entityName} updatedEJB = ${endpoint.entityVarName}ResourceToBeanConverter.convert (changedVersion);
+            ${endpoint.pojoName} changedVersion = ${endpoint.pojoName}.builder().resourceId(resourceId).text("new text").build();
+            ${endpoint.ejbName} originalEJB = new ${endpoint.ejbName} (1L, resourceId, "old text");
+            ${endpoint.ejbName} updatedEJB = ${endpoint.entityVarName}ResourceToBeanConverter.convert (changedVersion);
             given(${endpoint.entityVarName}Repository.findByResourceId(any())).willReturn(Optional.of(originalEJB));
             given(${endpoint.entityVarName}Repository.save(any())).willReturn(updatedEJB);
 
             // when/then
-            Optional<${endpoint.entityName}Resource> optional = ${endpoint.entityVarName}Service.update${endpoint.entityName}(changedVersion);
+            Optional<${endpoint.pojoName}> optional = ${endpoint.entityVarName}Service.update${endpoint.entityName}(changedVersion);
             then(optional).isNotNull();
             then(optional.isPresent()).isTrue();
             if (optional.isPresent()) {
@@ -225,8 +224,8 @@ class ${endpoint.entityName}ServiceTests {
             given(${endpoint.entityVarName}Repository.findByResourceId(any())).willReturn(Optional.empty());
 
             // then/when
-            ${endpoint.entityName}Resource changedVersion = ${endpoint.entityName}Resource.builder().resourceId(100L).text("new text").build();
-            Optional<${endpoint.entityName}Resource> result = ${endpoint.entityVarName}Service.update${endpoint.entityName}(changedVersion);
+            ${endpoint.pojoName} changedVersion = ${endpoint.entityName}Resource.builder().resourceId(100L).text("new text").build();
+            Optional<${endpoint.pojoName}> result = ${endpoint.entityVarName}Service.update${endpoint.entityName}(changedVersion);
             then(result.isEmpty()).isTrue();
         }
     }

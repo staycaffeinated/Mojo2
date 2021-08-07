@@ -15,16 +15,12 @@ class ${endpoint.entityName}BeanToResourceConverterTests {
 
     @Test
     void shouldReturnNullWhenResourceIsNull() {
-        assertThrows (NullPointerException.class, () ->  {
-            converter.convert((${endpoint.entityName}) null);
-        });
+        assertThrows (NullPointerException.class, () ->  { converter.convert((${endpoint.ejbName}) null); });
     }
 
     @Test
     void shouldReturnNullWhenListIsNull() {
-        assertThrows (NullPointerException.class, () -> {
-            converter.convert((List<${endpoint.entityName}>)null);
-        });
+        assertThrows (NullPointerException.class, () -> { converter.convert((List<${endpoint.ejbName}>)null); });
     }
 
     /**
@@ -37,11 +33,11 @@ class ${endpoint.entityName}BeanToResourceConverterTests {
      */
     @Test
     void shouldCopyOnlyExposedProperties() {
-        ${endpoint.entityName} bean = new ${endpoint.entityName}();
+        ${endpoint.ejbName} bean = new ${endpoint.ejbName}();
         bean.setResourceId(12345L);
         bean.setText("hello, world");
 
-        ${endpoint.entityName}Resource resource = converter.convert(bean);
+        ${endpoint.pojoName} resource = converter.convert(bean);
         assertThat(resource.getResourceId()).isEqualTo(bean.getResourceId());
         assertThat(resource.getText()).isEqualTo(bean.getText());
     }

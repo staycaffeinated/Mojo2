@@ -16,6 +16,7 @@
 package mmm.coffee.mojo;
 
 import mmm.coffee.mojo.restapi.generator.project.ProjectKeys;
+import mmm.coffee.mojo.restapi.shared.SupportedFramework;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -44,7 +45,7 @@ class RestApiWebFluxIntegrationTests {
         @Test
         @DisplayName("Generate a webflux project withextra features")
         void shouldCreateProjectWithMinimumFeatures() {
-            int rc = cli.execute(toArgV("rest-api create-project --dry-run --package oops.delete_me.ima_mistake --framework webflux --name beta --base-path /beta"));
+            int rc = cli.execute(toArgV("rest-api create-project --framework webflux --dry-run --package oops.delete_me.ima_mistake --name beta --base-path /beta"));
             assertThat(rc).isEqualTo(0);
         }
     }
@@ -57,6 +58,7 @@ class RestApiWebFluxIntegrationTests {
             updateEnv(ProjectKeys.BASE_PACKAGE, "org.example.webflux");
             updateEnv(ProjectKeys.BASE_PATH, "/flux");
             updateEnv(ProjectKeys.APPLICATION_NAME, "flux");
+            updateEnv(ProjectKeys.FRAMEWORK, SupportedFramework.WEBFLUX.toString());
 
             int rc = cli.execute(toArgV("rest-api create-endpoint --dry-run --route /employee --resource Employee"));
             assertThat(rc).isEqualTo(0);

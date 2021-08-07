@@ -17,6 +17,8 @@ package mmm.coffee.mojo.restapi.generator;
 
 import freemarker.template.Configuration;
 import mmm.coffee.mojo.catalog.CatalogEntry;
+import mmm.coffee.mojo.restapi.generator.endpoint.EndpointKeys;
+import mmm.coffee.mojo.restapi.generator.project.ProjectKeys;
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.SystemErrRule;
 import org.junit.contrib.java.lang.system.SystemOutRule;
@@ -44,6 +46,8 @@ class TemplateHandlerTests {
     private static final String BASE_PACKAGE = "mmm.coffee.example";
     private static final String BASE_PACKAGE_PATH = "mmm/coffee/example";
     private static final String ENTITY_NAME = "Widget";
+    private static final String DOMAIN_CLASS = "Widget";
+    private static final String EJB_CLASS = "WidgetEJB";
     private static final String ENTITY_VAR_NAME = "widget";
     private static final String BASE_PATH = "/widget";
     private static final String LOWER_CASE_ENTITY_NAME = ENTITY_NAME.toLowerCase();
@@ -55,13 +59,15 @@ class TemplateHandlerTests {
     public void setUpEachTime() {
         properties = new HashMap<>();
         
-        properties.put("entityName", ENTITY_NAME);
-        properties.put("entityVarName", ENTITY_VAR_NAME);
-        properties.put("lowerCaseEntityName", LOWER_CASE_ENTITY_NAME);
-        properties.put("basePackage", BASE_PACKAGE);
-        properties.put("basePackagePath", BASE_PACKAGE_PATH);
-        properties.put("basePath", BASE_PATH);
-        properties.put("packageName", PACKAGE_NAME);
+        properties.put(EndpointKeys.ENTITY_NAME, ENTITY_NAME);
+        properties.put(EndpointKeys.ENTITY_VAR_NAME, ENTITY_VAR_NAME);
+        properties.put(EndpointKeys.ENTITY_POJO, DOMAIN_CLASS);
+        properties.put(EndpointKeys.ENTITY_EJB, EJB_CLASS);
+        properties.put(EndpointKeys.ENTITY_LOWER_CASE_NAME, LOWER_CASE_ENTITY_NAME);
+        properties.put(ProjectKeys.BASE_PACKAGE, BASE_PACKAGE);
+        properties.put(ProjectKeys.BASE_PACKAGE_PATH, BASE_PACKAGE_PATH);
+        properties.put(EndpointKeys.BASE_PATH, BASE_PATH);
+        properties.put(EndpointKeys.PACKAGE_NAME, PACKAGE_NAME);
     }
     
     @Nested

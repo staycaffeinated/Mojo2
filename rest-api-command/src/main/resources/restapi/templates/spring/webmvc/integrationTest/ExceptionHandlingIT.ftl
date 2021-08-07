@@ -41,6 +41,7 @@ class ${endpoint.entityName}ExceptionHandlingIT extends AbstractIntegrationTest 
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(payload)))
                     .andExpect(jsonPath("$.stackTrace").doesNotExist())
+                    .andExpect(jsonPath("$.trace").doesNotExist())
                     .andDo((print()))
                     .andReturn();
         }

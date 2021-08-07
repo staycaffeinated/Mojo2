@@ -75,8 +75,8 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
         }
         // If a mojo.properties file is not found, env variables will be queried
         var configuration = new MojoProperties().getConfiguration();
-
-        SupportedFramework framework = determineFramework(dryRunOption.isDryRun());
+        
+        SupportedFramework framework = determineFramework(configuration);
         var generator = EndpointGeneratorFactory.createGenerator(framework);
         generator.run(map, configuration);
         return 0;
@@ -98,19 +98,10 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
     /**
      * Side-bar task to look up the project's framework, since the framework
      * affects whether the code generator produces WebMVC or WebFlux controllers
-     *
-     * @param isDryRun when doing a dry-run, the env variable 'mojo.framework'
-     *                 is inspected (used for testing)
      */
-    private SupportedFramework determineFramework(boolean isDryRun) {
-        if (isDryRun) {
-            Optional<SupportedFramework> framework = getFrameworkFromEnv();
-            return framework.orElse(SupportedFramework.WEBMVC);
-        }
-        else {
-            var stringValue = new MojoProperties().getConfiguration().getString(ProjectKeys.FRAMEWORK);
-            return SupportedFramework.valueOf(stringValue);
-        }
+    private SupportedFramework determineFramework(org.apache.commons.configuration2.Configuration configuration) {
+        String s = configuration.getString(ProjectKeys.FRAMEWORK);
+        return SupportedFramework.convert(s);
     }
 
     /**
@@ -120,7 +111,7 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
      * @return an Optional that wraps the project's framework
      */
     private Optional<SupportedFramework> getFrameworkFromEnv() {
-        var s = System.getenv("mojo.framework");
+        var s = System.getenv(ProjectKeys.FRAMEWORK);
         if (isEmpty(s)) {
             return Optional.empty();
         }

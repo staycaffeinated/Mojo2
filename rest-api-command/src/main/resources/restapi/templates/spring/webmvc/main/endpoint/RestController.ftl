@@ -36,7 +36,7 @@ public class ${endpoint.entityName}Controller {
      * Get all
      */
     @GetMapping (value=${endpoint.entityName}Routes.GET_ALL, produces = MediaType.APPLICATION_JSON_VALUE )
-    public List<${endpoint.entityName}Resource> getAll${endpoint.entityName}s() {
+    public List<${endpoint.pojoName}> getAll${endpoint.entityName}s() {
         return ${endpoint.entityVarName}Service.findAll${endpoint.entityName}s();
     }
 
@@ -45,7 +45,7 @@ public class ${endpoint.entityName}Controller {
      *
      */
     @GetMapping(value=${endpoint.entityName}Routes.EXACTLY_ONE, produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<${endpoint.entityName}Resource> get${endpoint.entityName}ById(@PathVariable Long id) {
+    public ResponseEntity<${endpoint.pojoName}> get${endpoint.entityName}ById(@PathVariable Long id) {
         return ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(id)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
@@ -56,8 +56,8 @@ public class ${endpoint.entityName}Controller {
      */
     @PostMapping (value=${endpoint.entityName}Routes.CREATE_ONE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<${endpoint.entityName}Resource> create${endpoint.entityName}(@RequestBody @Validated(OnCreate.class) ${endpoint.entityName}Resource resource ) {
-        ${endpoint.entityName}Resource savedResource = ${endpoint.entityVarName}Service.create${endpoint.entityName} ( resource );
+    public ResponseEntity<${endpoint.pojoName}> create${endpoint.entityName}(@RequestBody @Validated(OnCreate.class) ${endpoint.pojoName} resource ) {
+        ${endpoint.pojoName} savedResource = ${endpoint.entityVarName}Service.create${endpoint.entityName} ( resource );
         URI uri = ServletUriComponentsBuilder
                         .fromCurrentRequest()
                         .path("/{id}")
@@ -70,8 +70,8 @@ public class ${endpoint.entityName}Controller {
      * Update one
      */
     @PutMapping(value=${endpoint.entityName}Routes.EXACTLY_ONE, produces = MediaType.APPLICATION_JSON_VALUE )
-    public ResponseEntity<${endpoint.entityName}Resource> update${endpoint.entityName}(@PathVariable Long id, @RequestBody @Validated(OnUpdate.class) ${endpoint.entityName}Resource ${endpoint.entityVarName}) {
-        Optional<${endpoint.entityName}Resource> optional = ${endpoint.entityVarName}Service.update${endpoint.entityName}( ${endpoint.entityVarName} );
+    public ResponseEntity<${endpoint.pojoName}> update${endpoint.entityName}(@PathVariable Long id, @RequestBody @Validated(OnUpdate.class) ${endpoint.pojoName} ${endpoint.entityVarName}) {
+        Optional<${endpoint.pojoName}> optional = ${endpoint.entityVarName}Service.update${endpoint.entityName}( ${endpoint.entityVarName} );
         return optional.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
@@ -79,7 +79,7 @@ public class ${endpoint.entityName}Controller {
      * Delete one
      */
     @DeleteMapping(value=${endpoint.entityName}Routes.EXACTLY_ONE)
-    public ResponseEntity<${endpoint.entityName}Resource> delete${endpoint.entityName}(@PathVariable Long id) {
+    public ResponseEntity<${endpoint.pojoName}> delete${endpoint.entityName}(@PathVariable Long id) {
         return ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(id)
                 .map(${endpoint.entityVarName} -> {
                     ${endpoint.entityVarName}Service.delete${endpoint.entityName}ByResourceId(id);
@@ -92,7 +92,7 @@ public class ${endpoint.entityName}Controller {
      * Find by text
      */
     @GetMapping(value=${endpoint.entityName}Routes.SEARCH, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<${endpoint.entityName}Resource>> searchByText (
+    public ResponseEntity<List<${endpoint.pojoName}>> searchByText (
                                          @RequestParam(name="text", required = true) String text,
                                          @RequestParam(name="page", required = false, defaultValue = "1") int pageNumber,
                                          @RequestParam(name="size", required = false, defaultValue = "20") Integer pageSize)

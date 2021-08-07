@@ -45,14 +45,14 @@ class ${endpoint.entityName}ControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private List<${endpoint.entityName}Resource> ${endpoint.entityVarName}List;
+    private List<${endpoint.pojoName}> ${endpoint.entityVarName}List;
 
     @BeforeEach
     void setUp() {
         ${endpoint.entityVarName}List = new ArrayList<>();
-        ${endpoint.entityVarName}List.add(${endpoint.entityName}Resource.builder().resourceId(111L).text("text 1").build());
-        ${endpoint.entityVarName}List.add(${endpoint.entityName}Resource.builder().resourceId(222L).text("text 2").build());
-        ${endpoint.entityVarName}List.add(${endpoint.entityName}Resource.builder().resourceId(333L).text("text 3").build());
+        ${endpoint.entityVarName}List.add(${endpoint.pojoName}.builder().resourceId(111L).text("text 1").build());
+        ${endpoint.entityVarName}List.add(${endpoint.pojoName}.builder().resourceId(222L).text("text 2").build());
+        ${endpoint.entityVarName}List.add(${endpoint.pojoName}.builder().resourceId(333L).text("text 3").build());
 
         objectMapper.registerModule(new ProblemModule());
         objectMapper.registerModule(new ConstraintViolationProblemModule());
@@ -87,10 +87,7 @@ class ${endpoint.entityName}ControllerTest {
         void shouldFind${endpoint.entityName}ById() throws Exception {
             // given
             Long resourceId = 1L;
-            ${endpoint.entityName}Resource ${endpoint.entityVarName} = ${endpoint.entityName}Resource.builder()
-                                            .resourceId( resourceId )
-                                            .text("text 1")
-                                            .build();
+            ${endpoint.pojoName} ${endpoint.entityVarName} = ${endpoint.pojoName}.builder().resourceId( resourceId ).text("text 1").build();
 
             given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId( resourceId ))
                 .willReturn(Optional.of(${endpoint.entityVarName}));
@@ -121,9 +118,9 @@ class ${endpoint.entityName}ControllerTest {
         @Test
         void shouldCreateNew${endpoint.entityName}() throws Exception {
             // given
-            ${endpoint.entityName}Resource resource = ${endpoint.entityName}Resource.builder().text("sample").build();
-            ${endpoint.entityName}Resource resourceAfterSave = ${endpoint.entityName}Resource.builder().text("sample").resourceId(1L).build();
-            given(${endpoint.entityVarName}Service.create${endpoint.entityName}( any(${endpoint.entityName}Resource.class))).willReturn(resourceAfterSave);
+            ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().text("sample").build();
+            ${endpoint.pojoName} resourceAfterSave = ${endpoint.pojoName}.builder().text("sample").resourceId(1L).build();
+            given(${endpoint.entityVarName}Service.create${endpoint.entityName}( any(${endpoint.pojoName}.class))).willReturn(resourceAfterSave);
 
             // when/then
             mockMvc.perform(post(${endpoint.entityName}Routes.CREATE_ONE)
@@ -143,9 +140,9 @@ class ${endpoint.entityName}ControllerTest {
         void shouldUpdate${endpoint.entityName}() throws Exception {
             // given
             Long resourceId = 1L;
-            ${endpoint.entityName}Resource ${endpoint.entityVarName} = ${endpoint.entityName}Resource.builder().resourceId(resourceId).text("sample text").build();
+            ${endpoint.pojoName} ${endpoint.entityVarName} = ${endpoint.pojoName}.builder().resourceId(resourceId).text("sample text").build();
             given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.of(${endpoint.entityVarName}));
-            given(${endpoint.entityVarName}Service.update${endpoint.entityName}(any(${endpoint.entityName}Resource.class))).willReturn(Optional.of(${endpoint.entityVarName}));
+            given(${endpoint.entityVarName}Service.update${endpoint.entityName}(any(${endpoint.pojoName}.class))).willReturn(Optional.of(${endpoint.entityVarName}));
 
             // when/then
             mockMvc.perform(put(${endpoint.entityName}Routes.EXACTLY_ONE, ${endpoint.entityVarName}.getResourceId())
@@ -164,7 +161,7 @@ class ${endpoint.entityName}ControllerTest {
             given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.empty());
 
             // when/then
-            ${endpoint.entityName}Resource resource = ${endpoint.entityName}Resource.builder().resourceId(resourceId).text("updated text").build();
+            ${endpoint.pojoName} resource = ${endpoint.pojoName}.builder().resourceId(resourceId).text("updated text").build();
 
             mockMvc.perform(put(${endpoint.entityName}Routes.EXACTLY_ONE, resourceId)
                     .contentType(MediaType.APPLICATION_JSON)
@@ -180,7 +177,7 @@ class ${endpoint.entityName}ControllerTest {
         void shouldDelete${endpoint.entityName}() throws Exception {
             // given
             Long resourceId = 1L;
-            ${endpoint.entityName}Resource ${endpoint.entityVarName} = ${endpoint.entityName}Resource.builder().resourceId(resourceId).text("delete me").build();
+            ${endpoint.pojoName} ${endpoint.entityVarName} = ${endpoint.pojoName}.builder().resourceId(resourceId).text("delete me").build();
             given(${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(resourceId)).willReturn(Optional.of(${endpoint.entityVarName}));
             doNothing().when(${endpoint.entityVarName}Service).delete${endpoint.entityName}ByResourceId(${endpoint.entityVarName}.getResourceId());
 
@@ -189,7 +186,6 @@ class ${endpoint.entityName}ControllerTest {
                     .andExpect(status().isOk())
                     .andExpect(jsonPath("$.text", is(${endpoint.entityVarName}.getText())))
                     ;
-
         }
 
         @Test

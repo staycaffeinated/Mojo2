@@ -25,6 +25,7 @@ import mmm.coffee.mojo.exception.MojoException;
 import mmm.coffee.mojo.restapi.generator.ConfigurationFactory;
 import mmm.coffee.mojo.restapi.generator.TemplateHandler;
 import mmm.coffee.mojo.restapi.generator.helpers.MustacheExpressionResolver;
+import mmm.coffee.mojo.restapi.generator.project.ProjectKeys;
 
 import java.io.File;
 import java.util.*;
@@ -58,7 +59,7 @@ public abstract class AbstractEndpointGenerator implements Generator {
     }
 
     public void setUpLexicalScope(@NonNull Map<String,Object> commandLineOptions) {
-        throw new MojoException("This method not supported when creating endpoints");
+        throw new MojoException("This method not supported when creating endpoints. Endpoints additionally need the meta-data from mojo.properties.");
     }
 
     public void setUpLexicalScope(@NonNull Map<String,Object> commandLineOptions,
