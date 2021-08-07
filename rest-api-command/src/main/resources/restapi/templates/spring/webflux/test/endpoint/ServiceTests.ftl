@@ -198,10 +198,15 @@ class ${endpoint.entityName}ServiceTests {
      */
 	@Test
 	void whenConversionToEjbFails_expectUnprocessableEntityException() {
+        // given
 		ConversionService mockConversionService = Mockito.mock(ConversionService.class);
 		${endpoint.entityName}Service localService = new ${endpoint.entityName}Service(mockRepository, mockConversionService, publisher);
+        given(mockConversionService.convert(any(${endpoint.pojoName}.class), eq(${endpoint.ejbName}.class)))
+                 .willReturn((${endpoint.ejbName}) null);
 
 		${endpoint.pojoName} sample = ${endpoint.pojoName}.builder().text("sample").build();
+
+        // when/then
 		assertThrows(UnprocessableEntityException.class, () -> localService.create${endpoint.entityName}(sample));
 	}
 
