@@ -18,7 +18,6 @@ package mmm.coffee.mojo.api;
 import mmm.coffee.mojo.catalog.TemplateCatalog;
 import org.apache.commons.configuration2.BaseConfiguration;
 import org.apache.commons.configuration2.Configuration;
-import org.checkerframework.checker.nullness.Opt;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.junit.jupiter.api.Test;
 
