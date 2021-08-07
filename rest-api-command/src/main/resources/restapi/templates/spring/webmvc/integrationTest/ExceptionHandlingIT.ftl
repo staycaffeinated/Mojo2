@@ -32,9 +32,9 @@ class ${endpoint.entityName}ExceptionHandlingIT extends AbstractIntegrationTest 
         void shouldNotReturnStackTrace() throws Exception {
             // given
             given( ${endpoint.entityVarName}Service.find${endpoint.entityName}ByResourceId(any(Long.class))).willThrow(new RuntimeException("Boom!"));
-            given( ${endpoint.entityVarName}Service.update${endpoint.entityName}(any(${endpoint.entityName}Resource.class))).willThrow(new RuntimeException("Bad data"));
+            given( ${endpoint.entityVarName}Service.update${endpoint.entityName}(any(${endpoint.entityName}.class))).willThrow(new RuntimeException("Bad data"));
 
-            ${endpoint.entityName}Resource payload = ${endpoint.entityName}Resource.builder().resourceId(1L).text("update me").build();
+            ${endpoint.pojoName} payload = ${endpoint.pojoName}.builder().resourceId(1L).text("update me").build();
 
             // when/then
             mockMvc.perform(post("${endpoint.basePath}")

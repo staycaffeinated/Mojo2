@@ -46,7 +46,7 @@ public class ${endpoint.entityName}Service {
      * findAll
      */
     public List<${endpoint.pojoName}> findAll${endpoint.entityName}s() {
-        List<${endpoint.entityName}> resultSet = ${endpoint.entityVarName}Repository.findAll();
+        List<${endpoint.ejbName}> resultSet = ${endpoint.entityVarName}Repository.findAll();
         return resultSet.stream().map(ejb -> conversionService.convert(ejb,${endpoint.pojoName}.class)).collect(Collectors.toList());
     }
 
@@ -54,7 +54,7 @@ public class ${endpoint.entityName}Service {
      * findByResourceId
      */
     public Optional<${endpoint.pojoName}> find${endpoint.entityName}ByResourceId(Long id) {
-        Optional<${endpoint.entityName}> optional = ${endpoint.entityVarName}Repository.findByResourceId ( id );
+        Optional<${endpoint.ejbName}> optional = ${endpoint.entityVarName}Repository.findByResourceId ( id );
         return optional.map(ejb -> conversionService.convert(ejb, ${endpoint.pojoName}.class));
     }
 

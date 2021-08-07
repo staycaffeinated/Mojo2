@@ -21,7 +21,8 @@ public class ${endpoint.entityName}ControllerIT extends AbstractIntegrationTest 
     @Autowired
     private ${endpoint.entityName}Repository ${endpoint.entityVarName}Repository;
 
-    private List<${endpoint.pojoName}> ${endpoint.entityVarName}List = null;
+    // This holds sample ${endpoint.ejbName}s that will be saved to the database
+    private List<${endpoint.ejbName}> ${endpoint.entityVarName}List = null;
 
     @BeforeEach
     void setUp() {

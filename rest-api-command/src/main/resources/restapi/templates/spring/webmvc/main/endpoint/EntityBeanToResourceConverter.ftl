@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-public class ${endpoint.entityName}BeanToResourceConverter implements Converter<${endpoint.ejbName}, ${endpoint.pojoName}Resource> {
+public class ${endpoint.entityName}BeanToResourceConverter implements Converter<${endpoint.ejbName}, ${endpoint.pojoName}> {
 
     /**
      * Convert the source object of type {@code ${endpoint.ejbName}} to target type {@code ${endpoint.pojoName}}.

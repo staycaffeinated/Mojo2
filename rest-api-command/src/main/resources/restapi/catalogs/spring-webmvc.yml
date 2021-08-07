@@ -135,7 +135,7 @@ catalog:
       context: "project"
   - entry:
       template: "/spring/webmvc/main/endpoint/Entity.ftl"
-      destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}.java"
+      destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{ejbName}}.java"
       context: "endpoint"
   - entry:
       template: "/spring/webmvc/main/endpoint/EntityBeanToResourceConverter.ftl"
@@ -143,7 +143,7 @@ catalog:
       context: "endpoint"
   - entry:
       template: "/spring/webmvc/main/endpoint/EntityResource.ftl"
-      destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}Resource.java"
+      destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{pojoName}}.java"
       context: "endpoint"
   - entry:
       template: "/spring/webmvc/main/endpoint/Repository.ftl"
