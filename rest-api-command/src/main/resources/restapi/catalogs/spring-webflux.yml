@@ -125,10 +125,6 @@ catalog:
       destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}BeanToResourceConverter.java"
       context: "endpoint"
   - entry:
-      template: "/spring/webflux/main/endpoint/EntityEventPublisher.ftl"
-      destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}EventPublisher.java"
-      context: "endpoint"
-  - entry:
       template: "/spring/webflux/main/endpoint/EntityEvent.ftl"
       destination: "src/main/java/{{basePackagePath}}/endpoint/{{lowerCaseEntityName}}/{{entityName}}Event.java"
       context: "endpoint"

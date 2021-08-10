@@ -112,7 +112,7 @@ class RootControllerTest {
      * This example illustrates the technique and does not exercise the root controller.
      */
     @Test
-    public void testFluxErrorHandling_OnErrorMap_withRetry() {
+    void whenErrorOccurs_shouldContinueUninterrupted() {
 
    	    Flux<String> stringFlux = Flux.just("A", "B", "C")
    			.concatWith(Flux.error(new RuntimeException("Exception Occurred")))
@@ -127,6 +127,5 @@ class RootControllerTest {
    			.expectNext("A", "B", "C")
    			.expectError(UnprocessableEntityException.class)
    			.verify();
-
     }
 }
