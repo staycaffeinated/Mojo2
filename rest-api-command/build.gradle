@@ -20,8 +20,10 @@ dependencies {
     testImplementation(libs.junitSystemRules)
     testImplementation(libs.truth)
     testImplementation(libs.commonsBeanUtils)
+    testImplementation(libs.mockito)
 }
 
+// These settings dont appear to work. CLI classes still show up in coverage report
 jacocoTestReport {
     afterEvaluate {
         def excludedFiles = files(classDirectories.files.collect {
