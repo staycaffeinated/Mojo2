@@ -106,7 +106,18 @@ class SpringWebMvcEndpointGeneratorTests {
         int returnCode = generatorUnderTest.run(commandLine, mojoPropsContent);
         assertThat(returnCode).isEqualTo(0);
     }
-    
+
+    // Expect toString() method to return something
+    @Test
+    void shouldReturnNonEmptyString() {
+        var generator = new SpringWebMvcEndpointGenerator();
+        assertThat(generator.toString()).isNotEmpty();
+    }
+
+    // ----------------------------------------------------------------------------
+    // Helper methods
+    // ----------------------------------------------------------------------------
+
     private Map<String,Object> buildSampleLexicalScope() {
         Map<String,Object> lexicalScope = new HashMap<>();
         

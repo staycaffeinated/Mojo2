@@ -25,7 +25,6 @@ import mmm.coffee.mojo.exception.MojoException;
 import mmm.coffee.mojo.restapi.generator.ConfigurationFactory;
 import mmm.coffee.mojo.restapi.generator.TemplateHandler;
 import mmm.coffee.mojo.restapi.generator.helpers.MustacheExpressionResolver;
-import mmm.coffee.mojo.restapi.generator.project.ProjectKeys;
 
 import java.io.File;
 import java.util.*;
@@ -65,11 +64,11 @@ public abstract class AbstractEndpointGenerator implements Generator {
     public void setUpLexicalScope(@NonNull Map<String,Object> commandLineOptions,
                                   org.apache.commons.configuration2.Configuration mojoProps) {
 
-        EndpointLexicalScopeFactory factory = new EndpointLexicalScopeFactory();
+        var factory = new EndpointLexicalScopeFactory();
         factory.setCommandLineOptions(commandLineOptions);
         factory.setMojoProps(mojoProps);
         var map = factory.createLexicalScope();
-        map.forEach((K,V) -> { lexicalScope.put(K,V); });
+        map.forEach(lexicalScope::put);
     }
     
     @Override

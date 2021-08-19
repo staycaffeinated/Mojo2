@@ -28,7 +28,7 @@ import static com.google.common.truth.Truth.assertThat;
 /**
  * Tests of DependencyCatalogReader class
  */
-class DependencyCatalogReaderIT {
+class TestDependencyCatalogReader {
 
     DependencyCatalogReader readerUnderTest;
 

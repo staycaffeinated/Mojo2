@@ -1,6 +1,5 @@
 buildscript {
     apply from: "gradle/dependencies.gradle"
-
     repositories {
       mavenCentral()
       }
@@ -9,6 +8,13 @@ buildscript {
 // plugins
 // ----------------------------------------------------------------------------
 plugins {
+    // See https://github.com/diffplug/spotless-changelog
+    id 'com.diffplug.spotless-changelog' version '2.2.0'
+
+    // This plugin helps collate findings between the subprojects
+    id 'org.kordamp.gradle.jacoco' version '0.46.0'
+    id 'org.kordamp.gradle.testing' version '0.46.0'
+
     id 'java'
     id 'idea'
     id 'jacoco'
@@ -31,6 +37,12 @@ plugins {
 
     id "com.github.ben-manes.versions" version "0.39.0"
 }
+
+spotlessChangelog {
+    changelogFile 'CHANGELOG.md'
+    enforceCheck true
+    }
+
 
 // ----------------------------------------------------------------------------
 // basics

@@ -57,7 +57,7 @@ import static com.google.common.truth.Truth.assertThat;
  *    template.
  *
  */
-class WebMvcCatalogIT {
+class TestWebMvcCatalog {
 
     private static final String BASE_PACKAGE = "mmm.coffee.example";
     private static final String BASE_PACKAGE_PATH = "mmm/coffee/example";

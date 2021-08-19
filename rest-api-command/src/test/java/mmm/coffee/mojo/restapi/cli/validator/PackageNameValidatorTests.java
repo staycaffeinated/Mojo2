@@ -15,6 +15,7 @@
  */
 package mmm.coffee.mojo.restapi.cli.validator;
 
+import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -55,5 +56,20 @@ class PackageNameValidatorTests {
     })
     void shouldDetectInvalidPackageNames(String packageName) {
         assertThat( PackageNameValidator.isValid(packageName)).isFalse();
+    }
+
+    @Test
+    void shouldDetectInvalidPackageName() {
+        assertThat(PackageNameValidator.isNotValid("123.acme.app")).isTrue();
+        assertThat(PackageNameValidator.isValid("123.acme.app")).isFalse();
+        assertThat(PackageNameValidator.isValid("")).isFalse();
+        assertThat(PackageNameValidator.isValid(null)).isFalse();
+    }
+
+    @Test
+    void shouldDetectValidPackageName() {
+        assertThat(PackageNameValidator.isNotValid("acme.app")).isFalse();
+        assertThat(PackageNameValidator.isValid("acme.app")).isTrue();
+        assertThat(PackageNameValidator.isValid("acme.app.v1")).isTrue();
     }
 }

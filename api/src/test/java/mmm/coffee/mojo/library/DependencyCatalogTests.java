@@ -17,7 +17,9 @@ package mmm.coffee.mojo.library;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.annotation.Testable;
 
+import java.util.HashMap;
 import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
@@ -46,5 +48,20 @@ class DependencyCatalogTests {
     @Test
     void shouldDisallowNullCatalogName() {
         assertThrows(NullPointerException.class, () -> new DependencyCatalog(null));
+    }
+
+    @Test
+    void shouldLoadTemplateKeys() {
+        // given
+        var templateKeys = new HashMap<String,Object>();
+        // when
+        catalogUnderTest.loadTemplateKeys(templateKeys);
+        // then
+        assertThat(templateKeys).isNotEmpty();
+    }
+
+    @Test
+    void whenArgumentIsNull_expectNullPointerException() {
+        assertThrows(NullPointerException.class, () -> catalogUnderTest.loadTemplateKeys(null));
     }
 }

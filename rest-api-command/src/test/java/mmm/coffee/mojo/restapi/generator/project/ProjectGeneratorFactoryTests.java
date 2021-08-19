@@ -22,6 +22,7 @@ import mmm.coffee.mojo.restapi.shared.SupportedFramework;
 import org.junit.jupiter.api.Test;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 /**
  * Unit tests. 
@@ -39,5 +40,16 @@ class ProjectGeneratorFactoryTests {
         Generator generator = ProjectGeneratorFactory.createProjectGenerator(SupportedFramework.WEBMVC);
         assertThat(generator).isNotNull();
         assertThat(generator).isInstanceOf(SpringWebMvcProjectGenerator.class);
+    }
+
+    @Test
+    void whenNullArgument_expectNullPointerException() {
+        assertThrows(NullPointerException.class, () -> ProjectGeneratorFactory.createProjectGenerator(null));
+    }
+
+    @Test
+    void whenUndefinedFramework_shouldThrowException() {
+        var framework = SupportedFramework.convert("NoSuchFramework");
+        assertThrows(IllegalArgumentException.class, () -> ProjectGeneratorFactory.createProjectGenerator(framework));
     }
 }

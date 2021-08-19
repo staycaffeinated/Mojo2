@@ -59,13 +59,13 @@ public class SubcommandCreateProject implements Callable<Integer> {
     CommandLine.Model.CommandSpec commandSpec;  // injected by picocli
 
     @CommandLine.Mixin
-    private DryRunOption dryRunOption;
+    DryRunOption dryRunOption; // visible for testing
 
     // The groupId can be defaulted to match the base package 
     @CommandLine.Option(names = {"-g", "--group"},
             description = "The project's group-id (i.e., library coordinates)",
             paramLabel = "GROUP_ID")
-    private String groupId;
+    String groupId;  // package-visible for testing
 
     /**
      * The Programming Model determines whether the backend code will use Controllers or Handlers and Routers.
@@ -87,7 +87,7 @@ public class SubcommandCreateProject implements Callable<Integer> {
             description = { "This indicates the underlying framework to use, such as spring-webmvc (-f webmvc) or spring-webflux (-f webflux)" },
             defaultValue = "webmvc",
             paramLabel = "FRAMEWORK")
-    private SupportedFramework framework;
+    SupportedFramework framework; // package-visible for testing
 
 
     /**
@@ -97,7 +97,7 @@ public class SubcommandCreateProject implements Callable<Integer> {
             description = "The application name, or artifact name (defaults to 'example-service')",
             defaultValue = "example-service",
             paramLabel = "APPLICATION_NAME")
-    private String applicationName;
+    String applicationName; // visible for testing
 
 
     /**
@@ -107,7 +107,7 @@ public class SubcommandCreateProject implements Callable<Integer> {
             description = "The base Java package for this project; for example: 'org.example.widget'",
             required = true,
             paramLabel = "JAVA_PACKAGE")
-    private String packageName;
+    String packageName; // visible for testing
 
     /**
      * This is the base URL to the running application.
@@ -116,14 +116,14 @@ public class SubcommandCreateProject implements Callable<Integer> {
             description = "The base path (URL) of this application; for example: '/my-service.",
             defaultValue = "/",
             paramLabel = "BASE_PATH")
-    private String basePath;
+    String basePath; // visible for testing
 
 
     @CommandLine.Option(names = {"-S", "--schema"},
             description = "The database schema to be used by the application",
             defaultValue = "examples",
             paramLabel = "DATABASE_SCHEMA")
-    private String dbmsSchema;
+    String dbmsSchema; // visible for testing
 
 
     //
@@ -187,7 +187,7 @@ public class SubcommandCreateProject implements Callable<Integer> {
     }
 
     private void validate() {
-        if ( !PackageNameValidator.isValid(packageName)) {
+        if ( PackageNameValidator.isNotValid(packageName)) {
             throw new CommandLine.ParameterException( commandSpec.commandLine(),
                     String.format("The package name '%s' is not a legal Java package name", packageName));
         }

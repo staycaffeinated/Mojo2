@@ -44,6 +44,13 @@ public class PackageNameValidator {
     }
 
     /**
+     * For times when this is easier to read
+     */
+    public static boolean isNotValid(String value) {
+        return !isValid(value);
+    }
+
+    /**
      * Checks whether the given candidate is a valid Java package name.
      * We don't guarantee that pathological cases will be detected.
      * 

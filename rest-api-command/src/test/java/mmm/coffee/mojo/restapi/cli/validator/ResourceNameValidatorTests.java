@@ -15,6 +15,7 @@
  */
 package mmm.coffee.mojo.restapi.cli.validator;
 
+import org.junit.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -35,5 +36,20 @@ class ResourceNameValidatorTests {
     @ValueSource( strings = { "abstract", "null", "const", "float", "'Hello'", "/Hello" })
     void shouldRecognizeInvalidIdentifiers(String identifier) {
         assertThat( ResourceNameValidator.isValid(identifier)).isFalse();
+    }
+
+    @Test
+    void shouldRejectNullValues() {
+        assertThat(ResourceNameValidator.isValid(null)).isFalse();
+    }
+
+    @Test
+    void shouldRejectEmptyStrings() {
+        assertThat(ResourceNameValidator.isValid("")).isFalse();
+    }
+
+    @Test
+    void shouldRejectInvalidClassNames() {
+        assertThat(ResourceNameValidator.isValid("Treasure#!Map")).isFalse();
     }
 }

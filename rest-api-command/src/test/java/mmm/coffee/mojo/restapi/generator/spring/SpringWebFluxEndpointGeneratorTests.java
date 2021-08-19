@@ -108,6 +108,16 @@ class SpringWebFluxEndpointGeneratorTests {
         assertThat(returnCode).isEqualTo(0);
     }
 
+    @Test
+    void shouldReturnNonEmptyString() {
+        SpringWebFluxEndpointGenerator generator = new SpringWebFluxEndpointGenerator();
+        assertThat(generator.toString()).isNotEmpty();
+    }
+
+    // --------------------------------------------------------------------------------
+    // Helper methods
+    // --------------------------------------------------------------------------------
+
     private Map<String,Object> buildSampleLexicalScope() {
         Map<String,Object> lexicalScope = new HashMap<>();
 

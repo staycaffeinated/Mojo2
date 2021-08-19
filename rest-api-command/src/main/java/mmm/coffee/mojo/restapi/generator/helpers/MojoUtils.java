@@ -16,7 +16,6 @@
 package mmm.coffee.mojo.restapi.generator.helpers;
 
 import lombok.NonNull;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * A collection of helper methods

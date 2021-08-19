@@ -18,7 +18,6 @@ package mmm.coffee.mojo.restapi.shared;
 import lombok.NonNull;
 
 import java.util.Locale;
-import java.util.function.Supplier;
 
 /**
  * This indicates whether the generated project will

@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 /**
  * Unit tests of MojoUtils
  */
-class MojoUtilsIT {
+class TestMojoUtils {
 
     @Rule
     public final SystemErrRule systemErrRule = new SystemErrRule().enableLog().muteForSuccessfulTests();
@@ -80,7 +80,6 @@ class MojoUtilsIT {
     }
 
 
-
     @Nested
     class Test_getCurrentDirectory {
         @Test
@@ -88,7 +87,4 @@ class MojoUtilsIT {
             assertThat(MojoUtils.currentDirectory()).isNotNull();
         }
     }
-
-
-
 }

@@ -23,7 +23,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +32,7 @@ import static com.google.common.truth.Truth.assertThat;
  * Integration tests of the MojoProperties class.
  * These tests read and write to the file system.
  */
-class MojoPropertiesIT {
+class TestMojoProperties {
 
     @AfterEach
     public void tearDown() {
@@ -44,6 +43,7 @@ class MojoPropertiesIT {
 
     @Test
     void shouldSaveAndLoadMojoProperties() {
+        // Given
         // set up sample values that will be saved to mojo.properties
         final String basePackageKey = ProjectKeys.BASE_PACKAGE;
         final String basePackageValue = "org.example.testing.widget";
@@ -59,8 +59,10 @@ class MojoPropertiesIT {
         map.put(basePathKey, basePathValue);
         map.put(frameworkKey, frameworkValue);
 
+        // When those properties are saved to file
         MojoProperties.saveConfiguration(map);
 
+        // Then expect the file content we read back to match what was written
         Configuration configuration = new MojoProperties().getConfiguration();
         assertThat(configuration).isNotNull();
         assertThat(configuration.getString(basePackageKey)).isEqualTo(basePackageValue);
@@ -87,9 +89,9 @@ class MojoPropertiesIT {
         final String frameworkKey = ProjectKeys.FRAMEWORK;
         final String frameworkValue = SupportedFramework.WEBMVC.toString();
 
-        updateEnv(basePackageKey, basePackageValue);
-        updateEnv(basePathKey, basePathValue);
-        updateEnv(frameworkKey, frameworkValue);
+        Environment.addVariable(basePackageKey, basePackageValue);
+        Environment.addVariable(basePathKey, basePathValue);
+        Environment.addVariable(frameworkKey, frameworkValue);
 
         Configuration config = new MojoProperties().getConfiguration();
 
@@ -100,11 +102,8 @@ class MojoPropertiesIT {
         assertThat(config.getString("foo")).isEqualTo("bar");
     }
 
-    @SuppressWarnings({ "unchecked" })
-    public static void updateEnv(String name, String val) throws ReflectiveOperationException {
-        Map<String, String> env = System.getenv();
-        Field field = env.getClass().getDeclaredField("m");
-        field.setAccessible(true);
-        ((Map<String, String>) field.get(env)).put(name, val);
+    @Test
+    void shouldSaveMojoPropertiesFile() {
+
     }
 }

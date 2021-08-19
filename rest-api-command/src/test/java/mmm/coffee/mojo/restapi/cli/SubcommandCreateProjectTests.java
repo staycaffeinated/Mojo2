@@ -15,12 +15,17 @@
  */
 package mmm.coffee.mojo.restapi.cli;
 
+import mmm.coffee.mojo.mixin.DryRunOption;
+import mmm.coffee.mojo.restapi.shared.SupportedFramework;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import picocli.CommandLine;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests
@@ -43,5 +48,50 @@ class SubcommandCreateProjectTests {
     @Test
     void shouldEnableHelpOption() {
         assertThat (cli.execute("--help")).isEqualTo(0);
+    }
+
+    @Test
+    void shouldThrowParameterException() {
+        var mockSpec = Mockito.mock(CommandLine.Model.CommandSpec.class);
+        var mockCommandLine = Mockito.mock(CommandLine.class);
+        when(mockSpec.commandLine()).thenReturn(mockCommandLine);
+
+        SubcommandCreateProject mutable = new SubcommandCreateProject();
+        mutable.commandSpec = mockSpec;
+        mutable.groupId = "acme.sample";
+        mutable.framework = SupportedFramework.WEBFLUX;
+        mutable.packageName = "123.acme.example.service";
+        mutable.basePath = "/example/api/v1";
+        mutable.applicationName = "rocket-sled";
+
+        assertThrows(Exception.class, () -> mutable.call());
+    }
+
+    @Test
+    void shouldReturnSuccess() {
+        var mockSpec = Mockito.mock(CommandLine.Model.CommandSpec.class);
+        var mockCommandLine = Mockito.mock(CommandLine.class);
+        when(mockSpec.commandLine()).thenReturn(mockCommandLine);
+
+        var mockDryRunOption = Mockito.mock(DryRunOption.class);
+        when(mockDryRunOption.isDryRun()).thenReturn(true);
+
+        SubcommandCreateProject mutable = new SubcommandCreateProject();
+        // use a mock DryRunOption to force dryRun = true so that no files are generated
+        mutable.dryRunOption = mockDryRunOption;
+        // Since PicoCLI annotations don't come into play for this test, mock the commandSpec
+        mutable.commandSpec = mockSpec;
+
+        // arbitrary test values for a well-formed command line
+        mutable.groupId = "acme.sample";
+        mutable.framework = SupportedFramework.WEBFLUX;
+        mutable.packageName = "acme.example.service";
+        mutable.basePath = "/example/api/v1";
+        mutable.applicationName = "rocket-sled";
+        mutable.dbmsSchema = "acme";
+
+        // invoke the code generation pipeline
+        int returnCode = mutable.call();
+        assertThat(returnCode).isEqualTo(0);
     }
 }

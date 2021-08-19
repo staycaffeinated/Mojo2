@@ -17,12 +17,15 @@ package mmm.coffee.mojo.catalog;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 
 import java.io.IOException;
 import java.util.List;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 /**
  * Unit tests
@@ -37,13 +40,33 @@ class TemplateCatalogTests {
     }
 
     @Test
+    void shouldReturnWellFormedObject() {
+        templateCatalog = new TemplateCatalog();
+        assertThat(templateCatalog).isNotNull();
+    }
+
+    @Test
+    void shouldAppendCatalog() {
+        // given
+        TemplateCatalog mainCatalog = new TemplateCatalog();
+        TemplateCatalog secondCatalog = new TemplateCatalog();
+        TemplateCatalog thirdCatalog = new TemplateCatalog();
+
+        // when
+        mainCatalog.append(secondCatalog).append(thirdCatalog);
+
+        // then
+        assertThat(mainCatalog).isNotNull();
+    }
+
+    @Test
     void shouldReturnProjectEntries() {
         List<CatalogEntry> entries = templateCatalog.filterByContext("project");
         assertThat(entries).isNotEmpty();
     }
 
     @Test
-    void shouldDisallowNullCatalogName() {
+    void whenCatalogNameIsNull_expectNullPointerException() {
         assertThrows(NullPointerException.class, () -> new TemplateCatalog(null));
     }
 
@@ -52,5 +75,23 @@ class TemplateCatalogTests {
         List<?> entries = templateCatalog.filterByContext("no-such-context");
         assertThat(entries).isNotNull();
         assertThat(entries).isEmpty();
+    }
+
+    @Test
+    void shouldNotAllowAppendingNullCatalogs() {
+        TemplateCatalog catalog = new TemplateCatalog();
+        assertThrows(NullPointerException.class, () -> catalog.append(null));
+    }
+
+    @Test
+    void whenFilterByNameIsNull_expectNullPointerException() {
+        TemplateCatalog catalog = new TemplateCatalog();
+        assertThrows(NullPointerException.class, () -> catalog.filterByNameLike(null));
+    }
+
+    @Test
+    void whenFilterByContextIsNull_expectNullPointerException() {
+        TemplateCatalog catalog = new TemplateCatalog();
+        assertThrows(NullPointerException.class, () -> catalog.filterByContext(null));
     }
 }

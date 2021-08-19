@@ -25,7 +25,6 @@ import picocli.CommandLine;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.Callable;
 
 /**
@@ -48,19 +47,19 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
 
     // adds support for the --dry-run option
     @CommandLine.Mixin
-    private DryRunOption dryRunOption;
+    DryRunOption dryRunOption; // visible for testing
 
     @CommandLine.Option(
             names={"-e", "--resource"},
             description="The resource (entity) available at this endpoint (e.g: --resource Coffee)",
             paramLabel = "ENTITY")
-    private String resourceName;
+    String resourceName; // visible for testing
 
     @CommandLine.Option(
             names={"-p", "--route"},
             description="The route (path) to the resource (e.g: --route /coffee)",
             paramLabel = "ROUTE")
-    private String baseRoute;
+    String baseRoute; // visible for testing
 
     @Override
     public Integer call() {
@@ -100,30 +99,7 @@ public class SubcommandCreateEndpoint implements Callable<Integer> {
      * affects whether the code generator produces WebMVC or WebFlux controllers
      */
     private SupportedFramework determineFramework(org.apache.commons.configuration2.Configuration configuration) {
-        String s = configuration.getString(ProjectKeys.FRAMEWORK);
+        var s = configuration.getString(ProjectKeys.FRAMEWORK);
         return SupportedFramework.convert(s);
-    }
-
-    /**
-     * Returns the supported framework based on the env variable, 'mojo.framework'.
-     * If that env variable is undefined, an empty Optional is returned.
-     *
-     * @return an Optional that wraps the project's framework
-     */
-    private Optional<SupportedFramework> getFrameworkFromEnv() {
-        var s = System.getenv(ProjectKeys.FRAMEWORK);
-        if (isEmpty(s)) {
-            return Optional.empty();
-        }
-        try {
-            return Optional.of(SupportedFramework.valueOf(s));
-        }
-        catch (IllegalArgumentException | NullPointerException e) {
-            return Optional.empty();
-        }
-    }
-
-    private boolean isEmpty(String s) {
-        return s == null || s.trim().length() == 0;
     }
 }

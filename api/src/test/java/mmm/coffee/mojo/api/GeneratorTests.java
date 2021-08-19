@@ -16,8 +16,8 @@
 package mmm.coffee.mojo.api;
 
 import mmm.coffee.mojo.catalog.TemplateCatalog;
-import org.apache.commons.configuration2.BaseConfiguration;
-import org.apache.commons.configuration2.Configuration;
+import mmm.coffee.mojo.mixin.DryRunOption;
+import org.apache.commons.configuration2.*;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import org.junit.jupiter.api.Test;
 
@@ -36,6 +36,8 @@ class GeneratorTests {
 
     private Generator generatorUnderTest = new FakeGenerator();
 
+    static final int ZERO = 0;
+
     @Test
     public void shouldDisallowNullArgument() {
         assertThrows(NullPointerException.class, () -> generatorUnderTest.run(null));
@@ -50,11 +52,50 @@ class GeneratorTests {
     @Test
     void shouldHandleDryRun() {
         Map<String,Object> map = new HashMap<>();
-        map.put("dryRun", true);
+        map.put(DryRunOption.DRY_RUN_KEY, true);
         generatorUnderTest.run(map);
-        assertThat(true).isTrue();
+        // when dryRun = true, sourceSink is-a NoOpTemplateWriter, but that's not visible
+        assertThat(map.get(DryRunOption.DRY_RUN_KEY)).isEqualTo(true);
+    }
+
+    /**
+     * Verify the pipeline defined in the Generator::run(Map) method completes successfully
+     */
+    @Test
+    void whenRunWithOneArgIsInvokedWithWellFormedValues_expectSuccess() {
+        // given
+        var map = new HashMap<String,Object>();
+        map.put(DryRunOption.DRY_RUN_KEY, false);
+
+        // when
+        int returnCode = generatorUnderTest.run(map);
+
+        // then the return code should be zero, indicating success
+        assertThat(returnCode).isEqualTo(ZERO);
+    }
+
+    /**
+     * Verify the pipeline defined in the Generator::run(Map,Configuration) method completes successfully
+     */
+    @Test
+    void whenRunWithTwoArgsIsInvokedWithWellFormedValues_expectSuccess() {
+        // given
+        var map = new HashMap<String,Object>();
+        map.put(DryRunOption.DRY_RUN_KEY, false);
+
+        var configuration = createFakeConfiguration();
+
+        // when
+        int returnCode = generatorUnderTest.run(map, configuration);
+
+        // then the return code should be zero, indicating success
+        assertThat(returnCode).isEqualTo(ZERO);
     }
     
+    // --------------------------------------------------------------------------------------------------
+    // Helper class
+    // --------------------------------------------------------------------------------------------------
+
     class FakeGenerator implements Generator {
         @Override public void loadTemplates() {}
         @Override public void setUpLexicalScope(Map<String,Object> commandLineOptions) {}
@@ -75,4 +116,13 @@ class GeneratorTests {
         @Override public Optional<TemplateCatalog> getCatalog() { return Optional.empty(); }
     }
 
+    /**
+     * Returns a Configuration object containing env vars.
+     */
+    Configuration createFakeConfiguration() {
+        var config = new PropertiesConfiguration();
+        var immutableEnv = new EnvironmentConfiguration();
+        ConfigurationUtils.copy(immutableEnv, config);
+        return config;
+    }
 }
