@@ -11,11 +11,7 @@ plugins {
     id 'com.diffplug.spotless' version '${project.spotlessVersion}'
 }
 
-apply from: "gradle/dependencies.gradle"            // our library dependencies
-apply from: "gradle/jib.gradle"                     // the Google Jib plugin to create Docker images
-apply from: "gradle/sonarqube.gradle"               // the Sonarqube and Jacoco plugins for code coverage
-apply from: "gradle/lint.gradle"                    // the lint flags for compilation
-apply from: "gradle/spotless.gradle"                // the Eclipse Spotless plugin for code formatting
+apply from: "gradle/standard-setup.gradle"      // standard project set-up
 
 apply plugin: 'io.spring.dependency-management'
 
@@ -75,6 +71,6 @@ tasks.withType(Test) {
 jib {
     to {
         image = '${project.applicationName}'
-        tags = [ 'latest', 'jdk-17', '0.0.1' ]
+        tags = [ 'latest', 'jdk-16', '0.0.1' ]
     }
 }

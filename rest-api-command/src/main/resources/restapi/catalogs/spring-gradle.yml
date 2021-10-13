@@ -50,4 +50,8 @@ catalog:
       template: "/gradle/GradleDotProperties.ftl"
       destination: "gradle.properties"
       context: "project"
+  - entry:
+      template: "/gradle/StandardSetupDotGradle.ftl"
+      destination: "gradle/standard-setup.gradle"
+      context: "project"
 
