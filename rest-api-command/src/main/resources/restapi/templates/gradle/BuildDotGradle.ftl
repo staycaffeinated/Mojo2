@@ -19,11 +19,20 @@ apply from: "gradle/spotless.gradle"                // the Eclipse Spotless plug
 
 apply plugin: 'io.spring.dependency-management'
 
-sourceCompatibility = '${project.javaVersion}'
-targetCompatibility = '${project.javaVersion}'
-
 version='0.0.1'
 
+// --------------------------------------------------------------------------------
+// Enforce Java version
+// --------------------------------------------------------------------------------
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(16)
+  }
+}
+
+// --------------------------------------------------------------------------------
+// Configuration
+// --------------------------------------------------------------------------------
 configurations {
     developmentOnly
     runtimeClasspath {
@@ -34,12 +43,17 @@ configurations {
     }
 }
 
+// --------------------------------------------------------------------------------
+// Repositories
+// --------------------------------------------------------------------------------
 repositories {
     mavenCentral()
 }
 
-// project.framework: ${project.framework}
 
+// --------------------------------------------------------------------------------
+// Dependencies
+// --------------------------------------------------------------------------------
 <#if (project.framework == 'WEBFLUX')>
     <#include "SpringWebFluxDependencies.ftl">
 <#else>
