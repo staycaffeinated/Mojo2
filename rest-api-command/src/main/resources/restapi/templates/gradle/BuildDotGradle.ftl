@@ -22,7 +22,7 @@ version='0.0.1'
 // --------------------------------------------------------------------------------
 java {
   toolchain {
-    languageVersion = JavaLanguageVersion.of(16)
+    languageVersion = JavaLanguageVersion.of(17)
   }
 }
 
@@ -71,6 +71,6 @@ tasks.withType(Test) {
 jib {
     to {
         image = '${project.applicationName}'
-        tags = [ 'latest', 'jdk-16', '0.0.1' ]
+        tags = [ 'latest', 'jdk-17', '0.0.1' ]
     }
 }
