@@ -10,6 +10,7 @@ dependencies {
     implementation libs.springBootStarterWeb
     implementation libs.springBootStarterDataJpa
     implementation libs.problemSpringWeb
+    implementation libs.problemJacksonDataType
 <#if (project.liquibase)??>
     implementation libs.liquibaseCore
 </#if>

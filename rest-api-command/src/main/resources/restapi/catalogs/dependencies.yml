@@ -13,13 +13,13 @@ dependencies:
       version: "0.26.0"
   - dependency:
       name: "jibPlugin"
-      version: "3.1.2"
+      version: "3.1.4"
   - dependency:
       name: "junitSystemRules"
       version: "1.19.0"
   - dependency:
       name: "junit"
-      version: "5.7.0"
+      version: "5.8.1"
   - dependency:
       name: "liquibase"
       version: "4.3.5"
@@ -40,10 +40,10 @@ dependencies:
       version: "3.3"
   - dependency:
       name: "spotless"
-      version: "5.14.2"
+      version: "5.15.2"
   - dependency:
       name: "springBoot"
-      version: "2.5.3"
+      version: "2.5.5"
   - dependency:
       name: "springCloud"
       version: "3.0.2"
@@ -52,10 +52,10 @@ dependencies:
       version: "1.0.11.RELEASE"
   - dependency:
       name: "problemSpringWeb"
-      version: "0.26.2"
+      version: "0.27.0"
   - dependency:
       name: "reactorTest"
-      version: "3.4.8"
+      version: "3.4.10"
   - dependency:
       name: "testContainers"
       version: "1.15.3"
