@@ -31,8 +31,8 @@ catalog:
       destination: "gradle/dependencies.gradle"
       context: "project"
   - entry:
-      template: "/gradle/JibDotGradle.ftl"
-      destination: "gradle/jib.gradle"
+      template: "/gradle/DockerDotGradle.ftl"
+      destination: "gradle/docker.gradle"
       context: "project"
   - entry:
       template: "/gradle/LintDotGradle.ftl"
