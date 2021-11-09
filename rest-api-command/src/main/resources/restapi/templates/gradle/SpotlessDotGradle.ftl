@@ -27,3 +27,6 @@ spotless {
         eclipse()
     }
 }
+
+// With this dependsOn, spotlessApply is auto-applied when the 'build' task runs
+build.dependsOn 'spotlessApply'
