@@ -40,7 +40,7 @@ dependencies:
       version: "3.3"
   - dependency:
       name: "spotless"
-      version: "5.17.1"
+      version: "6.0.0"
   - dependency:
       name: "springBoot"
       version: "2.5.6"
