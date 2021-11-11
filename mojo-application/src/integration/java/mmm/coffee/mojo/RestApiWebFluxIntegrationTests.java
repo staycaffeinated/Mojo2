@@ -45,7 +45,7 @@ class RestApiWebFluxIntegrationTests {
         @Test
         @DisplayName("Generate a webflux project withextra features")
         void shouldCreateProjectWithMinimumFeatures() {
-            int rc = cli.execute(toArgV("rest-api create-project --framework webflux --dry-run --package oops.delete_me.ima_mistake --name beta --base-path /beta"));
+            int rc = cli.execute(toArgV("rest-api create-project --template webflux --dry-run --package oops.delete_me.ima_mistake --name beta --base-path /beta"));
             assertThat(rc).isEqualTo(0);
         }
     }

@@ -49,21 +49,21 @@ public class RestApiWebMvcIntegrationTests {
     @Test
     // @DisplayName("should generate a project without extra features")
     void shouldCreateProjectWithMinimumFeatures() {
-        int rc = cli.execute(toArgV("rest-api create-project --dry-run --package oops.delete_me.ima_mistake --framework webmvc"));
+        int rc = cli.execute(toArgV("rest-api create-project --dry-run --package oops.delete_me.ima_mistake --template webmvc"));
         assertThat(rc).isEqualTo(0);
     }
 
     @Test
     // @DisplayName("should generate a project without extra features")
     void shouldCreateProjectWithPostgresql() {
-        int rc = cli.execute(toArgV("rest-api create-project --dry-run -p=oops.delete_me.ima_mistake --framework=webmvc"));
+        int rc = cli.execute(toArgV("rest-api create-project --dry-run -p=oops.delete_me.ima_mistake --template=webmvc"));
         assertThat(rc).isEqualTo(0);
     }
 
     @Test
     // @DisplayName("should generate a project with postgres, liquibase, and test container support")
     void shouldCreateProjectWithPostgresqlLiquibaseTestContainers() {
-        int rc = cli.execute(toArgV("rest-api create-project --dry-run -p=oops.delete_me.ima_mistake --framework=webmvc --support postgres liquibase testcontainers"));
+        int rc = cli.execute(toArgV("rest-api create-project --dry-run -p=oops.delete_me.ima_mistake --template=webmvc --support postgres liquibase testcontainers"));
         assertThat(rc).isEqualTo(0);
     }
 
@@ -76,7 +76,7 @@ public class RestApiWebMvcIntegrationTests {
 
     @Test
     void shouldReturnNonZeroIfPackageNameIsInvalid() {
-        int rc = cli.execute(toArgV("rest-api create-project --dry-run --framework=webmvc --package=ABC.def.123foo"));
+        int rc = cli.execute(toArgV("rest-api create-project --dry-run --template=webmvc --package=ABC.def.123foo"));
         assertThat(rc).isNotEqualTo(0);
     }
 

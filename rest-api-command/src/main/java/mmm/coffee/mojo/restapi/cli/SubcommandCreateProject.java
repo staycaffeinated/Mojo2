@@ -72,7 +72,7 @@ public class SubcommandCreateProject implements Callable<Integer> {
      * In the 'webmvc' programming model, the generated code is depends on Spring-MVC.
      * In the 'webflux' programming model, the generated code depends on Spring-WebFlux.
      *
-     * The -f flag (f for 'flavor') indicates the programming model followed by the generated code.
+     * The -t flag (t for 'template') indicates the programming model followed by the generated code.
      * Spring provides two base libraries: SpringMVC and Spring WebFlux.
      * SpringMVC is for applications that desire synchronous, or blocking, API calls, such as a typical CRUD application.
      * Spring WebFlux is for asynchronous (non-blocking) API calls, such as applications that continually refresh,
@@ -83,8 +83,8 @@ public class SubcommandCreateProject implements Callable<Integer> {
      *
      * See https://docs.spring.io/spring-framework/docs/current/reference/html/web-reactive.html
      */
-    @CommandLine.Option(names = { "-f", "--framework" },
-            description = { "This indicates the underlying framework to use, such as spring-webmvc (-f webmvc) or spring-webflux (-f webflux)" },
+    @CommandLine.Option(names = { "-t", "--template" },
+            description = { "This indicates the underlying template (or framework) to use, such as spring-webmvc (-t webmvc) or spring-webflux (-t webflux)" },
             defaultValue = "webmvc",
             paramLabel = "FRAMEWORK")
     SupportedFramework framework; // package-visible for testing
