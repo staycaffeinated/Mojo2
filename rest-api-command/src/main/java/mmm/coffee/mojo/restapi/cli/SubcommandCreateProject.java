@@ -170,7 +170,7 @@ public class SubcommandCreateProject implements Callable<Integer> {
         map.put(ProjectKeys.GROUP_ID, nullSafeValue(groupId));
         map.put(ProjectKeys.APPLICATION_NAME, nullSafeValue(applicationName));
         map.put(ProjectKeys.SCHEMA, nullSafeValue(NamingRules.toDatabaseSchemaName(dbmsSchema)));
-        map.put(ProjectKeys.BASE_PATH, nullSafeValue(basePath));
+        map.put(ProjectKeys.BASE_PATH, safePath(basePath));
         map.put(ProjectKeys.FRAMEWORK, framework);
         map.put("features", features);
         if (dryRun)
@@ -196,5 +196,13 @@ public class SubcommandCreateProject implements Callable<Integer> {
     @NonNull private String nullSafeValue(String value) {
         if (value == null) return "";
         return value;
+    }
+
+    @NonNull private String safePath(String suggestedPath) {
+        if (suggestedPath == null) return "/";
+        suggestedPath = suggestedPath.trim();
+        if (!suggestedPath.startsWith("/"))
+            suggestedPath = "/" + suggestedPath;
+        return suggestedPath;
     }
 }
