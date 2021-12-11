@@ -46,7 +46,7 @@ The command
 shows the different options for creating a project. The simplest way to
 create a project is specify a name, base package, and base path, such as:
 
-    mojo rest-api create-project --name adventure --package org.example.adventure --base-path /adventure 
+    mojo rest-api create-project --name adventure --package org.example.adventure --base-path /api/adventure/v1 
 
 which creates the project assets in the current directory,
 with the default Java package name of ```org.example.adventure``` and
