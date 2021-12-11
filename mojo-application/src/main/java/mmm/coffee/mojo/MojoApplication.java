@@ -26,7 +26,7 @@ import java.util.concurrent.Callable;
 @CommandLine.Command(
         name="mojo",
         description="Code generation mojo for programmers",
-        version = "0.3.1",
+        version = "0.3.3",
         mixinStandardHelpOptions = true,
         subcommands = { CommandRestApi.class }
 )
