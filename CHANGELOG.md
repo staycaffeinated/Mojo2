@@ -1,6 +1,15 @@
 
 ## [Unreleased]
 
+## [0.3.3] - 2021-12-11
+- Update library dependency versions (spring-boot plugin, spotless plugin, junit, reactor-test)                       
+- Bug fix: ensure base path starts with a front slash ("/") character
+
+## [0.3.2] - 2021-11-10
+- Updated library dependency versions
+- Renamed jib.gradle to docker.gradle
+- Auto-format code when build task runs
+
 ## [0.3.1] - 2021-10-14
 Refactored build.gradle
 - Collected imports into common file
