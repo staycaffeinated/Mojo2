@@ -1,0 +1,31 @@
+version.properties
+gradle/wrapper/
+gradle/releases.txt
+gradle.properties
+
+dist/
+
+# Text files
+**.txt
+
+
+# IntelliJ files
+.idea/
+*.iml
+*.iws
+
+# Package files
+*.jar
+
+# Mac files
+.DS_Store
+
+# Compiled files
+*.class
+bin/
+build/
+dist/
+java/build/**
+
+
+
