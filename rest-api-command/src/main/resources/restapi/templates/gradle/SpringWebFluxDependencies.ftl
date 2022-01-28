@@ -1,8 +1,5 @@
 dependencies {
     annotationProcessor libs.springBootConfigProcessor
-    annotationProcessor libs.lombok
-
-    compileOnly libs.lombok
 
     developmentOnly libs.springDevTools
 

@@ -9,6 +9,7 @@ plugins {
     id 'com.github.ben-manes.versions' version '${project.benManesPluginVersion}'
     id 'com.google.cloud.tools.jib' version '${project.jibPluginVersion}'
     id 'com.diffplug.spotless' version '${project.spotlessVersion}'
+    id 'io.freefair.lombok' version '${project.lombokPluginVersion}'
 }
 
 apply from: "gradle/standard-setup.gradle"      // standard project set-up
