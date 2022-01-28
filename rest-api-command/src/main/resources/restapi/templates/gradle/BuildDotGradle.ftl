@@ -72,6 +72,6 @@ tasks.withType(Test) {
 jib {
     to {
         image = '${project.applicationName}'
-        tags = [ 'latest', 'jdk-17', '0.0.1' ]
+        tags = [ 'snapshot', '0.0.1' ]
     }
 }
